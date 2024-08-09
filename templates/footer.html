@@ -1,0 +1,532 @@
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        overflow:scroll;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 1% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .project-enquiry-form input,
+    .project-enquiry-form select {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        background-color: #f5fcf9;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .project-enquiry-form .country-select {
+        display: flex;
+        align-items: center;
+    }
+
+    .project-enquiry-form .country-select img {
+        margin-right: 10px;
+    }
+
+    .project-enquiry-form .mobile-input {
+        display: flex;
+        align-items: center;
+    }
+
+    .project-enquiry-form .mobile-input img {
+        margin-right: 10px;
+    }
+
+    .submit-btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .disabled {
+        overflow: hidden;
+    }
+    /*--------------------------------------------------------------*/
+    .project-enquary-form input{
+        width: 80%;
+        border:none;
+        border-bottom: 1px solid;
+        background-color:rgb(245, 252, 249);
+        margin-bottom: 50px;
+    
+    }
+    .project-enquary-form td{
+        width: 50%;
+        margin-bottom: 30px;
+    }
+    .submitBtn{
+        border: 1px solid;
+        font-size: large;
+        font-family: 'Times New Roman', Times, serif;
+        width:120px;
+        height: 40px;
+    }
+    .submitBtn:hover{
+        background-color: black;
+        color:white;
+    }
+    
+</style>
+<section id="footer" style="">
+    <div class="row social-link textAlign-left p-4" style="">
+        <div class="col-lg-3 col-md-12" style="">
+            <p class="social-title">ABOUT GODREJ PROPERTIES</p>
+            <p>
+                Established in 1990, Godrej Properties is the first real estate company to have ISO certification. 
+                The company is currently developing landmark projects in 12 cities across India covering over 18.58 million
+                 square meters. Godrej Properties is known to bring innovation and excellence to the real estate industry.
+            </p>
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <p class="social-title">
+                <a href="#">WORK WITH US ENQUIRE SCHEDULE A SITE VISIT</a>
+            </p>
+
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <p class="social-title">
+                OUR STORY
+            </p>
+            <P>
+                <a href="aboutus">About Us</a>
+            </p>
+            <p>
+                <a href="management">Management</a>
+            </p>
+            <p>
+                <a href="sustatnability">Sustainability</a>
+            </p>
+            <p>
+                <a href="design">Design</a>
+            </p>
+
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <p class="social-title">
+                PROJECT
+            </p>
+            <p><a href="#">Residential</a></p>
+            <p><a href="#">Commercial</a></p>
+
+        </div>
+        <div class="col-lg-1 col-md-12">
+            <p class="social-title">
+                MEDIA CENTER
+            </p>
+            <p><a href="#"></a>In The News</p>
+            <p><a href="#"></a>Press Release</p>
+            <p><a href="#"></a>Media Gallery</p>
+
+        </div>
+        <div class="col-lg-2 col-md-12">
+            <p class="social-title">
+                INVESTOR SECTION
+            </p>
+            <p>
+                <a href="#">Financials</a>
+            </p>
+            <p>
+                <a href="#">Investor Information</a>
+            </p>
+            <p>
+                <a href="#">Governance & Leadership</a>
+            </p>
+            <p>
+                <a href="#">Compliances</a>
+            </p>
+            <p>
+                <a href="#">ESG Policies</a>
+            </p>
+        </div>
+        <div class="row social-icon">
+                <span><h2>FOLLOW US ON<h2>
+                <span><a href="https://www.facebook.com" target="_blank"><i class="bi bi-facebook"></i></a></span>
+                <span><a href="https://www.twitter.com" target="_blank"><i class="bi bi-twitter"></i></a></span>
+                <span><a href="https://www.instagram.com" target="_blank"><i class="bi bi-instagram"></i></a></span>
+                <span><a href="https://www.youtube.com" target="_blank"><i class="bi bi-youtube"></i></a></span>
+           
+        </div>
+    </div>
+    <center><hr style="width:20%"></center>
+</section>
+
+<section>
+    
+    <p style="text-align:center;" id="showBtn"><button  onclick="showContent()" style="border:none;background-color: white;"><i class="bi bi-chevron-down"></i></button></p>
+    <p style="text-align:center;display:none;" id="hideBtn"><button  onclick="hideContent()" style="border:none;background-color: white;" ><i class="bi bi-chevron-up"></i></button></p>
+    <div id="arrowcontent" style="display: none;border:none;">
+        <div class="col-lg-12 col-md-12 mb-3">
+            {% comment %} <span class="line-before"></span> {% endcomment %}
+            <span class="text"><b>RESIDENTIAL PROJECTS</b></span>
+            <span class="line-after" style="width:80%;"></span>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <span class="text"><b>Location</b></span>
+            <p id="morecontent">
+                <!-- index.html -->
+                {% for project in project_list %}
+                     <a href="#">{{project.city}}</a> |  
+                {% endfor %}
+                    
+            </p>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <span class="text"><b>Luxury Flats</b></span>
+            <p id="morecontent">
+                
+                {% for project in project_list %}
+                     <a href="#">Luxury Flats in {{project.city}}</a> |  
+                {% endfor %}
+            </p>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <span class="text"><b>Typology</b></span>
+            <p id="morecontent">
+                {% for project in project_list %}
+                    <a href="#">{{project.sub_category}} in {{project.city}}</a> |
+                 {% endfor %}  
+            </p>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <span class="text"><b>Locality</b></span>
+            <p id="morecontent">
+                {% for project in project_list %}
+                    <a href="#">{{project.locality}}</a> |  
+                {% endfor %}
+            </p>
+        </div>
+        <div class="col-lg-12 col-md-12">
+            <span class="text"><b>Projects</b></span>
+            <p id="morecontent">
+                {% for project in project_list %}
+                    <a href="#">{{project.name}}</a> |  
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+
+</div>
+</section>
+<section id="copyright" style="">
+    <div class="container bg-light">
+        <div class="logo" style="">
+            <img src="../media/logo/brand3.png" alt="logo" style="width:200px;height:50ppx">
+        </div>
+        <div class="links">
+            <a href="#">Copyright © 2024. Godrej Properties</a>
+            <a href="#">Disclaimer</a>
+            <a href="#">Sitemap</a>
+        </div>
+    </div>
+</section>
+
+<section>
+    <center>
+        <div id="enquiry-modal" class="modal">
+            <div class="modal-content col-lg-9 align-items-center">
+                <div class="row bg-light" style="width: 90%;">
+                    <div class="col-lg-12 col-md-12">
+                        <h2>ENQUIRE NOW</h2>
+                    </div>
+                    <form action="project_enquiry" method="POST" class="project-enquiry-form">{% csrf_token %}
+                        <table class="mt-5" style="width:100%;">
+                            <tr>
+                                <td>
+                                    <input type="text" placeholder="First Name" name="firstName" id="firstName" required>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="email" placeholder="E-mail" id="email" name="email" required>
+                                </td>
+                                <td>
+                                    <div class="country-select">
+                                        <img id="countryFlagSymbol" alt="Country Flag" style="width:30px;height:25px;">
+                                        <select name="countryName" id="countryName" style="border: none; border-bottom: 1px solid; width:83%;background-color: rgb(245, 252, 249);" onchange="updateFlag()" required>
+                                            {% for i in country_flag_df.values %}
+                                            <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
+                                                {{ i.1 }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" placeholder="City" id="city" name="city" required>
+                                </td>
+                                <td>
+                                    <div class="mobile-input">
+                                        <img src="../media/image/indiaflag.png" id="countryFlagSymbol2" alt="Country Flag" style="width:30px;height:25px;">
+                                        <span id="countryCode2" style="border:1px solid; padding:5px; margin-right: 10px;"></span>
+                                        <input type="text" name="mobile" id="mobile" style="width:72%;" placeholder="Mobile Number" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:45%;margin-bottom:40px;background-color: rgb(245, 252, 249);" required>
+                                        <option id="projectName" value=""></option>
+                                        
+                                        {% for project in project_list %}
+                                            <option value="{{project.name}}">{{project.name}}</option>
+                                        {% endfor %}
+                                            
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="checkbox" name="confirmation" style="width:50px;">
+                                    <span style="margin-left:10px;">Yes, I would like to receive updates & promotions from Godrej Properties Limited.</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <center><button type="submit" class="submit-btn">SUBMIT</button></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div id="schedule-modal" class="modal">
+            <div class="modal-content col-lg-9 align-items-center">
+                <div class="row bg-light" style="width: 90%;">
+                    <div class="col-lg-12 col-md-12">
+                        <h2>SCHEDULE A TOUR TODAY</h2>
+                        <p>
+                            Fill in the following details and we will get back to you shortly.
+                        </p>
+                    </div>
+                    <form action="scheduletime" method="POST" class="project-enquiry-form">{% csrf_token %}
+                        <table class="mt-5" style="width:100%;">
+                            <tr>
+                                <td>
+                                    <input type="text" placeholder="First Name" name="firstName" id="firstName" required>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="email" placeholder="E-mail" id="email" name="email" required>
+                                </td>
+                                <td>
+                                    <div class="country-select">
+                                        <img id="countryFlagSymbol3" alt="Country Flag" style="width:30px;height:25px;">
+                                        <select name="countryName" id="countryName3" style="border: none; width:5px;height:5px;background-color: rgb(245, 252, 249);" required>
+                                            {% for i in country_flag_df.values %}
+                                            <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
+                                                {{ i.1 }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <span id="countryCode3" style="border:1px solid; padding:5px; margin-right: 10px;"></span>
+                                        <input type="text" name="mobile" id="mobile" style="width:72%;" placeholder="Mobile Number" required>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="date"  id="date" name="date" required>
+                                </td>
+                                <td>
+                                    <div class="time-input">
+                                        <select name="time" id="time">
+                                            <option value="10:00">10:00 AM</option>
+                                            <option value="10:15">10:15 AM</option>
+                                            <option value="10:30">10:30 AM</option>
+                                            <option value="10:45">10:45 AM</option>
+                                            <option value="11:00">11:00 AM</option>
+                                            <option value="11:15">11:15 AM</option>
+                                            <option value="11:30">11:30 AM</option>
+                                            <option value="11:45">11:45 AM</option>
+                                            <option value="12:00">12:00 PM</option>
+                                            <option value="12:15">12:15 PM</option>
+                                            <option value="12:30">12:30 PM</option>
+                                            <option value="01:00">01:00 PM</option>
+                                            <option value="01:15">01:15 PM</option>
+                                            <option value="01:30">01:30 PM</option>
+                                            <option value="01:45">01:45 PM</option>
+                                            <option value="02:00">02:00 PM</option>
+                                            <option value="02:15">02:15 PM</option>
+                                            <option value="02:30">02:30 PM</option>
+                                            <option value="02:45">02:45 PM</option>
+                                            <option value="03:00">03:00 PM</option>
+                                            <option value="03:15">03:15 PM</option>
+                                            <option value="03:30">03:30 PM</option>
+                                            <option value="03:45">03:45 PM</option>
+                                            <option value="04:00">04:00 PM</option>
+                                            <option value="04:15">04:15 PM</option>
+                                            <option value="04:30">04:30 PM</option>
+                                            <option value="05:00">05:00 PM</option>
+                                            <option value="05:15">05:15 PM</option>
+                                            <option value="05:30">05:30 PM</option>
+                                            <option value="05:45">05:45 PM</option>
+                                            <option value="06:00">06:00 PM</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:45%;margin-bottom:40px;background-color: rgb(245, 252, 249);" required>
+                                        <option id="projectName2" value=""></option>
+                                        
+                                        {% for project in project_list %}
+                                            <option value="{{project.name}}">{{project.name}}</option>
+                                        {% endfor %}
+                                            
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <input type="checkbox" name="confirmation" style="width:50px;">
+                                    <span style="margin-left:10px;">Yes, I would like to receive updates & promotions from Godrej Properties Limited.</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <center><button type="submit" class="submit-btn">SUBMIT</button></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </center>
+</section>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Get the container of all content divs
+    var rewardContainer = document.querySelector('.reward-container');
+    var contentDivs = document.querySelectorAll('.reward-content');
+    var currentIndex = 0;
+
+    // Function to change content based on direction
+    function changeContent(direction) {
+      var totalItems = contentDivs.length;
+      var itemWidth = contentDivs[0].offsetWidth + parseInt(window.getComputedStyle(contentDivs[0]).marginRight);
+
+      if (direction === 'left') {
+        // Move left
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+      } else if (direction === 'right') {
+        // Move right
+        currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+      }
+
+      var translateX = -currentIndex * itemWidth;
+      rewardContainer.style.transform = 'translateX(' + translateX + 'px)';
+    }
+    function updateFlag() {
+        const select = document.getElementById('countryName');
+        var selectedOption=select.options[select.selectedIndex];
+        var flagSrc=selectedOption.getAttribute('data-flag-src');
+        var countryCode=selectedOption.getAttribute('data-country-code');
+        var countryflag=document.getElementById('countryFlagSymbol');
+        var countryflag2=document.getElementById('countryFlagSymbol2');
+        document.getElementById('countryCode2').innerHTML="+"+countryCode;
+        countryflag.src=flagSrc;
+        countryflag2.src=flagSrc;
+    }
+    function updateFlag2() {
+        var select = document.getElementById('countryName3');
+        var selectedOption=select.options[select.selectedIndex];
+        var flagSrc=selectedOption.getAttribute('data-flag-src');
+        var countryCode=selectedOption.getAttribute('data-country-code');
+        var countryflag3=document.getElementById('countryFlagSymbol3');
+        document.getElementById('countryCode3').innerHTML="+"+countryCode;
+        countryflag3.src=flagSrc;
+       
+    }
+    
+
+    // Initialize flag on page load
+    document.addEventListener("DOMContentLoaded", function() {
+        updateFlag();
+    });
+    document.addEventListener("DOMContentLoaded", function() {
+        updateFlag2();
+        const select = document.getElementById("countryName3")
+        select.addEventListener('change',function(){
+            updateFlag2();
+        });
+    });
+
+
+    function enquirynow(projectName) {
+        const projectname=document.getElementById('projectName');
+        projectname.value=projectName;
+        projectname.innerHTML=projectName;
+        const enquiryModal = document.getElementById("enquiry-modal");
+        document.body.classList.add("disabled");
+        enquiryModal.style.display = "block";
+    }
+    
+    function scheduleOn(projectName){
+        const projectInput = document.getElementById('projectName2');
+    
+        // Set the value of the input field
+        if (projectName.trim() === '') {
+            projectInput.value = "select Project";
+        } else {
+            projectInput.value = projectName;
+        }
+        const enquiryModal = document.getElementById("schedule-modal");
+        document.body.classList.add("disabled");
+        enquiryModal.style.display = "block";
+    }
+    
+
+    window.onclick = function(event) {
+        const modal = document.getElementById("enquiry-modal");
+        const modal2 = document.getElementById("schedule-modal");
+        if (event.target == modal) {
+            modal.style.display = "none";
+            document.body.classList.remove("disabled");
+        }
+        else if(event.target==modal2){
+            modal2.style.display= "none";
+            document.body.classList.remove("disabled");
+        }
+    }
+  </script>
+
+
+
+
+
+
+
+
+

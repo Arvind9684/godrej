@@ -1,0 +1,48 @@
+{% extends 'administrator/base.html' %}
+<style>
+    .description-cell {
+        height: 200px;
+        overflow: auto; /* Scroll if content overflows */
+    }
+    
+    table {
+        width: 100%;
+        table-layout: fixed; /* Ensure consistent cell width */
+    }
+</style>
+{% block content %}
+
+<h1>Table View: {{ last_url_word }}</h1>
+<div style="overflow-x: scroll;">
+    <table class="table">
+        <thead>
+            <tr>
+                {% for col in columns_name %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in zipped_data %}
+                <tr>
+                    {% for col,value in row %}
+                        {% if col == "description" %}
+                            <td class="description-cell" style="width:200px;">{{ value }}</td>
+                        {% elif col == "picture" %}
+                            <td><img src="../media/{{value}}" alt="image"></td>
+                        {% else %}
+                            <td>{{ value }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+
+</html>
+
+
+{% endblock content %}

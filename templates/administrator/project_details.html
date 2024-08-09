@@ -1,0 +1,44 @@
+
+{% extends 'administrator/base.html' %}
+{% block head %}
+<style>
+    .table-container {
+        margin: 20px auto;
+        width: 80%;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+    .table th {
+        background-color: #f8f9fa;
+        text-align: left;
+    }
+    .table td {
+        text-align: left;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+
+<div class="table-container">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in project_details.items %}
+            <tr>
+                <th><p>{{ key }}</p></th>
+                <td><p class="text-left">{{ value }}</p></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    
+
+{% endblock content %}
+    

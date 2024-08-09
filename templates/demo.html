@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Navigation</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .tab-content {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-top: none;
+        }
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+            color: #495057;
+            background-color: #fff;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+    </style>
+    
+</head>
+<body>
+
+<div class="container mt-4">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1" role="tab" aria-controls="tab1" aria-selected="true">SUBSIDIARY FINANCIAL STATEMENTS</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2" role="tab" aria-controls="tab2" aria-selected="false">OTHER DOCUMENTS</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+            <h3>SUBSIDIARY FINANCIAL STATEMENTS</h3>
+            <p>Content for Subsidiary Financial Statements goes here.</p>
+            <h1>Project Data</h1>
+    <ul>
+        {% if api_data.error %}
+            <li>Error: {{ api_data.error }}</li>
+        {% else %}
+            {% for project in api_data %}
+                <li>
+                    <strong>Price:</strong> {{ project.price }}<br>
+                    <strong>Locality:</strong> {{ project.locality }}<br>
+                    <strong>Topology:</strong> {{ project.topology }}<br>
+                    <strong>Location:</strong> {{ project.location }}<br>
+                    <strong>Neighbourhood:</strong> {{ project.neighbourhood }}<br>
+                    <strong>Master Plan:</strong> <a href="{{ project.master_plan.url }}">Download</a><br>
+                    <strong>Unit Plan:</strong> <a href="{{ project.unit_plan.url }}">Download</a><br>
+                    <strong>Image:</strong> <img src="{{ project.image.url }}" alt="Image"><br>
+                    <!-- Display other images similarly -->
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+        </div>
+        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+            <h3>OTHER DOCUMENTS</h3>
+            <p>Content for Other Documents goes here.</p>
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist

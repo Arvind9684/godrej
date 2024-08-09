@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{last_url_word}}{% endblock title %}</title>
+    <link rel="icon" href="{% static '../media/logo/house.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static '../static/administrator.css' %}">
+    <link href="{% static '../static/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
+    {% block head %}{% endblock head %}
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li class="{{dashboard}}"><a href="{% url 'administrator' %}" >Dashboard</a></li>
+            <li class="{{Properties}}"><a href="{% url 'properties' %}">Properties</a></li>
+            <li class="{{Agents}}"><a href="{% url 'tables' %}">Tables</a></li>
+            <li class="{{Agents}}"><a href="#">Agents</a></li>
+            <li class="{{Clients}}"><a href="#">Clients</a></li>
+            <li class="{{Reports}}"><a href="#">Reports</a></li>
+            <li class="{{Settings}}"><a href="#">Settings</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Dashboard</h1>
+            <div class="user-wrapper">
+                <img src="https://via.placeholder.com/40" alt="Admin">
+                <div>
+                    <h4>{{ user.username }}</h4>
+                    <small>Super Admin</small>
+                </div>
+            </div>
+        </header>
+        <main>
+            {% block content %}
+            
+            
+            {% endblock content%}
+        </main>
+    </div>
+    <div>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+{% include "project_base.html" %}
+<style>
+    .nav-link.active{
+        border-bottom: 2px solid black;
+    }
+    .countryflag{
+        width:70px;
+        height:70px;
+        border-radius: 32px;
+    }
+    #office{
+        border-right: 1px groove;
+    }
+    #office td{
+        padding-left: 25px;
+        padding-right: 25px;
+        padding-top: 5px;
+
+    }
+    
+</style>
+{% block content %}
+<nav class="navbar navbar-dark fixed-top sticky fw-bold" id="investor" style="hight:70px;position:sticky;z-index:500;">
+    <div class="container-fluid" style="width:100%;" >
+        <div class="navbar-item">
+            NRI Corner
+        </div>
+        <div class="navbar-item" style="margin-left:10%;" id="finance-link">
+            <a class="nav-link {{legalinformation}}" href="legalinformation">LEGAL INFORMATION</a>
+        </div>
+        <div class="navbar-item" id="investorInform-link">
+            <a class="nav-link {{loanfornri}}" href="loanfornri">LOAN FOR NRIs</a>
+        </div>
+        <div class="navbar-item" id="governanceLeasership-link">
+            <a class="nav-link" href="nrifaq"  >NRI FAQs</a>
+        </div>
+        <div class="navbar-item" id="compliances-link">
+            <a class="nav-link" href="internationaloffice" >OUR INTERNATIONAL OFFICES</a>
+        </div>
+        <div class="navbar-item" id="csr-link">
+            <a class="nav-link" href="enqurenow" >ENQUIRE NOW</a>
+        </div>
+    </div>
+</nav>
+{% if legalinformation %}
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-12 mt-3">
+            <h1>Legal Information</h1>
+            <p class="m-5">
+                At times, navigating the legalities of a new home purchase can be a daunting task. To make the 
+                process easier, we have compiled the basic legal considerations of acquiring a property in India. 
+                Additionally, you can get in touch with us for any specific queries.
+            </p>
+        </div>
+        <div class="col-lg-5 col-md-12 mr-1">
+            <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+        </div>
+    </div>
+    
+    {% for i in city %}
+        <div class="row m-5 fs-5">
+            <div class="col-lg-12 col-md-12">
+                <div style="width:50px;height:5px;background-color: red;border-radius: 2px;" class="ml-5"></div>
+                <p class="ml-5">
+                    Non-resident Indians who possess an Indian Passport do not require RBI permission to acquire an 
+                    immovable property for bonafide residential purposes.
+                </p>
+            </div>
+        </div>
+        
+    {% endfor %}
+        
+
+{% endif %}
+
+{% if loanfornri %}
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-12 mt-3">
+            <h1>Legal Information</h1>
+            <p class="m-5">
+                At times, navigating the legalities of a new home purchase can be a daunting task. To make the 
+                process easier, we have compiled the basic legal considerations of acquiring a property in India. 
+                Additionally, you can get in touch with us for any specific queries.
+            </p>
+        </div>
+        <div class="col-lg-5 col-md-12 mr-1">
+            <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+        </div>
+        <div class="row m-5">
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">HOME LOANS</span>
+                <a href="#homeloanricontent" onclick="shownriloan()"><span style="float: right;font-size:40px;" id="symbol">+</span></a><br><br><br>
+                <div id="homeloanricontent" style="display: none;">
+                    <p>
+                        Non-Resident Indians (NRIs) are recognized under the Foreign Exchange Regulation Act, 1973. Every bank and housing finance company follows the RBI guidelines to define an NRI - "An Indian citizen who holds a valid document like an Indian passport and stays abroad for employment or for carrying on business or vocation outside India or stays abroad under circumstances indicating an intention to stay there for an uncertain duration is an NRI.
+                        <b>"Broadly categorized, Non-Resident Indians qualifying for NRI housing loans are:</b>
+                        <br>
+                        <ul>
+                            <li>Indian citizens who stay abroad for employment or for carrying on business or vocation outside India or for any other purpose in circumstances indicating an indefinite period of stay abroad</li>
+                            <li>Government servants who are posted abroad on duty as part of Indian missions and other similar agencies set up abroad by the Government of India, where the officials draw their salaries out of government resources</li>
+                            <li>Government servants deputed abroad on assignments with foreign Governments or regional/international agencies like World Bank, International Monetary Fund (IMF), World Health Organization (WHO), Economic and Social Commission for Asia and the Pacific (ESCAP)</li>
+                            <li>Officials of the State Government and Public Sector Undertakings deputed abroad on temporary assignments or posted to their branches or offices abroad</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <br>Documents required for Resident Indians and NRIs for getting home loans are different in some respects. Home loans for NRIs are available for construction of new houses/ flats, purchase of old house/ flat addition/ alteration to an existing house and repairs/ renovation etc. NRIs can avail of loans by mortgaging an existing residential property. However, for availing home loans, NRIs have to fulfill certain conditions, according to the provisions of the Income Tax Act. They should have stayed in India for a period of 182 days or more within an assessment year or they should have stayed in India for at least a total of one year or more.
+                        <br>
+                        <br>The FDI policy that permits FDI up to 100% from a foreign/ NRI investor under the automatic route has boosted NRI confidence. Banks have attractive NRI housing schemes to accommodate the housing needs of NRIs. From the stables of HFCs, NRI housing finance plans with suitable repayment options are available.
+                        <br>
+                        <br>Last but not the least, NRIs should take due care while selecting their home loan provider companies or HFCs. Considering the geographical distances involved, it is significant that loan seekers associate with a proactive and responsive HFC.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">ELIGIBILITY FOR NRI TO RECEIVE A HOME LOAN</span>
+                <a href="#eligiblereceive" onclick="eligiblereceive()"><span style="float: right;font-size:40px;" id="symbol2">+</span></a><br><br><br>
+                <div id="eligiblereceive" style="display: none;">
+                    <p>
+                        <br>The eligibility criteria for NRIs differ from Resident Indians based on a few parameters. The parameters include:
+                        <br><b>Age:</b>The loan applicant has to be 21 years of age.
+
+                        <br><b>Qualification:</b>The NRI loan seeker has to be a graduate.
+                        <br>
+                        <br><b>Income:</b>The loan applicant has to have a minimum monthly income of $ 2,000 (although, this criterion may differ across HFCs). The eligibility is also determined by the stability and continuity of employment or business.
+                        <br>
+                        <br><b>Payment options:</b>The NRI also has to route his EMI (Equated Monthly Instalment) cheques through his NRE/ NRO account. He cannot make payments from another source such as, his savings account in India.
+                        <br>
+                        <br><b>Number of dependents:</b>The eligibility of the applicant is also determined by the number of dependents, assets and liabilities.
+                        <br>
+                        <br>Home loans for an NRI applicant range from a minimum of INR 5 Lakh to a maximum of INR 1 crore, based on the repayment capacity and the cost of the property, which although is variable by the priorities of the home loan provider. An applicant will be eligible for a maximum of 85% of the cost of the property or the cost of construction as applicable and 75% of the cost of land in case of purchase of land, based on the repayment capacity of the borrower.
+                        <br>
+                        <br>However, the eligibility can be enhanced by applying for home loans with a co-applicant who has a separate source of income. Also, the rate of interest for home loans to NRIs is higher than those offered to Resident Indians. The difference is somewhere between 0.25%-0.50%. Some HFCs also have an internally earmarked 'negative criterion' for NRI home loans. As such, the NRIs who hail from locations that are marked as being 'negative' in the books of HFCs, find it difficult to get a home loan.
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">PROPERTY DOCUMENTS</span>
+                <a href="#propertydocs" onclick="propertydocs()"><span style="float: right;font-size:40px;" id="symbol3">+</span></a><br><br><br>
+                <div id="propertydocs" style="display: none;">
+                    <p>
+                        <ul>
+                            <li>Original title deeds tracing the title of the property for at least a period of last 13 years/ Encumbrance Certificate for the last 13 years<br><br></li>
+                            <li>Agreement of sale/ construction, if any<br><br></li>
+                            <li>Receipts for payments made for purchase of the dwelling unit<br><br></li>
+                            <li>Approved plan/ license<br><br></li>
+                            <li>ULC clearance/ conversion order, etc.<br><br></li>
+                            <li>Receipts for having invested the margin money through normal banking channels from the Non-Resident (External) account in India and/ or the Non-Resident (Ordinary) account in India<br><br></li>
+                            <li>Latest tax payment receipt<br><br></li>
+                            <li>Allotment letter from the co-operative society/ association of apartment owners<br><br></li>
+                            <li>Agreement for sale/ sale deed/ detailed cost estimate from the Architect/ Engineer for property to be purchased/ constructed/ extended/ improved<br><br></li>
+                            <li>Copy of approved drawings of proposed construction/ purchase/ extension<br><br></li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">ADDITIONAL DOCUMENTS TO BE SUBMITTED BY PERSON OF INDIAN ORIGIN</span>
+                <a href="#additionaldocs" onclick="additionaldocs()"><span style="float: right;font-size:40px;" id="symbol4">+</span></a><br><br><br>
+                <div id="additionaldocs" style="display: none;">
+                    <p>
+                        <b>Photocopy of PIO Card</b>
+                        <br><br>
+                        If the PIO card is not available, photocopies of any of the following documents:
+                        <br><br>
+                        <ul>
+                            <li>The current passport with birthplace as 'INDIA'<br><br></li>
+                            <li>The Indian passport, if held by the individual earlier<br><br></li>
+                            <li>Parent’s/Grandparent’s Indian passport/ Birth Certificate/ Marriage Certificate substantiating the individuals claim as a person of Indian origin<br><br></li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+        
+
+{% endif %}
+
+{% if nrifaq %}
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-12 mt-3">
+            <h1>Legal Information</h1>
+            <p class="m-5">
+                At times, navigating the legalities of a new home purchase can be a daunting task. To make the 
+                process easier, we have compiled the basic legal considerations of acquiring a property in India. 
+                Additionally, you can get in touch with us for any specific queries.
+            </p>
+        </div>
+        <div class="col-lg-5 col-md-12 mr-1">
+            <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+        </div>
+        <div class="row m-5">
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">HOME LOANS</span>
+                <a href="#homeloanricontent" onclick="shownriloan()"><span style="float: right;font-size:40px;" id="symbol">+</span></a><br><br><br>
+                <div id="homeloanricontent" style="display: none;">
+                    <p>
+                        Non-Resident Indians (NRIs) are recognized under the Foreign Exchange Regulation Act, 1973. Every bank and housing finance company follows the RBI guidelines to define an NRI - "An Indian citizen who holds a valid document like an Indian passport and stays abroad for employment or for carrying on business or vocation outside India or stays abroad under circumstances indicating an intention to stay there for an uncertain duration is an NRI.
+                        <b>"Broadly categorized, Non-Resident Indians qualifying for NRI housing loans are:</b>
+                        <br>
+                        <ul>
+                            <li>Indian citizens who stay abroad for employment or for carrying on business or vocation outside India or for any other purpose in circumstances indicating an indefinite period of stay abroad</li>
+                            <li>Government servants who are posted abroad on duty as part of Indian missions and other similar agencies set up abroad by the Government of India, where the officials draw their salaries out of government resources</li>
+                            <li>Government servants deputed abroad on assignments with foreign Governments or regional/international agencies like World Bank, International Monetary Fund (IMF), World Health Organization (WHO), Economic and Social Commission for Asia and the Pacific (ESCAP)</li>
+                            <li>Officials of the State Government and Public Sector Undertakings deputed abroad on temporary assignments or posted to their branches or offices abroad</li>
+                        </ul>
+                    </p>
+                    <p>
+                        <br>Documents required for Resident Indians and NRIs for getting home loans are different in some respects. Home loans for NRIs are available for construction of new houses/ flats, purchase of old house/ flat addition/ alteration to an existing house and repairs/ renovation etc. NRIs can avail of loans by mortgaging an existing residential property. However, for availing home loans, NRIs have to fulfill certain conditions, according to the provisions of the Income Tax Act. They should have stayed in India for a period of 182 days or more within an assessment year or they should have stayed in India for at least a total of one year or more.
+                        <br>
+                        <br>The FDI policy that permits FDI up to 100% from a foreign/ NRI investor under the automatic route has boosted NRI confidence. Banks have attractive NRI housing schemes to accommodate the housing needs of NRIs. From the stables of HFCs, NRI housing finance plans with suitable repayment options are available.
+                        <br>
+                        <br>Last but not the least, NRIs should take due care while selecting their home loan provider companies or HFCs. Considering the geographical distances involved, it is significant that loan seekers associate with a proactive and responsive HFC.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">ELIGIBILITY FOR NRI TO RECEIVE A HOME LOAN</span>
+                <a href="#eligiblereceive" onclick="eligiblereceive()"><span style="float: right;font-size:40px;" id="symbol2">+</span></a><br><br><br>
+                <div id="eligiblereceive" style="display: none;">
+                    <p>
+                        <br>The eligibility criteria for NRIs differ from Resident Indians based on a few parameters. The parameters include:
+                        <br><b>Age:</b>The loan applicant has to be 21 years of age.
+
+                        <br><b>Qualification:</b>The NRI loan seeker has to be a graduate.
+                        <br>
+                        <br><b>Income:</b>The loan applicant has to have a minimum monthly income of $ 2,000 (although, this criterion may differ across HFCs). The eligibility is also determined by the stability and continuity of employment or business.
+                        <br>
+                        <br><b>Payment options:</b>The NRI also has to route his EMI (Equated Monthly Instalment) cheques through his NRE/ NRO account. He cannot make payments from another source such as, his savings account in India.
+                        <br>
+                        <br><b>Number of dependents:</b>The eligibility of the applicant is also determined by the number of dependents, assets and liabilities.
+                        <br>
+                        <br>Home loans for an NRI applicant range from a minimum of INR 5 Lakh to a maximum of INR 1 crore, based on the repayment capacity and the cost of the property, which although is variable by the priorities of the home loan provider. An applicant will be eligible for a maximum of 85% of the cost of the property or the cost of construction as applicable and 75% of the cost of land in case of purchase of land, based on the repayment capacity of the borrower.
+                        <br>
+                        <br>However, the eligibility can be enhanced by applying for home loans with a co-applicant who has a separate source of income. Also, the rate of interest for home loans to NRIs is higher than those offered to Resident Indians. The difference is somewhere between 0.25%-0.50%. Some HFCs also have an internally earmarked 'negative criterion' for NRI home loans. As such, the NRIs who hail from locations that are marked as being 'negative' in the books of HFCs, find it difficult to get a home loan.
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">PROPERTY DOCUMENTS</span>
+                <a href="#propertydocs" onclick="propertydocs()"><span style="float: right;font-size:40px;" id="symbol3">+</span></a><br><br><br>
+                <div id="propertydocs" style="display: none;">
+                    <p>
+                        <ul>
+                            <li>Original title deeds tracing the title of the property for at least a period of last 13 years/ Encumbrance Certificate for the last 13 years<br><br></li>
+                            <li>Agreement of sale/ construction, if any<br><br></li>
+                            <li>Receipts for payments made for purchase of the dwelling unit<br><br></li>
+                            <li>Approved plan/ license<br><br></li>
+                            <li>ULC clearance/ conversion order, etc.<br><br></li>
+                            <li>Receipts for having invested the margin money through normal banking channels from the Non-Resident (External) account in India and/ or the Non-Resident (Ordinary) account in India<br><br></li>
+                            <li>Latest tax payment receipt<br><br></li>
+                            <li>Allotment letter from the co-operative society/ association of apartment owners<br><br></li>
+                            <li>Agreement for sale/ sale deed/ detailed cost estimate from the Architect/ Engineer for property to be purchased/ constructed/ extended/ improved<br><br></li>
+                            <li>Copy of approved drawings of proposed construction/ purchase/ extension<br><br></li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-10 col-md-12">
+                <hr>
+                <span style="float: left;">ADDITIONAL DOCUMENTS TO BE SUBMITTED BY PERSON OF INDIAN ORIGIN</span>
+                <a href="#additionaldocs" onclick="additionaldocs()"><span style="float: right;font-size:40px;" id="symbol4">+</span></a><br><br><br>
+                <div id="additionaldocs" style="display: none;">
+                    <p>
+                        <b>Photocopy of PIO Card</b>
+                        <br><br>
+                        If the PIO card is not available, photocopies of any of the following documents:
+                        <br><br>
+                        <ul>
+                            <li>The current passport with birthplace as 'INDIA'<br><br></li>
+                            <li>The Indian passport, if held by the individual earlier<br><br></li>
+                            <li>Parent’s/Grandparent’s Indian passport/ Birth Certificate/ Marriage Certificate substantiating the individuals claim as a person of Indian origin<br><br></li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if internationaloffice %}
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-12 mt-3">
+            <h1>Our International Offices</h1>
+            <p class="m-5">
+                Explore our global footprint with a network of international offices, connecting us to diverse 
+                markets and enabling us to provide services worldwide.
+            </p>
+        </div>
+        <div class="col-lg-5 col-md-12 mr-1">
+            <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+        </div>
+    </div>
+    <div class="row m-5 bg-light p-3" style="width: 90%;">
+        <div class="col-lg-4 col-md-3" >
+            <table id="office">
+                <tr>
+                    <td>
+                        <img src="../media/image/indiaflag.png" alt="countyflag" id="countryflag" class="countryflag">
+                    </td>
+                    <td>
+                        <h4><b>INDIAN</b></h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-geo-alt-fill"></i></span>
+                    </td>
+                    <td>
+                        Godrej Properties Limited, Unit No. 5C, 5th Floor, Godrej One, Pirojshanagar, 
+                        Vikhroli East, Mumbai - 400079
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-telephone"></i></span>
+                    </td>
+                    <td>
+                        +91-22-6169-8500
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-4 col-md-3" >
+            <table id="office">
+                <tr>
+                    <td>
+                        <img src="../media/image/indiaflag.png" alt="countyflag" id="countryflag" class="countryflag">
+                    </td>
+                    <td>
+                        <h4><b>INDIAN</b></h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-geo-alt-fill"></i></span>
+                    </td>
+                    <td>
+                        Godrej Properties Limited, Unit No. 5C, 5th Floor, Godrej One, Pirojshanagar, 
+                        Vikhroli East, Mumbai - 400079
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-telephone"></i></span>
+                    </td>
+                    <td>
+                        +91-22-6169-8500
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-4 col-md-3" >
+            <table id="office">
+                <tr>
+                    <td>
+                        <img src="../media/image/indiaflag.png" alt="countyflag" id="countryflag" class="countryflag">
+                    </td>
+                    <td>
+                        <h4><b>INDIAN</b></h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-geo-alt-fill"></i></span>
+                    </td>
+                    <td>
+                        Godrej Properties Limited, Unit No. 5C, 5th Floor, Godrej One, Pirojshanagar, 
+                        Vikhroli East, Mumbai - 400079
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-telephone"></i></span>
+                    </td>
+                    <td>
+                        +91-22-6169-8500
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+{% if enqurenow %}
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-12 mt-3">
+            <h1>Enquire now</h1>
+            <p class="m-5 fs-4">
+                <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-envelope"></i></span> Email : <br>
+                nri@godrejproperties.com<br><br>
+                <span style="border:1px solid;padding: 4px;background-color:light;"><i class="bi bi-telephone"></i></span> Toll Free : <br>
+                INDIA : 4385789347<br>
+                UAE  : 4354385755845<br>
+                USA  : 4354385755845<br>
+                
+            </p>
+        </div>
+        <div class="col-lg-5 col-md-12 mr-1">
+            <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+        </div>
+    </div>
+    <div class="row m-5 bg-light p-3" style="width: 90%;">
+        <h2>For information on projects</h2>
+         <span>Fill in the following details and we will get back to you shortly</span>
+    
+        <form action="enqurenow" method="POST">{% csrf_token %}
+            <table class="mt-5 project-enquary-form" style="width:100%;">
+                <tr>
+                    <td>
+                        <input type="text" placeholder="First Name" name="firstName" id="firstName" class="firstName">
+                    </td>
+                    <td>
+                        <input type="text" placeholder="Last Name" id="lastName" class="lastName" name="lastName">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="E-mail" id="email" class="email" name="email">
+                    </td>
+                    <td>
+                        
+                        <span>
+                            <img id="countryFlagSymbol" alt="Country Flag" style="width:30px;height:25px;float:left;margin-right: 10px;">
+                            <select name="countryName" id="countryname" style="border: none; border-bottom: 1px solid; width:83%;background-color: rgb(245, 252, 249);" onchange="updateFlag()">
+                                {% for i in country_flag_df.values %}
+                                <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{i.4}}"> <!-- Assuming i.1 contains the image filename -->
+                                    {{ i.1 }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="City" id="city" class="city" name="city">
+                    </td>
+                    <td>
+                        <span style=float:left;margin:5px;><img src="../media/image/indiaflag.png" id="countryFlagSymbol2" alt="Country Flag" style="width:30px;height:25px;float:left;margin-right: 10px;"></span>
+                        <span style="border:1px solid;padding:5px;float:left;margin-right: 10px;" id="countrycode"></span>
+                        <input tyle="text" name="mobile" id="mobile" class="mobile" style="width:75%;" placeholder="Mobile Number">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:31%;margin-bottom:40px;background-color: rgb(245, 252, 249);">
+                            <option selected value="">Select Project</option>
+                            {% for project in projects  %}
+                                <option value="{{project.name}}">{{project.name}}</option>
+                            {% endfor %}
+                                
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <input type="checkbox" name="comfirmation" style="width:50px;"><span style="margin-left:10px;">Yes, I would like to receive updates & promotions from Godrej Properties Limited.</span>
+                    </td>
+                </tr>
+            </table>
+            <center><input type="submit" value="SUBMIT" class="submitBtn"></center>
+        </form>
+    </div>
+
+{% endif %}
+
+{% endblock content %}
+{% include "footer.html" %}

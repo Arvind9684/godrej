@@ -1,0 +1,146 @@
+{% include 'base.html' %}
+{% block content %}
+{% include "aboutusheader.html" %}
+<img src="../media/image/design.webp" style="margin-top:-205px;height:620px;width:100%;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 gradient-bg" style="height:620px;margin-top:-620px;"></div>
+        <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
+            <h3>
+                <span style="float:left;">THOUGHTFUL DESIGN</span>
+            </h3>
+        </div>
+    </div>
+
+<p class="url-directory"><a href="/">Home</a> >> <a href="aboutus">Outstory</a> >> <a href="management"><b>{{ last_url_word }}</b></a> <p>
+    <center>
+        <div class="row quote-container">
+            <div class="col-lg-12 col-md-12 quote-text text-center fs-3 m-3">
+                Indian consumers look at Godrej to access a better lifestyle
+            </div>
+            <div class="col-lg-12 col-md-12  quote-text text-left m-3">
+                At Godrej Properties, our product proposition is predicated on design-led innovation that is based on 
+                research. Our in-house GPL Design Studio is a unique collection of creative leaders who work with the
+                 best and brightest minds globally to co-create and deliver our promise of brighter living for every 
+                 project.
+            </div>
+        </div>
+        <div class="row textAlign-center d-flex align-items-center bg-light m-5">
+            <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+                <span class="line-before"></span>
+                <span class="text"><b>MODERN & SUSTAINABLE HOMES</b></span>
+                <span class="line-after"></span>
+            </div>
+        </div>
+    </center>
+<div>
+    <img src="../media/image/design.png" style="width:100%;">
+</div>
+<div class="col-lg-12 col-md-12  quote-text text-left m-3">
+    Some of the key themes represented in our approach include creating a sense of place, 
+    brighter living experience, technological innovation, thoughtful amenities, safety and security.
+</div>
+
+<div class="row textAlign-center d-flex align-items-center bg-light m-5">
+    <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+        <span class="line-before"></span>
+        <span class="text"><b>COMMERCIAL SPACES DESIGNED FOR SUCCESS</b></span>
+        <span class="line-after"></span>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 quote-text text-center fs-3 m-3">
+    Our goal is to increase user satisfaction, work productivity and foster innovation in the work place.
+</div>
+<div>
+    <img src="../media/image/design2.webp" style="width:100%;">
+</div>
+<div class="col-lg-12 col-md-12  quote-text text-left m-3">
+    Commercial office space has evolved globally following new drivers that influence the way we work today.
+     Our focus has been to create sustainable Grade A buildings which offer world-class spaces, amenities, 
+     infrastructure and flexibility.
+</div>
+
+
+<div class="row textAlign-center d-flex align-items-center bg-light m-5">
+    <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+        <span class="line-before"></span>
+        <span class="text"><b>CRAFTING COMPLETE LIVING EXPERIENCES</b></span>
+        <span class="line-after"></span>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 quote-text text-center fs-3 m-3">
+    Self-sufficient integrated townships are the future of Indian real estate
+</div>
+<div>
+    <img src="../media/image/design.jpg" style="width:100%;">
+</div>
+<div class="col-lg-12 col-md-12  quote-text text-left m-3">
+    Home buyers are looking for a holistic living experience where all their needs are taken care of.
+     At Godrej Properties, our focus has been to deliver projects encompassing all facets of a modern 
+     lifestyle by integrating the residential, commercial, retail, education and entertainment facilities 
+     seamlessly in one location.
+</div>
+
+
+
+<div class="row textAlign-center d-flex align-items-center bg-light m-5">
+    <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+        <span class="line-before"></span>
+        <span class="text"><b>CELEBRATING ART & URBAN TRANSFORMATION</b></span>
+        <span class="line-after"></span>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 quote-text text-center fs-3 m-3">
+    We believe in the value of public art as a tool to uplift and inspire. As an example of Godrej Properties’ 
+    commitment to art, our project Godrej BKC has two large installations.
+</div>
+
+{% for i in city %}
+    {% if forloop.counter0|divisibleby:2 %}
+        <!-- Even row: Image left, text right -->
+        <div style="display: flex; margin-bottom: 20px;">
+            <div style="flex: 1;">
+                <img src="../media/image/design2.png" style="width:100%;">
+            </div>
+            <div style="flex: 1; padding-left: 20px;">
+                {% lorem 1 b random %}
+            </div>
+        </div>
+    {% else %}
+        <!-- Odd row: Text left, image right -->
+        <div style="display: flex; margin-bottom: 20px;">
+            <div style="flex: 1; padding-right: 20px;">
+                {% lorem 1 b random %}
+            </div>
+            <div style="flex: 1;">
+                <img src="../media/image/design3.png" style="width:100%;">
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}
+
+    
+
+
+
+
+
+<section id="recognigedBest">
+    <div class="row textAlign-center d-flex align-items-center bg-light mt-5">
+        <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+            <span class="line-before"></span>
+            <span class="text"><b>RECOGNIZED BY THE BEST</b></span>
+            <span class="line-after"></span>
+        </div>
+    </div>
+    <center>
+        <p class="col-lg-10 col-md-12 fs-1 fw-lighter text-roman">
+            “Godrej Properties has received over 400 awards and recognitions in the recent years.”
+        </p>
+       {% include "reward.html" %}
+        
+</section>
+
+
+
+{% endblock content%}
+{% include "footer.html" %}

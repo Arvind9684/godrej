@@ -1,0 +1,234 @@
+{% extends 'ambessador/ambessador_base.html' %}
+{% block head %}
+<style>
+    .row{
+        margin:0px auto;
+        padding:0px;
+    }
+    .slider-container {
+        position: relative;
+        width: 95%;
+        overflow: hidden;
+    }
+    .slider {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+    .slider-item {
+        min-width: 100%;
+        box-sizing: border-box;
+    }
+    .slider img {
+        width: 100%;
+        height: 400px;
+    }
+    .slider-caption {
+        padding: 20px;
+        color: gray;
+        height: 400px;
+        overflow-y: hidden;
+    }
+    .slider-controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+    .slider-controls button {
+        background-color: rgba(0,0,0,0.5);
+        border: none;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .card {
+        position: relative;
+        height: fit-content;
+    }
+    .img-text {
+        width: fit-content;
+        background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));
+        position: absolute;
+        color: black;
+        padding: 3px;
+        border-radius: 10px;
+        right: 10px;
+        top: 10px;
+    }
+    .image-text{
+        position: absolute;
+        width:98%;
+        height: 500px;
+        background: linear-gradient(to bottom,rgba(0,225,0,0.7),rgba(0,0,255,0.7));
+        top:0;
+        left:10 auto;
+        border-radius: 0px;
+        
+        
+    }
+    .divider {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <img src="../media/image/slider4.jpg" alt="Image" style="width:100%;height:500px;">
+        <div class="image-text">
+            <div class="align-items-center text-light" style="margin-top:10%;">
+                <p>
+                    <h1>GODREJ AMBASSADOR READERS’ CLUB:</h1>
+                    <h4>Discover the latest home & lifestyle trends</h4>
+                    <a href="{% url 'reffernow' %}" class="btn btn-danger">REFER NOW</a>
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row-lg-12 col-md-12 text-center">
+        <h1>FEATURED POST</h1>
+        <div class="slider-container m-5">
+            <div class="slider">
+                <div class="row slider-item">
+                    <div class="col-lg-6 col-md-12">
+                        <img src="../media/image/slider1.jpg" alt="Image 1">
+                    </div>
+                    <div class="col-lg-6 col-md-12 text-left slider-caption">
+                        <h5><b>FEATURED POST</b></h5>
+                        <h3 style="color:chocolate;"><b>A TIMELESS GUIDE TO LUXURY EQUATY</b></h3>
+                        <p>4TH JULY | 4 MINES READ</p>
+                        <p>{% lorem 1 b random %}</p>
+                        <span style="color:brown;">Read More >></span>
+                    </div>
+                </div>
+                <div class="row slider-item">
+                    <div class="col-lg-6 col-md-12">
+                        <img src="../media/image/slider2.jpg" alt="Image 2">
+                    </div>
+                    <div class="col-lg-6 col-md-12 text-left slider-caption">
+                        <h5><b>FEATURED POST</b></h5>
+                        <h3 style="color:chocolate;"><b>A TIMELESS GUIDE TO LUXURY EQUATY</b></h3>
+                        <p>4TH JULY | 4 MINES READ</p>
+                        <p>{% lorem 1 b random %}</p>
+                        <span style="color:brown;">Read More >></span>
+                    </div>
+                </div>
+                <div class="row slider-item">
+                    <div class="col-lg-6 col-md-12">
+                        <img src="../media/image/slider3.jpg" alt="Image 3">
+                    </div>
+                    <div class="col-lg-6 col-md-12 text-left slider-caption">
+                        <h5><b>FEATURED POST</b></h5>
+                        <h3 style="color:chocolate;"><b>A TIMELESS GUIDE TO LUXURY EQUATY</b></h3>
+                        <p><b>4TH JULY | 4 MINES READ</b></p>
+                        <p>{% lorem 1 b random %}</p>
+                        <span style="color:brown;">Read More >></span>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 text-center"><h1>LETEST POSTS</h1></div>
+
+<div class="container">
+    <div class="row" id="posts">
+        {% for i in page_obj %}
+        <a href="{% url 'posts_details' i.id %}" style="text-decoration: none;color:black"> 
+            <div class="col-lg-4 col-md-12 p-3" id="{{i.id}}">
+                <div class="card">
+                    <img src="../media/{{ i.image }}" alt="image" style="width:98%;height:200px">  <!-- Adjust src to your image field -->
+                    <div class="img-text" style="color:white;">{{i.name}}</div>
+                    <div class="card-footer" style="padding:20px;">
+                        <h6>{{ i.title }}</h6>  <!-- Adjust title to your title field -->
+                        <p style="height:70px;overflow: hidden;">
+                            {{ i.comments }}<!-- Adjust excerpt to your excerpt or content field -->
+                        </p>
+                        <p>
+                            <a href="{{ i.get_absolute_url }}" class="btn btn-danger">READ MORE >></a>  <!-- Adjust URL to your post detail view -->
+                        </p>
+                    </div>
+                    <div class="divider p-2">
+                        <span style="float:left;">{{ i.post_date|date:"jS F Y" }}</span>  <!-- Adjust publish_date to your date field -->
+                        <span style="float:right;">{{ i.comments_count }} comments: 0</span>  <!-- Adjust comments_count to your comments field -->
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination controls -->
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1#posts">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}#posts">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}#posts">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}#posts">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+<script>
+    const slider = document.querySelector('.slider');
+    const items = document.querySelectorAll('.slider-item');
+    let index = 0;
+
+    document.querySelector('.next').addEventListener('click', () => {
+        if (index < items.length - 1) {
+            index++;
+        } else {
+            index = 0;
+        }
+        updateSlider();
+    });
+
+    document.querySelector('.prev').addEventListener('click', () => {
+        if (index > 0) {
+            index--;
+        } else {
+            index = items.length - 1;
+        }
+        updateSlider();
+    });
+
+    function updateSlider() {
+        slider.style.transform = `translateX(-${index * 100}%)`;
+    }
+    function nextSlide() {
+        if (index < items.length - 1) {
+            index++;
+        } else {
+            index = 0;
+        }
+        updateSlider();
+    }
+    // Auto slide every 3 seconds
+    setInterval(() => {
+        nextSlide();
+    }, 3000);
+
+
+
+</script>
+
+
+{% endblock content %}

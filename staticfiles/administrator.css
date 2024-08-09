@@ -1,0 +1,135 @@
+/* static/css/styles.css */
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    margin-top: 50px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+/* ------------------------------------------------------------------- */
+    .active{
+        background-color: gray;
+    }
+    body {
+        font-family: 'Arial', sans-serif;
+        background: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+    
+    .sidebar {
+        width: 250px;
+        background: #2b2e4a;
+        color: #fff;
+        height: 100vh;
+        position: fixed;
+    }
+    
+    .sidebar h2 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .sidebar ul li {
+        padding: 15px;
+        border-bottom: 1px solid #fff;
+    }
+    
+    .sidebar ul li a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+    }
+    
+    .sidebar ul li:hover{
+        background: #575a89;
+    }
+    
+    .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        width: calc(100% - 250px);
+    }
+    
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    header h1 {
+        margin: 0;
+    }
+    
+    .user-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    
+    .user-wrapper img {
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .card-single {
+        background: #fff;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+    }
+    
+    .card-single h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+    
+    .card-single span {
+        color: #aaa;
+        font-size: 14px;
+    }
+    
+    /* ------------------------------------Properties css---------------------------------------------- */
+    .properties-project-table a{
+        text-decoration: none;
+        color:#007bff;
+    }
+    .properties-project-table img{
+        width:200px;
+        height: 220px;
+    }
+    .properties-project-table a:hover{
+        background-color: gray;
+    }
+    
+    
+
+

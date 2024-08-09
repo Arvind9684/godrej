@@ -1,0 +1,113 @@
+{% extends 'administrator/base.html' %}
+{% block head %}
+<style>
+    
+    
+    .container {
+        background-color: rgba(255, 255, 255, 0.96);
+        padding: 20px 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom, rgba(255, 0, 0, 0.2), rgba(255, 255, 255, 0.2) 50%, rgba(0, 128, 0, 0.2) 100%);
+        color: #333;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+    }
+    
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #5a5a5a;
+    }
+    
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    
+    .form-table tr {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    
+    .form-table .label {
+        text-align: right;
+        padding: 10px 20px;
+        font-weight: bold;
+        color: #666;
+    }
+    
+    .form-table .input {
+        padding: 10px 20px;
+        text-align: left; /* Ensure text is aligned left */
+    }
+    
+    .form-table .input input[type="checkbox"] {
+        margin-right: 10px; /* Space between checkbox and label */
+    }
+    
+    .form-table .input input[type="checkbox"] + label {
+        display: inline; /* Ensure label text is inline with the checkbox */
+    }
+    
+    .form-table .input input,
+    .form-table .input select,
+    .form-table .input textarea {
+        width: calc(100% - 40px);
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+    }
+    
+    .form-table .input input:focus,
+    .form-table .input select:focus,
+    .form-table .input textarea:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+    
+    .form-actions {
+        text-align: center;
+    }
+    
+    .submit-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+    
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
+    
+</style>
+{% endblock head %}
+{% block content %}
+
+    <div class="container mt-3">
+        <h1>Add Data</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="form-table">
+                {% for field in form %}
+                <tr>
+                    <td class="label">{{ field.label_tag }}</td>
+                    <td class="input">{{ field }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">ADD</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,34 @@
+
+
+<nav class="navbar navbar-dark fixed-top sticky fw-bold" id="investor" style="hight:70px;position:sticky;z-index:500;">
+    <div class="container-fluid" style="width:100%;" >
+        <div class="navbar-item">
+            Investors
+        </div>
+        <div class="navbar-item" style="margin-left:10%;" id="finance-link">
+            <a class="nav-link" href="finance">FINANCIALS</a>
+        </div>
+        <div class="navbar-item" id="investorInform-link">
+            <a class="nav-link" href="investorInform">INVESTOR INFORMATION</a>
+        </div>
+        <div class="navbar-item" id="governanceLeasership-link">
+            <a class="nav-link" href="governanceLeasership"  >GOVERNANCE & LEADERSHIP</a>
+        </div>
+        <div class="navbar-item" id="compliances-link">
+            <a class="nav-link" href="compliance" >COMPLIANCES</a>
+        </div>
+        <div class="navbar-item" id="csr-link">
+            <a class="nav-link" href="csr" >CSR</a>
+        </div>
+        <div class="navbar-item" id="discloser-link">
+            <a class="nav-link" href="discloser" >DISCLOSURES</a>
+        </div>
+    </div>
+</nav>
+<script>
+    // Pass the last variable to JavaScript
+    var elementId = "{{ last_url_word }}";
+    var linkID=elementId+"-link";
+    var contentdiv=document.getElementById(linkID);
+    contentdiv.style.borderBottom="2px solid";
+</script>

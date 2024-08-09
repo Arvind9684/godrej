@@ -1,0 +1,312 @@
+{% include "project_base.html" %}
+{% include "investormenu.html" %}
+{% block content %}
+<img src="../media/image/investorInform.webp" alt="image" style="height:500px;width:100%;">
+<div class="row ml-lg-5 ml-sm-0" >
+    <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
+        <h3>
+            <span style="float:left;color:white"><h1>Investor Information</h1></span>
+        </h3>
+    </div>
+</div>
+<div class="row m-5 investorInform container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <button class="nav-link active" aria-current="page" href="#" onclick="investorMenu('pattern')" id="pattern">SHAREHOLDING PATTERN</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" href="#" onclick="investorMenu('service')" id="service">INVESTOR SERVICE REQUEST</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" href="#" onclick="investorMenu('contact')" id="contact">CONTACTS</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" href="#" onclick="investorMenu('other')" id="other">OTHER</button>
+        </li>
+    </ul>
+    <div class="container mt-5 pattern-content">
+        <div class="row">
+            <div class="col-lg-12 col-md-12"><h2>Shareholding Pattern</h2></div>
+            <div class="col-lg-12 col-md-12 mb-3">
+                <select style="width:200px;height:50px;" id="year">
+                    <option value="">---Select Year---</option>
+                    {% for i in years %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+                <select name="month" id="month" style="width:200px;height:50px;margin-left: 50px;">
+                    <option value="">---Select Quarter---</option>
+                    <option value="march">January-March</option>
+                    <option value="june">April-June</option>
+                    <option value="september">July-September</option>
+                    <option value="december">October-December</option>
+                </select>
+            </div>
+            {% for i in shareholderPattern_df.values %}
+                <div class="col-lg-12 col-md-12">
+                    <a href="http://127.0.0.1:8000/media/{{ i.3 }}" target="_blank" style="text-decoration: none;">
+                        <p class="content">
+                            <span><i class="bi bi-download"></i></span>
+                            <span style="margin-left: 50px;">Shareholding Pattern - Quarter ended</span>
+                            <span>{{ i.2 }}</span>
+                            <span>, {{ i.1 }}</span>
+                        </p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container mt-5 service-content" style="display:none;">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <h1>Investor Service Request</h1>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <p>
+                    SEBI, vide its Master Circular dated May 17, 2023, and subsequent notifications, 
+                    the latest one being Circular dated September 26, 2023, and November 17, 2023, 
+                    has introduced common and simplified norms for processing investor’s service 
+                    requests by Registrar and Share Transfer Agent (RTAs) and norms for furnishing PAN,
+                     KYC details and Nomination by members holding shares in physical form.
+
+                    <br><br><br>The key highlights of the circulars are as under:
+                </p>
+                <p>
+                    <b>All holders of physical securities of the Company are mandatorily required to furnish the 
+                        following documents/details to the RTA i.e. KFin Technologies Limited (KFin):
+                    </b>
+                   <ol> 
+                        <li>PAN</li>
+                        <li>Nomination</li>
+                        <li>Contact Details</li>
+                        <li>Bank Account details</li>
+                        <li>Specimen Signature</li>
+                   </ol>
+                </p>
+                <p>
+                    <br>The detailed requirements are given in Annexure – 8 to 13 to the SEBI Master Circular dated May 17, 2023. 
+                    Please refer below the link to access the SEBI Circular.
+                    <br>
+                    <br>The holders of physical securities in Company shall submit form ISR-1 to KFin for updating PAN and other 
+                    KYC details.
+                    <br>
+                    <br>In case of mismatch in the signature of the holder in the records of KFin, the investor shall furnish 
+                    original cancelled cheque and banker’s attestation of the signature as per form ISR-2.
+                    <br>
+                    <br>The holders of physical securities in Company shall continue to use form SH-13 and SH-14 for declaration 
+                    of nomination and change in nomination, respectively. However, in case the holders of physical securities in 
+                    Company wants to opt-out of nomination, form ISR-3 shall be filed. The holders of physical securities in Company 
+                    <b>are requested to ensure the above details are updated with KFin on or before December 31, 2023.</b>
+                </p>
+                <table class="table mt-5 text-center" style="border: 1px solid;">
+                    <thead>
+                        <th style="border: 1px groove;">Form</th>
+                        <th style="border: 1px groove;">Description</th>
+                        <th style="border: 1px groove;">Download</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px groove;">Form ISR-1</td>
+                            <td style="border: 1px groove;">Request For Registering Pan, KYC Details Or Changes / Updation Thereof</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">Form ISR-2</td>
+                            <td style="border: 1px groove;">Confirmation of Signature of securities holder by the Banker</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">Form ISR-3</td>
+                            <td style="border: 1px groove;">Declaration Form for Opting-out of Nomination by holders of physical securities in Listed Companies</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">Form ISR-4	</td>
+                            <td style="border: 1px groove;">Request for issue of Duplicate Certificate and other Service Requests</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">Form SH-13</td>
+                            <td style="border: 1px groove;">Nomination Form</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">Form SH-14</td>
+                            <td style="border: 1px groove;">Form for Cancellation or Variation of Nomination</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">Notice	</td>
+                            <td style="border: 1px groove;">Notice to physical shareholders regarding availability of Dispute Resolution Mechanism at Stock Exchanges</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px groove;">SEBI Circular</td>
+                            <td style="border: 1px groove;">SEBI circular no. SEBI/HO/MIRSD/MIRSD-PoD-1/P/CIR/2023/37 dated March 16, 2023 with Annexure – A</td>
+                            <td style="border: 1px groove;"><a href="#"><span><i class="bi bi-download"></i></span></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5 contact-content" style="display:none;">
+        <div class="row">
+           <div class="col-lg-12 col-md-12">
+                <h1>Contacts</h1>
+                <p>For any information / complaint / query, investors may contact:<br><br></p>
+
+                <h2>Registrars & Share Transfer Agents</h2>
+                <p>KFin Technologies Limited</p>
+           </div>
+           <div class="col-lg-6 col-md-12">
+            (Formerly known as KFin Technologies Private Limited)<br>
+            (Unit : Godrej Properties Limited)<br>
+            <p>
+                Selenium, Tower-B, Plot No.31 & 32, Financial District, Nanakramguda, Serilingampally, Hyderabad,
+                 Rangareddi, Telengana, India – 500032
+            </p>
+            Timings: (Monday to Friday, Timings: 10 AM - 7 PM)
+           </div>
+            <div class="col-lg-6 col-md-12" style="color:brown">
+                <div class="row mt-2">
+                    <div class="col-lg-1 col-md-12">
+                        <span style="border: 1px solid;padding:2px;">
+                            <i class="bi bi-person-bounding-box"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-11 col-md-12">
+                        <span>
+                            Tollfree : 1800 309 40011
+                        </span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-1 col-md-12">
+                        <span style="border: 1px solid;padding:2px;">
+                            <i class="bi bi-telephone"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-11 col-md-12">
+                        <span>
+                            040 - 67162222
+                        </span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-1 col-md-12">
+                        <span style="border: 1px solid;padding:2px;">
+                            <i class="bi bi-telephone"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-11 col-md-12">
+                        <span>
+                            040 - 23420814
+                        </span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-1 col-md-12">
+                        <span style="border: 1px solid;padding:2px;">
+                            <i class="bi bi-envelope-fill"></i>
+                        </span>
+                    </div>
+                    <div class="col-lg-11 col-md-12">
+                        <span>
+                            einward.ris@kfintech.com
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5" >
+            <div class="col-lg-12 col-md-12">
+                <h2>Shareholders Grievance Section</h2>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-lg-6 col-md-12">
+                <b>Shareholder Grievance Redressal Officer</b><br>
+                Mr. Ashish Karyekar<br>
+                Company Secretary & Compliance Officer<br>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <b>Contact Details of Nodal Officer – IEPF</b><br>
+                Mr. Ashish Karyekar<br>
+                <span style="border: 1px solid;padding:2px;color:brown">
+                    <i class="bi bi-envelope-fill"></i>
+                </span><span span style="color:brown">secretarial@godrejproperties.com</span>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-lg-6 col-md-12">
+                <b>Godrej Properties Limited</b><br>
+                <p>
+                    <br>Unit No 5C, 5th Floor, Godrej
+                    <br>One, Pirojshanagar, Eastern
+                    <br>Express Highway,
+                    <br>Vikhroli East,
+                    <br>Mumbai - 400 079
+                    <br><br>
+                    <br>CIN: L74120MH1985PLC035308
+                    <br>Timings: Timings: Monday to Friday, 9:30am - 6pm
+                    <br>+91 - 022 - 6169 - 8500
+                    <br>+91 - 022 - 6169 - 8888
+                </p>
+                <span style="border: 1px solid;padding:2px;color:brown">
+                    <i class="bi bi-envelope-fill"></i>
+                </span><span span style="color:brown">
+                secretarial@godrejproperties.com</span>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                Debenture Trustee<br>
+                <b>Catalyst Trusteeship Limited</b>
+                <p>
+
+                    Windsor, 6th Floor, Office No- 604,<br>
+
+                    C.S.T. Road, Kalina, Santacruz (East),<br>
+
+                    Mumbai- 400098<br>
+
+                    022- 49220555<br>
+                </p>
+                <span style="border: 1px solid;padding:2px;color:brown">
+                    <i class="bi bi-envelope-fill"></i>
+                </span><span span style="color:brown">
+                dt.mumbai@ctltrustee.com </span> 
+            </div>
+        </div>
+        <div class="row mt-5">
+            <h3>Key Managerial Personnel</h3>
+            <a href="#"><span><i class="bi bi-download"></i></span><span style="margin-left: 10px;">KMP-Details</span></a>
+        </div>
+    </div>
+
+    <div class="container mt-5 other-content" style="display:none;">
+            <h1>Model Tripartite Agreement</h1>
+            <p>Model Tripartite Agreement Between The Issuer Company, Existing Share Transfer Agent And New Share Transfer Agent</p>
+            <a href="#"><span><i class="bi bi-download"></i></span><span style="margin-left: 10px">Model Tripartite Agreement</span></a>
+            <br><br>
+            <h1>Online Dispute Resolution</h1>
+            <b>Online Resolution of Disputes in the Indian Securities Market</b>
+            <p>
+                In an attempt to strengthen the investor grievance redressal mechanism in the securities market, 
+                the Securities and Exchange Board of India has issued the circulars dated July 31, 2023 and August 4,
+                 2023 providing guidelines for "Online Resolution of Disputes in the Indian Securities Market".
+            </p>
+            The contents of the circulars are self-explanatory.<br><br>
+            The link to access the ODR Portal is:<a href="#"> https://smartodr.in/login</a>
+
+    </div>
+    
+</div>
+
+
+
+
+
+{% endblock content %}
+{% include "footer.html" %}

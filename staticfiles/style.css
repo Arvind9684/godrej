@@ -1,0 +1,843 @@
+body.disabled {
+    overflow: auto;
+    pointer-events: none;
+}
+
+body.disabled #main-content {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    pointer-events: auto; /* Allow interaction with modal */
+}
+
+.modal-content {
+    position: absolute;
+    background-color: #fefefe;
+    margin: 12%; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    pointer-events: auto; /* Allow interaction with modal content */
+}
+
+.row{
+    margin-right:0px !important;
+    margin-left:0px !important;
+}
+/* navbar */
+body{
+    background-color: white;
+    font-family: Arial, sans-serif;
+}
+main{
+    background-color: white;
+}
+/*----------------------------------Disclamer CSS------------------------------------------------*/
+/* Styles for the overlay */
+.overlay {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Ensure it's above other content */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+#pageContent {
+    /* Adjust styles for your page content */
+    opacity: 1; /* Initial opacity to show content */
+    transition: opacity 0.3s ease-in-out;
+}
+
+#pageContent.disabled {
+    opacity: 0.5; /* Reduce opacity to indicate disabled state */
+    pointer-events: none; /* Disable pointer events */
+}
+
+
+
+/*----------------------------------close Disclamer CSS------------------------------------------------*/
+
+
+nav {
+    z-index:1000;
+    background: linear-gradient(rgba(19, 18, 18, 0.1),rgba(37, 37, 37, 0.1));
+    width:100%;
+    top:0;
+  }
+
+  
+nav .bi-telephone, 
+nav .bi-search,
+button .navbar-toggler,
+nav #sidebarToggle {
+    background: linear-gradient(rgba(228, 226, 226, 0.5), rgba(228, 226, 226, 0.5));
+    opacity: 0.4;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    padding:10px;
+    cursor: pointer;
+    font-size: 12px;
+}
+.navbar-toggler{
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: linear-gradient(rgba(228, 226, 226, 0.5), rgba(228, 226, 226, 0.5));
+    opacity: .4;
+    
+}
+.navbar-toggler-icon{
+    font-size:7px;
+    padding:10px;
+    border-radius: 55%;
+}
+.navbar-item{
+    font-size: large;
+    font-weight: bold;
+    color:whitesmoke;
+}
+#sidebarToggle{
+    width:50px;
+    height: 50px;
+    border: none;
+    color:black;
+}
+.carousel-item img{
+    width: 102%;
+    height: 550px;
+}
+
+
+#aboutus-menu{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(228, 226, 226, 0.5));
+}
+
+
+ .navbar-item {
+    position: relative;
+}
+
+/* Hide the dropdown menu by default */
+#aboutus-menu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Position it just below the parent */
+    left: 0;
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+/* Show the dropdown menu on hover */
+#aboutDropdown:hover + #aboutus-menu, #aboutus-menu:hover {
+    display: block;
+}
+/* The navigation menu links */
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+/* Slider css */
+#main-content {
+    transition: margin-right .5s;  /* Change from margin-left to margin-right */
+    padding: 16px;
+}
+
+.promosion{
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px rgb(214, 211, 211);
+    margin-top: 2%;
+}
+
+.countryFlag img{
+    width:25px;
+    height: 25px;
+    border:1px solid blue;
+}
+.countryCode{
+    border: 1px solid;
+    padding: 2px;
+}
+.promosion-form{
+    margin-bottom:5%;
+}
+.promosion-form input{
+    border-bottom: 1px solid;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    margin: 10px;
+    height: 40px;
+    font-size: large;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+    margin-right: 10px; /* Adjust margin as needed */
+    width:15px;
+    height:15px;
+}
+.social-link{
+    background-color:white;
+    border-top:1px groove;
+    padding: 10%;
+}
+.social-link p{
+    font-size: small;
+    margin: 0;
+}
+.social-link a{
+    text-decoration: none;
+    color: black;
+}
+.social-title{
+    padding-bottom:4%;
+}
+.social-icon p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.social-icon i {
+    font-size: 50px; /* Adjust the size as needed */
+    float: left;
+    margin-right: 20px;
+}
+
+.line-before {
+    content: '';
+    display: inline-block;
+    width: 25%;
+    height: 2px;
+    vertical-align: middle;
+    background: linear-gradient(to right, #fcf9f9, #8a8886); /* Example gradient */
+    margin: 0 10px; /* Adjust spacing as needed */
+}
+.line-after {
+    content: '';
+    display: inline-block;
+    width: 25%;
+    height: 2px;
+    vertical-align: middle;
+    background: linear-gradient(to right, #8a8886, #fcf9f9); /* Example gradient */
+    margin: 0 10px; /* Adjust spacing as needed */
+}
+section{
+    width:99.9%;
+    background-color: white;
+}
+#imageframe button{
+    border: 1px solid;
+    margin-top: 1%;
+    width: 15%;
+    height: 50px;
+    font-style: arial;
+}
+#imageframe button a{
+    text-decoration: none;
+    color: black;
+}
+
+#imageframe button:hover{
+    color: white;
+    background-color: black;
+}
+#imageframe button:hover a{
+    color:white;
+}
+
+#explor-btn{
+    border: 1px solid;
+    margin-top: 1%;
+    width: 15%;
+    height: 50px;
+    font-style: arial;
+}
+#explor-btn a{
+    width: 100%;
+    text-decoration: none;
+    color: black;
+}
+#explor-btn:hover{
+    color: white;
+    background-color: black;
+}
+#explor-btn:hover a{
+    color:white;
+}
+#reward {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+  .reward-container {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+  .reward-content {
+    padding: 30px;
+    min-width: 300px;
+    height: 270px;
+    background-color: white;
+    border-radius: 20px 20px 0px 20px;
+    box-shadow: 3px 3px 3px 3px lightslategrey;
+    margin: 10px;
+    flex-shrink: 0;
+  }
+  .reward-content img{
+    background-color: gold;
+    border-radius: 50%;
+    width:50px;
+    height: 50px;
+  }
+  #reward_logo{
+    float: left;
+  }
+  .reward-content p{
+    margin-top: 100px;
+    width:300px;
+    text-align: left;
+    font-family: 'Arial';
+    font-weight: lighter;
+    font-size:large;
+  }
+  .btn-left, .btn-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border: 1px dotted;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 1;
+    background-color: whitesmoke
+  }
+  .btn-left {
+    left: 10px;
+  }
+  .btn-right {
+    right: 10px;
+  }
+#cityslider p a{
+    text-decoration: none;
+    color: normal;
+}
+#cityslider p{
+    font-weight: bolder;
+    font-size: large;
+    color: rgb(218, 177, 102);
+}
+.city-link a:hover .city-link a{
+    font-size: xx-large;
+    padding: 10px;
+    color:white
+}
+.tree {
+    background: url('../media/image/tree.jpg') no-repeat center center;
+    background-size: cover;
+    text-align: center;
+    color: white;
+    height: auto;
+  }
+.tree img{
+    width:200px;
+    height:200px;
+}
+.tree #outer{
+    background: linear-gradient(to right,rgba(90, 88, 88, 0.5), rgba(17, 17, 17, 0.5));
+}
+#years{
+    border: 1px solid;
+    padding:5px;
+    width:300px;
+    background: linear-gradient(rgba(168, 166, 166, 0.5), rgba(180, 179, 179, 0.5));
+    color:rgb(248, 224, 116);
+    margin-top: 20px;
+}
+#reward2 {
+    width: 99.5%;
+    position: relative;
+    overflow: hidden;
+}
+.reward-container2 {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    max-width: 400px;
+    position: relative;
+    height: 600px;
+}
+
+.reward-content2 {
+    padding: 30px;
+    max-width: 500px;
+    height: auto;
+    background-color: white;
+    flex-shrink: 0;
+}
+.reward-content2 .card img{
+    width:100%;
+    height: 80%;
+
+}
+button.btn-left2, button.btn-right2 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+button.btn-left2 {
+    left: 10px;
+}
+
+button.btn-right2 {
+    right: 10px;
+}
+
+/* Image hover effects */
+.card-img {
+    transition: transform 0.2s ease-in-out;
+}
+
+.reward-content2:hover .card-img {
+    transform: scale(1.1);
+}
+
+.reward-content2:not(:hover) .card-img {
+    transform: scale(1);
+}
+
+
+
+
+
+.card:hover .card-img {
+    transform: scale(1.03);
+}
+
+.card:not(:hover) .card-img {
+    transform: scale(1);
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#copyright {
+    background-color: #f8f8f8;
+    padding: 20px 0;
+    border-top: 1px solid #e7e7e7;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    /* margin: 0 auto; */
+    background-color: white;
+}
+.links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+#morecontent span{
+    margin-bottom: 10px;
+}
+#morecontent a{
+    text-decoration: none;
+    color: gray;
+}
+
+
+/*------------------------------------------HOME TALLY CSS---------------------------*/
+.hometallyRightdiv{
+    background: url('../media/image/tree.jpg') no-repeat center center;
+    background-size: cover;
+    text-align:center;
+    color: white;
+    height: auto;
+    padding:none;
+
+}
+.hometallyRightdiv .content {
+    width: 102%;
+    height: 100%;
+    text-align: left;
+    background: linear-gradient(to right, rgba(27, 26, 26, 0.5), rgba(17, 17, 17, 0.5));
+    margin: 0px;
+    font-weight: lighter;
+    padding-left: -15px;
+}
+.hometallyLeftdiv #outer {
+    border: 2px solid transparent; /* Start with a transparent border */
+    border-top: none;
+    border-left: none;
+    padding: 10px;
+}
+
+.hometallyLeftdiv tr:hover #outer {
+    border-color: black; /* Change the border color on hover */
+}
+.hometallyLeftdiv  #mediam
+{
+    padding:10px;
+    border: 1px solid;
+}
+
+.hometallyLeftdiv img{
+    width:200px;
+    height: 200px;
+}
+
+
+/*----------------------------------------HOME TALLY CSS CLOSE-----------------------*/
+.social-link{
+    background-color:white;
+    border-top:1px groove;
+    padding: 10%;
+}
+.social-link p{
+    font-size: small;
+    margin: 0;
+}
+.social-link a{
+    text-decoration: none;
+    color: black;
+}
+.social-title{
+    padding-bottom:4%;
+}
+.social-icon p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.social-icon i {
+    font-size: 50px; /* Adjust the size as needed */
+    float: left;
+    margin-right: 20px;
+}
+
+
+#copyright {
+    background-color: #f8f8f8;
+    padding: 20px 0;
+    border-top: 1px solid #e7e7e7;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    background-color: white;
+}
+.links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------------------------ABUT US CSS---------------------------------------------*/
+.navbar.fixed-top.sticky {
+            background-color: rgba(0, 0, 0, 0.8); /* Background color when sticky */
+        }
+
+.nav {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    color:white;
+    font-size: large;
+
+}
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-size: large;
+}
+
+.nav-link:hover {
+    color:white;
+    border-bottom: 2px solid white;
+}
+.nav-link .active:hover{
+    border-bottom: none;
+}
+
+.row #aboutus-top {
+    background-image: url('../media/image/aboutusBackground.png');
+}
+.abutus-content {
+    margin-top:30%;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Make sure the height is defined */
+    color:white;
+}
+
+.reward-container3 {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+    max-width: 400px;
+    position: relative;
+    height: 600px;
+}
+
+.reward-content3 {
+    padding: 30px;
+    max-width: 500px;
+    height: auto;
+    background-color: white;
+    flex-shrink: 0;
+}
+.reward-content3 .card img{
+    width:100%;
+    height: 80%;
+
+}
+button.btn-left3, button.btn-right3 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+button.btn-left3 {
+    left: 10px;
+}
+
+button.btn-right3 {
+    right: 10px;
+}
+button.btn-left4, button.btn-right4 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+button.btn-left4 {
+    left: 10px;
+}
+
+button.btn-right4 {
+    right: 10px;
+}
+/* Image hover effects */
+.card-img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.reward-content3:hover .card-img {
+    transform: scale(1.1);
+}
+
+.reward-content3:not(:hover) .card-img {
+    transform: scale(1);
+}
+.reward-container3 {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+  .reward-content3 {
+    padding: 30px;
+    min-width: 300px;
+    height: 270px;
+    background-color: white;
+    border-radius: 20px 20px 0px 20px;
+    margin: 10px;
+    flex-shrink: 0;
+  }
+  .reward-content3 img{
+    background-color: gold;
+    border-radius: 50%;
+    width:50px;
+    height: 50px;
+  }
+  #reward_logo{
+    float: left;
+  }
+  .reward-content3 p{
+    margin-top: 100px;
+    width:300px;
+    text-align: left;
+    font-family: 'Arial';
+    font-weight: lighter;
+    font-size:large;
+  }
+  .btn-left3, .btn-right3 {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border: 1px dotted;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 1000;
+    background-color: whitesmoke
+  }
+  .btn-left3 {
+    left: 10px;
+  }
+  .btn-right3 {
+    right: 10px;
+  }
+.url-directory{
+    margin-left: 100px;
+    margin-top: 30px;
+    font-size: 10px;
+}
+.url-directory a{
+    text-decoration: none;
+    color:black;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.active{
+    border-bottom: 2px solid white;
+    color:blue;
+}
+/*----------------------------------Sustainability--------------------------------------------------------*/
+.gradient-bg {
+    margin-top: -100px;
+    position: relative;
+    height: 100px; /* Adjust the height as needed */
+    background: linear-gradient(rgba(168, 166, 166, 0.5), rgba(180, 179, 179, 0.5));
+    opacity: 0.4;
+}
+
+.text-container {
+    position: relative;
+    margin-top: -80px;
+    color: black; /* Ensures the text is dark */
+}
+
+.text-container h3 {
+    margin: 0;
+    padding: 10px;
+}
+
+.text-container span {
+    display: inline-block;
+}
+
+/* To ensure the text is visible against both light and dark backgrounds */
+.text-container h3 {
+    text-shadow: 1px 1px 2px white, 0 0 1em white; 
+}
+.quote-container {
+    width: 80%;
+    margin-left: 100px; /* Centered and with top margin */
+}
+
+.quote-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.5rem; /* Equivalent to fs-2 */
+    font-weight: lighter;
+}
+
+.quote-author {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1.25rem; /* Equivalent to fs-5 */
+    font-weight: lighter;
+}
+
+.quote-author b {
+    font-weight: bold;
+}
+.canvasCard {
+    display: none;
+}
+
+.canvasCard.active {
+    display: block;
+    
+}
+/* Smaller screens */
+@media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+    .container {padding-top: 0}
+}
+
+

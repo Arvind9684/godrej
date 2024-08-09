@@ -1,0 +1,58 @@
+﻿FormUtil.CloseImpression = function (IframeId) {
+
+    var isclassexists = document.getElementsByClassName('close');
+    if (isclassexists.length > 0) {
+        isclassexists[0].click();
+    }
+
+    FormUtil.formHideEffect(IframeId);
+
+    if (parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground") != undefined && parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground") != null) {
+        parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground").remove()
+    }
+
+    
+
+    //$(".close", window.parent.document).click();
+
+    if (IframeId != null && IframeId.length > 0) {
+
+        var FormId = IframeId.split("_")[1];
+
+        FormInfoDetails.FormId = parseInt(FormId);
+
+        if (AllFormDetails != null && AllFormDetails.length > 0) {
+            for (var i = 0; i < AllFormDetails.length; i++) {
+                if (AllFormDetails[i].banner != null && AllFormDetails[i].banner != "" && AllFormDetails[i].banner.FormId == FormId) {
+                    FormInfoDetails.BannerId = AllFormDetails[i].banner.Id;
+                    break;
+                }
+            }
+        }
+    }
+
+    var FormDetailsWithVisitorInfo = { FormInfoDetails: FormInfoDetails, MainVisitorDetails: MainVisitorDetails, answerDetails: [], Events: "" };
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('Post', TrackerUrl.FormCloseImpressionUrl);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(FormDetailsWithVisitorInfo));
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            FormUtil.formHideEffect(IframeId);
+            setTimeout(function () {
+                var IframeElement = document.getElementById(IframeId);
+
+                if (IframeElement != undefined && IframeElement != null) {
+                    var innerDoc = IframeElement.contentDocument || IframeElement.contentWindow.document;
+
+                    if (innerDoc != undefined && innerDoc.getElementById("dvMainContentDiv") != undefined && innerDoc.getElementById("dvMainContentDiv") != null) {
+                        innerDoc.getElementById("dvMainContentDiv").innerHTML = "";
+                    }
+                    document.getElementById(IframeId).style.display = "none";
+
+                }
+            }, 500);
+        }
+    };
+}

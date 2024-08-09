@@ -1,0 +1,289 @@
+{% include 'project_base.html' %}
+{% block content %}   
+<div class="container-fluid mb-3">
+    <div class="row textAlign-center d-flex align-items-center">
+        <div class="col-lg-12 col-md-12 text-center">
+            <span class="line-before"></span>
+            <span class="text"><b>FIND WHERE YOU BELONG</b></span>
+            <span class="line-after"></span>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <span class="view-option"><i class="bi bi-list"></i> <span class="list-views"><a href="#" onclick="viewsOption('list')" id="listviews" style="font-weight:bold;text-decoration:underline;">List Views</a></span></span>
+                <span class="view-option"><i class="bi bi-map"></i> <span class="map-views"><a href="#" onclick="viewsOption('map')" id="mapviews" style="">Map Views</a></span></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="input-group mb-3 mt-3">
+        <span class="input-group-text" id="basic-addon1" style="float: left;"><i class="bi bi-search"></i></span>
+        <input type="text" id="filterInput" class="form-control" placeholder="Enter Project Name" aria-label="Project Name" aria-describedby="basic-addon1" style="border:none;height:100%;">
+    </div>    
+
+    <div class="input-group" id="selectSearch" style="background-color:black;border:1px solid black;">
+            <button class="btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="commercialValue" style="border:none;color:gray;">
+                COMMERCIAL
+            </button>
+            <ul class="dropdown-menu" style="border:nune;">
+                <li><a class="dropdown-item" href="#"><input type="radio" value="Residential" name="option" onclick="updateCommercialValue(this.value)"> Residential</a></li>
+                <li><a class="dropdown-item" href="#"><input type="radio" value="Commercial" name="option" onclick="updateCommercialValue(this.value)"> Commercial</a></li>
+            </ul>
+
+        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;"><span id="citycount"> </span> CITIES</button>
+        <div class="dropdown-menu" >
+            <table class="table">
+                <tr>
+                    <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Mumbai</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Delhi</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Noida</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Gurugram</a></td>
+                </tr>
+                <tr>
+                    <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Bengaluru</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Pune</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Other</a></td>
+                </tr>
+            </table>
+            
+        </div>
+
+        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray" disabled>TYPE</button>
+        <div class="dropdown-menu" >
+            <table>
+                <tr>
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Mumbai" name="option"> Mumbai</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Delhi" name="option"> Delhi</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Noida" name="option"> Noida</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Gurugram" name="option"> Gurugram</a></td>
+                </tr> 
+                <tr> 
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Bengaluru" name="option"> Bengaluru</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Pune" name="option"> Pune</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Other" name="option"> Other</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" disabled>STATUS</button>
+        <div class="dropdown-menu">
+            <table class="table">
+                <tr>
+                    <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateFilter()"> Mumbai</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateFilter()"> Delhi</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateFilter()"> Noida</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateFilter()"> Gurugram</a></td>
+                </tr>
+                <tr>
+                    <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateFilter()"> Bengaluru</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateFilter()"> Pune</a></td>
+                    <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateFilter()"> Other</a></td>
+                </tr>
+            </table>
+        </div>
+
+        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" >BUDGET</button>
+        <div class="dropdown-menu col-lg-2 col-md-12" >
+            <input type="range" min="0" max="100" value="50" class="slider" id="myRange" oninput="updateValue(this.value)">
+            <span id="rangeValue">50</span>
+        </div>
+        <button class="btn-dark col-lg-2 col-md-12" style="margin-right:none;width:265px;background-color:black;border:none;"> <a href="project" style="text-decoration: none;color:gray;">RESET </a> </button>
+    </div>
+    <div class="col-md-12 mb-3 mt-3">
+        <label class="form-check-label" for="flexSwitchCheckDefault">New launches only</label>
+        <div class="form-check form-switch" style="float:left;">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+        </div>
+        <div style="float:right">
+            <a href="#" style="text-decoration:none;">More filter</a>
+        </div>
+    </div>
+    
+    <div class="row textAlign-center d-flex align-items-center mb-3">
+        <div class="col-lg-12 col-md-12 text-center">
+            <span class="line-before"></span>
+            <span class="text"><b>EXPLORE HOMES</b></span>
+            <span class="line-after"></span>
+        </div>
+    </div>
+    
+    <div class="container-list" style="padding:5px;">
+        <h2>List Views</h2>
+        <div class="row card-container project-div">
+            {% for project in project_list %}
+                <div class="card">
+                    <div class="card-image">
+                        <img src="..{{project.picture}}" alt="Image 1" class="card-img col-lg-12 col-md-12" style="width:100%;height:350px;">
+                        
+                        <div class="card-img-text">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <span class="bi-beds">
+                                        <i class="bi bi-person-workspace"></i>
+                                    </span>
+                                    <span>Beds</span>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    plots
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <span class="bi-beds">
+                                        <i class="bi bi-bounding-box"></i>
+                                    </span>
+                                    <span>Area</span>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    Available on request
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12">
+                                    <span class="bi-beds" style="border:1px solid;border-radius:49%;text-align:center;">
+                                        <i class="bi bi-currency-rupee"></i>
+                                    </span>
+                                    <span> Price</span>
+                                </div>
+                                <div class="col-lg-6 col-md-12">
+                                    INR <span class="price">{{project.price}}</span> lakh onword
+                                </div>
+                            </div>
+                        
+                            <hr>
+                            <div class="col-lg-12 col-md-12">
+                                <span><i class='far fa-comments'></i></span>
+                                <span>
+                                    <a href="#" onclick="enquirynow('{{project.name}}')">Enquire Now</a>
+                                </span>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mt-1">
+                                <span><i class="bi bi-calendar-check"></i></span>
+                                <span> <a href="#" onclick="scheduleOn('{{project.name}}')">Shedule visit</a></span>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mt-1">
+                                <span><i class="bi bi-telephone-fill"></i></span><span><a href="tel:+918171479684"> Call Us </a></span>
+                            </div>
+                            <div class="col-lg-12 col-md-12 mt-1">
+                                <span><i class="bi bi-whatsapp"></i></span><span><a href="https://wa.me/+918171479684?text=Hello%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank"> Whatsapp</a></span>
+                            </div> 
+                        </div>
+                        
+                        
+                        <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                            <div class="card-content">
+                                <p class="col-lg-12 col-md-12 img-location">
+                                    <span style="flaot:left;">{{project.location}}</span>
+                                    <span id="bi-plus" style="border:none;">
+                                        <i class="bi bi-plus-circle" style="border:none;"></i>
+                                    </span>
+                                </p>
+                            </div>
+                            
+                            <div class="card-content">
+                                <h4>{{project.title}}</h4>
+                                <p>
+                                    <span style="border:1px groove gray;padding:3px;border-radius:2px;">
+                                        <span style="color:blue;"><i class="bi bi-star"></i></span> 
+                                        <span class="status">{{project.status}}</span></span> <span class="environmenttype"> {{project.property_type}}</span></p>
+                                <p><strong>INR</strong> {{project.price}}.00 Lakh onwards | <strong>Possession Date </strong>{{project.possession_date}}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="textAlign-center d-flex align-items-center mb-3">
+            <div class="pagination" style="margin-left: 34%;margin-top: 3%;font-size: 22px;color: #00ff89;">
+                <center>
+                <!-- Pagination links -->
+            <div class="col-lg-12 col-md-12 step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </div>
+                </center>
+            </div>
+        </div>  
+    </div>
+    
+    <div class="container-map">
+        <h2>Map Views</h2>    
+    </div>
+</div>
+<div>
+    <div class="row textAlign-center d-flex align-items-center bg-light mt-5">
+        <div class="col-lg-12 col-md-12 text-center p-3">
+            <span class="line-before"></span>
+            <span class="text"><b>GET IN TOUCH</b></span>
+            <span class="line-after"></span>
+        </div>
+        <span style="font-size:30px;text-align:center;font-weight:lighter;">
+            <center><p style="width:70%;">If you would like to know more details or something specific, feel free to contact us.
+                Our site representative will give you a call back.<p>
+        </span>
+        <div class="col-lg-12 col-md-12">
+            <div class="promosion col-lg-9 col-md-12 mb-5 align-items-center">
+                <form action="{% url 'callback' last_url_word%}" method="POST" class="promosion-form fs-6">{% csrf_token %}
+                    <span><input type="text" name="name" placeholder="Name"></span>
+                    <span class="countryFlag"><img src="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" alt="Country Flag" id="countryFlag"></span>
+                    <span>
+                    <select id="selectCountry" style="width:20px;" name="country">
+                        <option value='["India", "https://www.worldometers.info/img/flags/small/tn_in-flag.gif", "91"]' selected>India</option>
+                        {% for i in country_flag_df.values %}
+                        <option value='["{{i.1}}", "{{i.4}}", "{{i.5}}"]'>{{i.1}}</option>
+                        {% endfor %}
+                    </select>
+                    </span>
+                    <span class="countryCode">
+                        <input type="text" name="countrycode" id="countryCode" value="+91" style="width:50px;height:15px;border:none;">
+                    </span>
+                    <span>
+                        <input type="number" name="mobile" placeholder="Mobile Number">
+                    </span>
+                    <span>
+                        <input type="email" name="email" placeholder="Email ID">
+                    </span>
+                    <br>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="checkbox-row">
+                            <span>
+                                <input type="checkbox" name="confirm">
+                            </span>
+                            <span>
+                                Yes, I would like to receive updates & promotions from Godrej Properties Limited.
+                            </span>
+                        </div>
+                        <p style="">
+                            <span style="">
+                                <input type="Submit" value="SEND" style="float:right;background-color:black;color:white;width:100px;height:40px;">
+                            </span>
+                        </p>
+                    </div>
+                       
+                </form>
+            </div>
+        </div>
+        </center>
+    </div>
+</div>
+{% endblock%}
+<section id="footer" class="bg-white">
+    {% include 'footer.html' %}
+</section>
+
+
+
+

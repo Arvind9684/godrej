@@ -1,0 +1,437 @@
+{% include "project_base.html" %}
+<style>
+    .navbar-item {
+        display: inline-block;
+        padding: 0 10px;
+    }
+
+    .nav-link {
+        color: black;
+    }
+
+    .navbar-item:first-child {
+        margin-right: auto;
+    }
+
+    #finance-link {
+        margin-left: auto;
+    }
+    .project-sord-info span{
+        margin: 10px;
+    }
+    #map-container {
+        height: 400px;
+        width: 100%;
+    }
+    .price-table th{
+        background-color: wheat;
+    }
+</style>
+
+
+<nav class="navbar navbar-dark fixed-top sticky fw-bold" id="investor" style="hight:70px;position:sticky;z-index:500;">
+    <div class="container-fluid" style="width:100%;">
+        <div class="navbar-item">
+            <span><i class="bi bi-arrow-left" style="cursor:pointer;" onclick="window.history.back()"></i></span> BACK
+        </div>
+        <div class="navbar-item" id="finance-link">
+            <a class="nav-link" href="#overview">OVERVIEW</a>
+        </div>
+        <div class="navbar-item" id="investorInform-link">
+            <a class="nav-link" href="#location">LOCATION</a>
+        </div>
+        <div class="navbar-item" id="governanceLeasership-link">
+            <a class="nav-link" href="#price">PRICE</a>
+        </div>
+        <div class="navbar-item" id="compliances-link">
+            <a class="nav-link" href="#amenities">AMENITIES</a>
+        </div>
+        <div class="navbar-item" id="csr-link">
+            <a class="nav-link" href="#gallery">GALLERY</a>
+        </div>
+    </div>
+</nav>
+{% block content %}
+<section>
+    {% for project in project_list2 %}
+      <img src="..{{project.picture}}" alt="Image" style="width:100%;height:500px;">  
+      <div class="row text-light project-sord-info" style="margin-top:-150px;background: linear-gradient( black, black,0.95);">
+        <div class="col-lg-12 col-md-12 "><b><span>{{project.title}}</span></b></div>
+        <div class="col-lg-12 col-md-12 "><span>{{project.location}}</span></div>
+        <div class="col-lg-12 col-md-12 "><span>PRICE {{project.price}} lakh<span> | <span>Possession {{project.posassion_date}} </span>| <span>{{project.topology}}</span></div>
+      </div>
+    {% endfor %}
+    
+        
+</section>
+
+<!-- Content for sections -->
+<section id="overview" style="margin-top: 80px;">
+    <div class="col-lg-12 col-md-12 text-center p-3">
+        <span class="line-before"></span>
+        <span class="text"><b>OVERVIEW CONTENT</b></span>
+        <span class="line-after"></span>
+    </div>
+    <div class="col-lg-11 col-md-12 mt-5 text-center">
+        {% for project in project_list2 %}
+            <p>
+                {{project.description}}
+            </p>
+            {% if project.image2 %}
+                <img src="../media/{{project.image2}}" alt="Image2">
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+<section id="location">
+    <div class="col-lg-12 col-md-12 text-center p-3">
+        <span class="line-before"></span>
+        <span class="text"><b>NEIGHBOURHOOD</b></span>
+        <span class="line-after"></span>
+    </div>
+    <center>
+        <div class="col-lg-10 col-md-12 mt-5 text-center">
+            {% for project in project_list2 %}
+                {% if project.neighbourhood %}
+                    <p>
+                        {{project.neighbourhood}}
+                    </p>
+                    <div class="col-lg-12 col-md-12 card-content" style="opacity: .4;">
+                        <iframe 
+                            src="https://www.google.com/maps?q={{project.lat}},{{project.langt}}&hl=es;z=14&output=embed"
+                            width="100%" 
+                            height="450" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade" >
+                        </iframe>
+                    </div>
+                    <div class="container card-title" style="margin-top: -350px;border-radius: 10px;">
+                        <div class="col-lg-12 col-md-12 text-left" style="width:350px;height:300px;background-color: white;border-radius: 10px;">
+                            <p>
+                                <strong>ADDRESS</strong><br>
+                                {{ project.location }}<br>
+                                <span><i class="bi bi-hospital"></i></span> Signature Hospital<br>
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
+                                    <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
+                                </svg></span> Sheetla Mata Medical College<br>
+                                <span><i class="bi bi-cart4"></i></span> Esplanade Mall<br>
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </center>
+</section>
+<section id="price">
+    <div class="col-lg-12 col-md-12 mt-5 text-center p-3">
+        <span class="line-before"></span>
+        <span class="text"><b>PRICE</b></span>
+        <span class="line-after"></span>
+    </div>
+    <div class="row p-5 mt-5">
+        <div class="col-lg-5 col-md-12 ml-5">
+            <table class="table price-table text-center" style="border:1px solid">
+                <tr>
+                    <th colspan="2">PRICE</th>
+                </tr>
+                
+                {% for project in project_list2 %}  
+                    <tr>
+                        <td>{{project.topology}}</td>
+                        <td>{{project.price}} Lakhs</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col-lg-5 col-md-12">
+            <form id="emiCalculatorForm" style="border: 1px solid;padding:10px;" class="calculator">
+                <div class="form-group">
+                    <label for="heading"><b>EMI CALCULATOR</b></label>
+                </div>
+                
+                <div class="form-group" style="position: relative;">
+                    <label for="loanAmount">LOAN AMOUNT</label>
+                    <input type="number" id="loanAmount" placeholder="Enter Amount" style="width:90%; border:none; border-bottom: 1px solid;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="36" fill="currentColor" class="bi bi-currency-rupee" style="position: absolute; right: 10px; bottom: 6px;" viewBox="0 0 16 16">
+                        <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
+                    </svg>
+                </div>
+                
+                <div class="form-group">
+                    <label for="advancePayment">ADVANCE PAYMENT</label>
+                    <span style="float:right;" id="advancePaymentValue">5000</span><br>
+                    <input type="range" id="advancePayment" min="0" max="1000000" step="100" style="width:100%;" oninput="updateAdvancePaymentValue(this.value); calculateEMI();">
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">DURATION</label>
+                    <p style="float:right;"><span id="durationValue">5</span> years</p><br>
+                    <input type="range" id="duration" min="1" max="30" step="1" style="width:100%;" oninput="updateDurationValue(this.value); calculateEMI();">
+                </div>
+                
+                <div class="form-group">
+                    <label for="interestRate">INTEREST RATE</label>
+                    <p style="float:right;"><span id="interestRateValue">5</span> %</p><br>
+                    <input type="range" id="interestRate" min="1" max="15" step="0.1" style="width:100%;" oninput="updateInterestRateValue(this.value); calculateEMI();">
+                </div>
+                
+                <div class="form-group">
+                    <label for="estimatedEMI">ESTIMATED MONTHLY EMI</label>
+                    <p style="float:right;"><span id="estimatedEMI">0</span> <sup><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                        <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
+                    </svg>/ Month</sup></p>
+                </div>
+            </form>
+        </div>
+        
+        
+    </div>
+
+</section>
+<section id="amenities">
+    <div class="col-lg-12 col-md-12 text-center p-3">
+        <span class="line-before"></span>
+        <span class="text"><b>CHERISH A LIFETIME OF HAPPINESS WITH AMENITIES <br>THAT MAKE LIFE RICHER</b></span>
+        <span class="line-after"></span>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 text-center mt-3">
+            
+            {% for project in project_list2 %}
+            <p>
+                {{project.amenties}}
+            </p>
+            {% endfor %}     
+        </div>
+        <div class="col-lg-11 col-md-12 ml-1">
+            <div class="row d-flex item-align-center ml-5">
+                {% for i in amenities_data %}
+                    <div class="col-lg-2 col-md-12 text-center textAlign-center amenities-img">
+                        <img src="../media/{{i.image}}" alt="image" style="width:150px;height:170px;"><br>
+                        <b>{{i.name}}</b>
+                        
+                    </div>
+                {% endfor %}  
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+    
+<section id="gallery">
+    <div class="row text-center p-3">
+        <div class="col-lg-12 col-md-12 text-center p-3">
+            <span class="col-lg-3 col-md-12 line-before"></span>
+            <span class="col-lg-3 col-md-12 text"><b>GALLERY</b></span>
+            <span class="col-lg-3 col-md-12 line-after"></span>
+        </div>
+    </div>
+    
+    <div id="reward5" style="background-color:white;height:300px;">
+        <div class="reward-container5" style="background-color:white;">
+            {% for project in project_list %}
+                <div class="reward-content5" id="content1" style="background-color:white;"> 
+                    <div class="card" style="width: 18rem;" style="background-color:white;">
+                        <img class="card-img" src="../media/{{project.picture}}" alt="reward-logo">
+                        <div class="card-body" style="background-color:white;">
+                            <p class="card-text">
+                                Picture 1
+                            </p>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="reward-content5" id="content1" style="background-color:white;"> 
+                    <div class="card" style="width: 18rem;" style="background-color:white;">
+                        <img class="card-img" src="../media/{{project.profile_pic}}" alt="reward-logo">
+                        <div class="card-body" style="background-color:white;">
+                            <p class="card-text">
+                                Picture 2
+                            </p>
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="reward-content5" id="content1" style="background-color:white;"> 
+                    <div class="card" style="width: 18rem;" style="background-color:white;">
+                        <img class="card-img" src="..{{project.image}}" alt="reward-logo">
+                        <div class="card-body" style="background-color:white;">
+                            <p class="card-text">
+                                Picuter 3
+                            </p>
+                        </div>
+                    </div>
+                </div> 
+
+                <div class="reward-content5" id="content1" style="background-color:white;"> 
+                    <div class="card" style="width: 18rem;" style="background-color:white;">
+                        <img class="card-img" src="../media/{{project.picture}}" alt="reward-logo">
+                        <div class="card-body" style="background-color:white;">
+                            <p class="card-text">
+                                picture 4
+                            </p>
+                        </div>
+                    </div>
+                </div> 
+            {% endfor %}
+        </div>
+        
+        <button class="btn-left5" onclick="changeContent('left5')"><i class="bi bi-arrow-left"></i></button>
+        <button class="btn-right5" onclick="changeContent('right5')"><i class="bi bi-arrow-right"></i></button>
+    </div>
+</section>
+
+
+
+<div class="row textAlign-center d-flex align-items-center bg-light mt-5">
+    <div class="col-lg-12 col-md-12 text-center p-3">
+        <span class="line-before"></span>
+        <span class="text"><b>GET IN TOUCH</b></span>
+        <span class="line-after"></span>
+    </div>
+    <span style="font-size:30px;text-align:center;font-weight:lighter;">
+        <center><p style="width:70%;">If you would like to know more details or something specific, feel free to contact us.
+            Our site representative will give you a call back.<p>
+    </span>
+    <div class="col-lg-12 col-md-12">
+        <div class="promosion col-lg-9 col-md-12 mb-5">
+            <form action="{% url 'callback' last_url_word%}" method="POST" class="promosion-form fs-6">{% csrf_token %}
+                <span><input type="text" name="name" placeholder="Name"></span>
+                <span class="countryFlag"><img src="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" alt="Country Flag" id="countryFlag"></span>
+                <span>
+                <select id="selectCountry" style="width:20px;" name="country">
+                    <option value='["India", "https://www.worldometers.info/img/flags/small/tn_in-flag.gif", "91"]' selected>India</option>
+                    {% for i in country_flag_df.values %}
+                    <option value='["{{i.1}}", "{{i.4}}", "{{i.5}}"]'>{{i.1}}</option>
+                    {% endfor %}
+                </select>
+                </span>
+                <span class="countryCode">
+                    <input type="text" name="countrycode" id="countryCode" value="+91" style="width:50px;height:15px;border:none;">
+                </span>
+                <span>
+                    <input type="number" name="mobile" placeholder="Mobile Number">
+                </span>
+                <span>
+                    <input type="email" name="email" placeholder="Email ID">
+                </span>
+                <br>
+                <div class="col-lg-12 col-md-12">
+                    <div class="checkbox-row">
+                        <span>
+                            <input type="checkbox" name="confirm">
+                        </span>
+                        <span>
+                            Yes, I would like to receive updates & promotions from Godrej Properties Limited.
+                        </span>
+                    </div>
+                    <p style="">
+                        <span style="">
+                            <input type="Submit" value="SEND" style="float:right;background-color:black;color:white;width:100px;height:40px;">
+                        </span>
+                    </p>
+                </div>
+                   
+            </form>
+        </div>
+    </div>
+    </center>
+</div>
+
+{% endblock content %}
+<script>
+    function updateCountryInfo() {
+        const selectCountry = document.getElementById('selectCountry');
+        selectCountry.addEventListener('change',function(){ 
+        const selectedOption = JSON.parse(selectCountry.value);
+        const countryFlag = document.getElementById('countryFlag');
+        const countryCode = document.getElementById('countryCode');
+
+        countryFlag.src = selectedOption[2];
+        countryCode.value = `+${selectedOption[1]}`;
+    })
+    }
+    document.addEventListener('DOMContentLoaded',function(){
+        updateCountryInfo();
+    });
+    var elementId = "{{ last_url_word }}";
+    var linkID=elementId+"-link";
+    var contentdiv=document.getElementById(linkID);
+    contentdiv.style.borderBottom="2px solid";
+    // Function to calculate EMI
+function calculateEMI() {
+    // Get input values
+    var loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+    var advancePayment = parseFloat(document.getElementById('advancePayment').value) || 0;
+    var duration = parseFloat(document.getElementById('duration').value) || 0;
+    var interestRate = parseFloat(document.getElementById('interestRate').value) || 0;
+
+    // Adjust loan amount based on advance payment
+    loanAmount = loanAmount - advancePayment;
+
+    // Convert annual interest rate to monthly and duration to months
+    var monthlyInterestRate = interestRate / (12 * 100);
+    var numberOfMonths = duration * 12;
+
+    // Calculate EMI using the formula: EMI = [P * r * (1+r)^n] / [(1+r)^n-1]
+    var emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) / (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
+
+    // Update the estimated EMI value in the form
+    document.getElementById('estimatedEMI').textContent = emi.toFixed(2);
+}
+
+// Function to update the advance payment value
+function updateAdvancePaymentValue(value) {
+    document.getElementById('advancePaymentValue').textContent = value;
+}
+
+// Function to update the duration value
+function updateDurationValue(value) {
+    document.getElementById('durationValue').textContent = value;
+}
+
+// Function to update the interest rate value
+function updateInterestRateValue(value) {
+    document.getElementById('interestRateValue').textContent = value;
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    var rewardContainer = document.querySelector('.reward-container3');
+    var contentDivs = document.querySelectorAll('.reward-content3');
+    let currentIndex = 0;
+
+    function changeContent(direction) {
+        var totalItems = contentDivs.length;
+        var itemWidth = contentDivs[0].offsetWidth + parseInt(window.getComputedStyle(contentDivs[0]).marginRight);
+
+        if (direction === 'left3') {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+        } else if (direction === 'right3') {
+            currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+        }
+
+        var translateX = -currentIndex * itemWidth;
+        rewardContainer.style.transform = 'translateX(' + translateX + 'px)';
+    }
+
+    document.querySelector('.btn-left3').addEventListener('click', function () {
+        changeContent('left3');
+    });
+
+    document.querySelector('.btn-right3').addEventListener('click', function () {
+        changeContent('right3');
+    });
+});
+
+
+
+</script>
+
+
+{% include "footer.html" %}

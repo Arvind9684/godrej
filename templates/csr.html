@@ -1,0 +1,154 @@
+{% include "project_base.html" %}
+{% include "investormenu.html" %}
+{% block content %}
+<img src="../media/image/csr.webp" alt="image" style="height:500px;width:100%;">
+<div class="row ml-lg-5 ml-sm-0" >
+    <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
+        <h3>
+            <span style="float:left;color:white"><h1>Corporate Social Responsibility</h1></span>
+        </h3>
+    </div>
+</div>
+<div class="col-lg-12 col-lg-12 mt-3">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link {{csr}}" aria-current="page" href="csr" id="csr">CSR COMMITTEE</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{annual}}" href="annual" id="annual">ANNUAL ACTION PLAN</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{commission}}" href="commission" id="commission">COMMISSIONED REPORTS</a>
+        </li>
+    </ul>
+</div>
+{% if csr %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>CSR Committee</h1><br>
+                <select name="fy" id="fy" style="width:200px;height:50px">
+                    {% for i in fy_unique %}
+                        <option value="{{i}}">FY {{i}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    {% if csr_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in csr_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if annual %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Annual Action Plan</h1><br>
+                <select name="fy" id="fy" style="width:200px;height:50px">
+                    {% for i in fy_unique %}
+                        <option value="{{i}}">FY {{i}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    {% if annual_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in annual_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if commission %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Commissioned Reports</h1><br>
+            </div>
+        </div>
+    </div>
+    {% if commission_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in commission_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+
+{% endblock content %}
+{% include "footer.html" %}

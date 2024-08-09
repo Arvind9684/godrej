@@ -1,0 +1,331 @@
+{% include "project_base.html" %}
+{% include "investormenu.html" %}
+{% block content %}
+
+    <img src="../media/image/finance.webp" alt="image" style="width: 100%;height:500px;">
+    <div class="row ml-lg-5 ml-sm-0" >
+        <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
+            <h3>
+                <span style="float:left;">Financial Reports</span>
+            </h3>
+        </div>
+    </div>
+
+    <div class="row m-lg-5 m-sm-0">
+        <div class="col-lg-9 col-md-12 ml-lg-5 ml-sm-0">
+            <h3>Financials & Presentations</h3>
+            <p>
+                Learn more about Godrej Properties' financial results, press releases, investor presentations and more, 
+                including our quarterly and annual reports in a completely transparent and comprehensive manner.
+            </p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row m-lg-5 m-sm-0" style="width:200px;height:50px;">
+            <select>
+                
+                {% for i in city %}
+                <option>{{i}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+                
+            
+                
+    <!-----------------------Fourth quarter--------------------------------------->
+    <div class="row ml-5 pl-3">
+        <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+            4<sup>th</sup><br>Quarter<br>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                {% for i in city %} 
+                    {% if forloop.counter <= 10 %}
+                        <div class="col-lg-1" style="width:fit-content;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5" style="width:45%;">
+                            BI Istimate
+                        </div>
+                    {% else %}
+                        <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                            BI Istimate
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if city|length > 9 %}
+                    <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                    <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-----------------------Third Quarter--------------------------------------->
+    <div class="row ml-5 pl-3">
+        <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+            3<sup>th</sup><br>Quarter<br>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                {% for i in city %} 
+                    {% if forloop.counter <= 10 %}
+                    
+                        <div class="col-lg-1" style="width:fit-content;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5" style="width:45%;">
+                            BI Istimate
+                        </div>
+                    {% else %}
+                        <div class="col-lg-1 hidden-row3" style="width:fit-content;display: none;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5 hidden-row3" style="width:45%;display: none;">
+                            BI Istimate
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if city|length > 9 %}
+                    <button id="show-more-btn3" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                    <button id="show-less-btn3" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-----------------------Second Quarter-------------------------------------->
+    <div class="row ml-5 pl-3">
+        <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+            2<sup>nd</sup><br>Quarter<br>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                {% for i in city %} 
+                    {% if forloop.counter <= 10 %}                   
+                        <div class="col-lg-1" style="width:fit-content;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5" style="width:45%;">
+                            BI Istimate
+                        </div>
+                    {% else %}
+                        <div class="col-lg-1 hidden-row2" style="width:fit-content;display: none;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5 hidden-row2" style="width:45%;display: none;">
+                            BI Istimate
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if city|length > 9 %}
+                    <button id="show-more-btn2" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                    <button id="show-less-btn2" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!------------------------First Quarter-------------------------------------->
+    <div class="row ml-5 pl-3">
+        <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+            1<sup>st</sup><br>Quarter<br>
+        </div>
+        <div class="col-lg-10">
+            <div class="row">
+                {% for i in city %} 
+                    {% if forloop.counter <= 10 %}                   
+                        <div class="col-lg-1" style="width:fit-content;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5" style="width:45%;">
+                            BI Istimate
+                        </div>                    
+                    {% else %}
+                        <div class="col-lg-1 hidden-row" style="width:fit-content;display: none;">
+                            <span><i class="bi bi-download"></i></span>
+                        </div>
+                        <div class="col-lg-5 hidden-row" style="width:45%;display: none;">
+                            BI Istimate
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if city|length > 9 %}
+                    <button id="show-more-btn" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                    <button id="show-less-btn" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                {% endif %}    
+            </div>
+        </div>
+    </div>
+
+    <h1 class="container"><b>Annual Reports</b></h1>
+    <section class="row textAlign-center d-flex align-items-center" style="background-color:white;">
+        <div class="col-lg-1 col-md-12">
+            <p style="background-color:white;text-align:center;"><button class="btn-left5" onclick="changeContent('left5')"><i class="bi bi-arrow-left"></i></button></p>
+        </div>
+        <div class="col-lg-10 col-md-12">
+            <div id="reward5" style="background-color:white;">
+                <div class="reward-container5" style="background-color:white;">
+                    {% for i in city %}
+                    <div class="col-lg-12 col-md-12">
+                        <div class="reward-content5" id="content1" style="background-color:white;"> 
+                            <div class="card" style="width: 18rem;" style="background-color:white;">
+                                <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
+                                <div class="card-body" style="background-color:white;">
+                                    <p class="card-text">
+                                        Some quick example text to build on the card title and make up the bulk of the 
+                                        card's content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>   
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-12">
+            <button class="btn-right5" onclick="changeContent('right5')"><i class="bi bi-arrow-right"></i></button>
+        </div>
+    </section>
+
+    <section>
+        <div class="row m-5">
+            <div class="col-lg-12 col-sm-12 m-5 m-sm-0">
+                <h3>Subsidiary Financial Statements and Other Documents</h3>
+            </div>
+        </div>
+        <div class="row m-5" style="width: 93%;">
+            <div class="col-lg-4 col-md-12" style="border:1px groove;border-bottom: none;padding:10px;" id="subsidiary">
+                <button style="background-color: white;border:none;font-weight: bold;" onclick="changetab('subsidiar-statements')" id="subsidiaryBtn">SUBSIDIARY FINANCIAL STATEMENTS</button>
+            </div>
+            <div class="col-lg-3 col-md-12 text-left" style="padding-top: 10px;border-bottom: 1px groove;" id="other">
+                <button style="background-color: white;border:none;" onclick="changetab('other-document')" id="otherBtn">OTHER DOCUMENTS</button>
+            </div>
+            <div class="col-lg-5 col-md-12" style="border-bottom: 1px groove;">
+            </div>
+            <div class="col-lg-12 col-md-12 subsidiar-statements" style="border:1px groove;border-top:none;">
+                <select name="fy" id="fy" style="height:50px;margin: 50px;">
+                    
+                    {% for i in city %}
+                    <option value="{{i}}">{{i}}</option>
+                        
+                    {% endfor %}
+                        
+                </select>
+                <div class="col-lg-10">
+                    <div class="row">
+                        {% for i in city %} 
+                            {% if forloop.counter <= 10 %}
+                            
+                                <div class="col-lg-1" style="width:fit-content;">
+                                    <span><i class="bi bi-download"></i></span>
+                                </div>
+                                <div class="col-lg-5" style="width:45%;">
+                                    BI Istimate
+                                </div>
+                            
+                            {% else %}
+                                <div class="col-lg-1 hidden-row5" style="width:fit-content;display: none;">
+                                    <span><i class="bi bi-download"></i></span>
+                                </div>
+                                <div class="col-lg-5 hidden-row5" style="width:45%;display: none;">
+                                    BI Istimate
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% if city|length > 9 %}
+                            <button id="show-more-btn5" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                            <button id="show-less-btn5" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 other-document" style="border:1px groove;border-top:none;display:none;">
+                <select name="fy" id="fy" style="height:50px;margin: 50px;">
+                    
+                    {% for i in city %}
+                    <option value="{{i}}">{{i}}</option>
+                        
+                    {% endfor %}
+                        
+                </select>
+                <div class="col-lg-10">
+                    <div class="row">
+                        {% for i in city %} 
+                            {% if forloop.counter <= 10 %}
+                            
+                                <div class="col-lg-1" style="width:fit-content;">
+                                    <span><i class="bi bi-download"></i></span>
+                                </div>
+                                <div class="col-lg-5" style="width:45%;">
+                                    BI Istimate
+                                </div>
+                            
+                            {% else %}
+                                <div class="col-lg-1 hidden-row6" style="width:fit-content;display: none;">
+                                    <span><i class="bi bi-download"></i></span>
+                                </div>
+                                <div class="col-lg-5 hidden-row6" style="width:45%;display: none;">
+                                    BI Istimate
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% if city|length > 9 %}
+                            <button id="show-more-btn6" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                            <button id="show-less-btn6" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+    function changetab(tabClass) {
+        if(tabClass==="subsidiar-statements"){
+            var tab=document.getElementById("subsidiary");
+            var tabBtn=document.getElementById("subsidiaryBtn");
+            tabBtn.style.fontWeight="bold";
+            tab.style.border="1px groove";
+            tab.style.borderBottom="none";
+            
+            var tab2=document.getElementById("other");
+            var tabBtn2=document.getElementById("otherBtn");
+            tabBtn2.style.fontWeight="";
+            tab2.style.border="none";
+            tab2.style.borderBottom="1px groove";
+        }
+        else{
+            var tab=document.getElementById("other");
+            var tabBtn=document.getElementById("otherBtn");
+            tabBtn.style.fontWeight="bold";
+            tab.style.border="1px groove";
+            tab.style.borderBottom="none";
+            tab.style.fontWeight="bold";
+            var tab2=document.getElementById("subsidiary");
+            var tabBtn2=document.getElementById("subsidiaryBtn");
+            tabBtn2.style.fontWeight="";
+            tab2.style.border="none";
+            tab2.style.borderBottom="1px groove";
+        }
+        // Hide all tab content
+        document.querySelectorAll('.subsidiar-statements, .other-document').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        // Show the selected tab content
+        document.querySelector(`.${tabClass}`).style.display = 'block';
+    }
+    </script>
+
+    
+  {% endblock content %}
+{% include "footer.html" %}

@@ -1,0 +1,1885 @@
+Plumb5SetAdCode();
+function Plumb5SetAdCode() {
+    if (document != undefined && (document.readyState === "interactive" || document.readyState == "complete")) {
+        SetAddCode();
+    }
+    else {
+        window.setTimeout(Plumb5SetAdCode, 10);
+    }
+}
+
+//var refreshId = setInterval(function () {
+//    //BindCountryCodeforInpage();
+//    SetAddCode();
+
+//    //let p5iframes = document.getElementsByTagName('iframe');
+//    //for (var i = 0; i < p5iframes.length; i++) {
+//    //    if (p5iframes[i].id.includes('Plumb5From')) {
+//    //        BindCountryCode(p5iframes[i].id);
+//    //        clearInterval(refreshId);
+//    //        break;
+//    //    }
+//    //}
+
+//}, 2000);
+
+function BindCountryCode(p5Iframeid) {
+    let placeholder = '';
+    let IframeElement = document.getElementById(p5Iframeid);
+    let innerDoc = IframeElement.contentDocument || IframeElement.contentWindow.document;
+    if (innerDoc != undefined && innerDoc.getElementById('ui_Field4')) {
+        placeholder = innerDoc.getElementById('ui_Field4').getAttribute("placeholder");
+    }
+
+    if (placeholder != '' && placeholder.toLowerCase() == "code") {
+        innerDoc.getElementById('ui_Field4').setAttribute("placeholder", '');
+        innerDoc.getElementById('ui_Field4').setAttribute("maxlength", 5)
+        $('#ui_Field4').bind('keypress', function (e) {
+            let regex = new RegExp("^[0-9-+]");
+            let key = String.fromCharCode(event.charCode ? event.which : event.charCode);
+            if (!regex.test(key)) {
+                event.preventDefault();
+                return false;
+            }
+        })
+        $.getJSON('https://p5whatsapp.godrejproperties.com/GetCountryCode?', function (data) {
+            //var Code = JSON.stringify(data);
+            CountryCodeData(p5Iframeid, data);
+        });
+    }
+
+}
+
+function CountryCodeData(p5Iframeid, Code) {
+    $.getJSON('https://www.godrejproperties.com/index.php/projects/getCountryCode/?cval=' + Code, function (data) {
+        let IpData = JSON.stringify(data);
+        IpData = JSON.parse(IpData);
+        let CountryCode = IpData.ccode;
+
+        let IframeElementtobind = document.getElementById(p5Iframeid);
+        let innerDoctobind = IframeElementtobind.contentDocument || IframeElement.contentWindow.document;
+        if (innerDoctobind != undefined) {
+            placeholder = innerDoctobind.getElementById('ui_Field4').value = CountryCode;
+        }
+    });
+}
+
+//autopopulate countrycode in inpage form
+
+function BindCountryCodeforInpage() {
+    var pageurl = parent.window.location.origin + parent.window.location.pathname;
+    if (pageurl != null) {
+        if (pageurl.includes("www.godrejproperties.com/bangalore/residential/godrej-aqua-intl/landingpage")) {
+            $.getJSON('http://p5whatsapp.godrejproperties.com/GetCountryCode?', function (datavalue) {
+                $('#txt_country').val(datavalue.toLowerCase()).change();
+                //BindInpageCode(datavalue.toLowerCase());
+            });
+        }
+    }
+}
+
+//Bind Add code
+function SetAddCode() {
+    var pageUrl = parent.document.URL.toLowerCase();
+
+    if (pageUrl.indexOf("utm_campid") <= -1) {
+        var CheckForAddCodeDetails = GetAddCode();
+        if (CheckForAddCodeDetails.IsValueExists) {
+            window.MainVisitorDetails.UtmTagDetails.utm_term = CheckForAddCodeDetails.AddCode == 0 || CheckForAddCodeDetails.AddCode == undefined ? '00000' : CheckForAddCodeDetails.AddCode.toString();
+        }
+        else
+            window.MainVisitorDetails.UtmTagDetails.utm_term = '00000';
+    }
+};
+
+function GetAddCode() {
+    var returnValue = { AddCode: 0, IsValueExists: false }
+    var CampId = 0;
+    CampId = parent.TrackingUtil.GetQueryString(parent.window.location.href.toString(), 'campid');
+
+    if (CampId > 0) {
+        returnValue.AddCode = CampId;
+        returnValue.IsValueExists = true;
+    }
+    else {
+        var UrlPath = parent.window.location.pathname;
+        var AddCode;
+
+        if (UrlPath.length > 0) {
+            UrlPath = UrlPath.charAt(UrlPath.length - 1) == "/" ? UrlPath.slice(0, -1) : UrlPath;
+            UrlPath = UrlPath.substring(UrlPath.lastIndexOf('/') + 1);
+
+            AddCode = parseInt(UrlPath, 10)
+
+            if (typeof AddCode === 'number' && isFinite(AddCode)) {
+
+                returnValue.AddCode = AddCode;
+                returnValue.IsValueExists = true;
+            }
+            else {
+
+                var url = parent.window.location.origin + parent.window.location.pathname;
+                if (url != null) {
+
+                    if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-summit-gurgaon/landingpage")) {
+                        returnValue.AddCode = 48163;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-aria/landingpage")) {
+                        returnValue.AddCode = 51250;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/landingpage")) {
+                        returnValue.AddCode = 48176;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-avenues/landingpage")) {
+                        returnValue.AddCode = 48193;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-eternity/landingpage")) {
+                        returnValue.AddCode = 48194;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/landingpage")) {
+                        returnValue.AddCode = 61370;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-nirvaan/landingpage")) {
+                        returnValue.AddCode = 59507;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/landingpage")) {
+                        returnValue.AddCode = 62943;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/chandigarh/commercial/godrej-eternia/landingpage")) {
+                        returnValue.AddCode = 48166;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/landingpage")) {
+                        returnValue.AddCode = 52456;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-lake-gardens/landingpage")) {
+                        returnValue.AddCode = 58508;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/landingpage")) {
+                        returnValue.AddCode = 59014;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-air-sector-85/landingpage")) {
+                        returnValue.AddCode = 55538;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-meridien-prive/landingpage")) {
+                        returnValue.AddCode = 53907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/pune/residential/godrej-nurture/landingpage")) {
+                        returnValue.AddCode = 58188;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-aqua-intl/landingpage")) {
+                        returnValue.AddCode = 53695;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/landingpage")) {
+                        returnValue.AddCode = 52389;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/bangalore/godrej-air-nxt")) {
+                        returnValue.AddCode = 50790;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/bangalore/godrej-united")) {
+                        returnValue.AddCode = 48149;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/bangalore/godrej-reserve")) {
+                        returnValue.AddCode = 48197;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/landingpage")) {
+                        returnValue.AddCode = 48206;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/mumbai/godrej-prime")) {
+                        returnValue.AddCode = 48200;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/gurgaon/godrej-meridien")) {
+                        returnValue.AddCode = 53907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/noida/godrej-golf-link")) {
+                        returnValue.AddCode = 48208;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/pune/godrej-rejuve")) {
+                        returnValue.AddCode = 56227;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/pune/godrej-24")) {
+                        returnValue.AddCode = 52242;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/mumbai/godrej-nest")) {
+                        returnValue.AddCode = 57238;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/mumbai/godrej-exquisite")) {
+                        returnValue.AddCode = 62943;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/bangalore/godrej-avenues")) {
+                        returnValue.AddCode = 48193;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/bangalore/godrej-nurture")) {
+                        returnValue.AddCode = 61370;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/gurgaon/godrej-summit")) {
+                        returnValue.AddCode = 48163;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/delhi/godrej-south-estate")) {
+                        returnValue.AddCode = 59014;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/hope-has-a-plan/pune/godrej-elements")) {
+                        returnValue.AddCode = 54799;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/landingpage")) {
+                        returnValue.AddCode = 69138;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/overview") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/location") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/amenities") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/images") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/download") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/compliances") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/contactus")) {
+                        returnValue.AddCode = 52389;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/pune/residential/godrej-parkridge/overview") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-parkridge/location") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-parkridge/amenities") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-parkridge/images") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-parkridge/download") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-parkridge/contactus")) {
+                        returnValue.AddCode = 70889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/overview") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/location") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/amenities") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/images") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/download") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/compliances") ||
+                        url.includes("www.godrejproperties.com/pune/residential/godrej-rejuve/contactus")) {
+                        returnValue.AddCode = 56227;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/noida/residential/godrej-golf-links/overview") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-golf-links/location") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-golf-links/amenities") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-golf-links/images") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-golf-links/download") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-golf-links/contactus")) {
+                        returnValue.AddCode = 48208;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/noida/residential/godrej-nest/overview") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/location") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/masterplan") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/amenities") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/images") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/download") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/contactus") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/walkthrough") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-nest/constructionstatus")) {
+                        returnValue.AddCode = 51546;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/overview") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/location") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/amenities") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/images") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/download") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/contactus") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/walkthrough") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-royale-woods/tour")) {
+                        returnValue.AddCode = 63021;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda-3/landingpage")) {
+                        returnValue.AddCode = 71703;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/noida/residential/godrej-woods/overview") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-woods/location") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-woods/amenities") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-woods/images") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-woods/walkthrough") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-woods/download") ||
+                        url.includes("www.godrejproperties.com/noida/residential/godrej-woods/contactus")) {
+                        returnValue.AddCode = 62498;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/overview") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/location") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/amenities") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/images") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/walkthrough") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/constructionstatus") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/download") ||
+                        url.includes("www.godrejproperties.com/delhi/residential/godrej-south-estate/contactus")) {
+                        returnValue.AddCode = 59014;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/overview") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/location") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/amenities") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/images") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/constructionstatus") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/download") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/compliances") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-emerald/contactus")) {
+                        returnValue.AddCode = 48206;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/overview") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/location") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/amenities") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/images") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/download") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/compliances") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/contactus") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-rks/landingpage")) {
+                        returnValue.AddCode = 59626;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/location") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/amenities") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/images") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/download") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/compliances") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/contactus") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-vihaa/landingpage")) {
+                        returnValue.AddCode = 51345;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/location") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/amenities") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/images") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/walkthrough") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/download") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/compliances") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-exquisite/contactus")) {
+                        returnValue.AddCode = 62943;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/overview") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/location") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/amenities") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/images") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/walkthrough") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/download") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/compliances") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-upavan/contactus")) {
+                        returnValue.AddCode = 69138;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/overview") ||
+                        url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/location") ||
+                        url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/amenities") ||
+                        url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/images") ||
+                        url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/walkthrough") ||
+                        url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/download") ||
+                        url.includes("www.godrejproperties.com/kolkata/residential/godrej-seven/contactus")) {
+                        returnValue.AddCode = 52456;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/overview") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/location") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/amenities") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/images") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/walkthrough") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/download") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-nurture/contactus")) {
+                        returnValue.AddCode = 61370;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejthetrees.com")) {
+                        returnValue.AddCode = 48161;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/overview") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/location") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/floorplans") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/amenities") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/images") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/walkthrough") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/constructionstatus") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/tour") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/download") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/compliances") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/contactus") ||
+                        url.includes("www.godrejproperties.com/chennai/residential/godrej-palm-grove/bookingform")) {
+                        returnValue.AddCode = 48178;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/overview") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/location") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/amenities") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/images") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/tour") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/download") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/compliances") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-platinum/contactus")) {
+                        returnValue.AddCode = 48167;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/overview") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/location") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/amenities") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/images") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/constructionstatus") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/tour") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/download") ||
+                        url.includes("www.godrejproperties.com/bangalore/residential/godrej-gold-county/contactus")) {
+                        returnValue.AddCode = 48185;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/overview") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/location") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/amenities") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/images") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/constructionstatus") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/download") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/compliances") ||
+                        url.includes("www.godrejproperties.com/gurgaon/residential/godrej-oasis/contactus")) {
+                        returnValue.AddCode = 48176;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/overview") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/location") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/masterplan") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/amenities") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/images") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/walkthrough") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/download") ||
+                        url.includes("www.godrejproperties.com/mumbai/residential/godrej-platinum/contactus")) {
+                        returnValue.AddCode = 48156;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/images") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/constructionstatus") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/download") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/compliances") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-summit/contactus")) {
+                        returnValue.AddCode = 48163;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/constructionstatus") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/download") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/compliances") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-e-city/contactus")) {
+                        returnValue.AddCode = 48186;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/constructionstatus") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/compliances") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-central/contactus")) {
+                        returnValue.AddCode = 48175;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/commercial/godrej-bkc/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/commercial/godrej-bkc/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/commercial/godrej-bkc/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/commercial/godrej-bkc/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/commercial/godrej-bkc/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/commercial/godrej-bkc/contactus")) {
+                        returnValue.AddCode = 48154;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/tour") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/download") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/compliances") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-united/contactus")) {
+                        returnValue.AddCode = 48149;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/masterplan") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/constructionstatus") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/download") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/compliances") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-prana/contactus")) {
+                        returnValue.AddCode = 48157;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/images") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/compliances") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/contactus")) {
+                        returnValue.AddCode = 48199;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/images") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/constructionstatus") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/download") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/compliances") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/contactus")) {
+                        returnValue.AddCode = 51250;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/compliances") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-prime/contactus")) {
+                        returnValue.AddCode = 48200;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/ahmedabad/residential/green-glades-at-godrej-garden-city")) {
+                        returnValue.AddCode = 69654;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/chennai/residential/godrej-azure")) {
+                        returnValue.AddCode = 48202;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-101")) {
+                        returnValue.AddCode = 35687;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-eternity")) {
+                        returnValue.AddCode = 48194;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-avenues")) {
+                        returnValue.AddCode = 48193;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-air-nxt")) {
+                        returnValue.AddCode = 50790;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/chandigarh/commercial/godrej-eternia")) {
+                        returnValue.AddCode = 48166;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens")) {
+                        returnValue.AddCode = 48209;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/landingpage")) {
+                        returnValue.AddCode = 49849;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-reflections")) {
+                        returnValue.AddCode = 53026;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-meridien")) {
+                        returnValue.AddCode = 53907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-aqua")) {
+                        returnValue.AddCode = 53695;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-reserve")) {
+                        returnValue.AddCode = 48197;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture")) {
+                        returnValue.AddCode = 56079;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-air-sector-85")) {
+                        returnValue.AddCode = 55538;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens")) {
+                        returnValue.AddCode = 56831;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture")) {
+                        returnValue.AddCode = 58188;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-24")) {
+                        returnValue.AddCode = 58442;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-lake-gardens")) {
+                        returnValue.AddCode = 58508;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat")) {
+                        returnValue.AddCode = 58238;
+                        returnValue.IsValueExists = true;
+                    }
+                    //else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside")) {
+                    //    returnValue.AddCode = 62304;
+                    //    returnValue.IsValueExists = true;
+                    //}
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove")) {
+                        returnValue.AddCode = 61219;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/the-rivergreens")) {
+                        returnValue.AddCode = 63182;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/faridabad/residential/godrej-retreat")) {
+                        returnValue.AddCode = 65563;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/ahmedabad/residential/vanaangan-at-godrejgardencity")) {
+                        returnValue.AddCode = 69655;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove")) {
+                        returnValue.AddCode = 66963;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas")) {
+                        returnValue.AddCode = 69340;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-woodland")) {
+                        returnValue.AddCode = 69127;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/landingpage")) {
+                        returnValue.AddCode = 59617;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/landingpage")) {
+                        returnValue.AddCode = 78162;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/landingpage")) {
+                        returnValue.AddCode = 79836;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/landingpage")) {
+                        returnValue.AddCode = 79826;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/landingpage")) {
+                        returnValue.AddCode = 69304;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/sonipat/plotted/godrej-green-estate/overview") ||
+                        url.includes("https://www.godrejproperties.com/sonipat/plotted/godrej-green-estate/location") ||
+                        url.includes("https://www.godrejproperties.com/sonipat/plotted/godrej-green-estate/amenities") ||
+                        url.includes("https://www.godrejproperties.com/sonipat/plotted/godrej-green-estate/images")) {
+                        returnValue.AddCode = 81849;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("www.godrejproperties.com/noida/residential/godrej-tropical-isle/overview") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-tropical-isle/location") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-tropical-isle/amenities") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-tropical-isle/images")) {
+                        returnValue.AddCode = 85889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat-2/landingpage")) {
+                        returnValue.AddCode = 76310;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-elevate/landingpage")) {
+                        returnValue.AddCode = 80588;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/landingpage") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena-2/landingpage")) {
+                        returnValue.AddCode = 84115;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/landingpage")){ 
+                        returnValue.AddCode = 82159;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/landingpage")) {
+                        returnValue.AddCode = 84115;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/landingpage")) {
+                        returnValue.AddCode = 80306;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/landingpage")) {
+                        returnValue.AddCode = 84133;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/landingpage")) {
+                        returnValue.AddCode = 78018;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/landingpage")) {
+                        returnValue.AddCode = 86441;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/landingpage")) {
+                        returnValue.AddCode = 51235;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/landingpage")) {
+                        returnValue.AddCode = 69304;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/landingpage")) {
+                        returnValue.AddCode = 59617;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/chennai/plotted/godrej-sunrise-estate/landingpage")) {
+                        returnValue.AddCode = 86715;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/blog/godrej-athena-luxury-home-in-indiranagar")) {
+                        returnValue.AddCode = 88447;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/blog/live-the-best-life-at-godrej-park-retreat")) {
+                        returnValue.AddCode = 88445;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/blog/connectivity-and-connectedness-a-way-of-life-at-godrej-park-retreat")) {
+                        returnValue.AddCode = 88445;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/blog/reasons-to-invest-in-orchard-at-godrej-seven-joka-kolkata")) {
+                        returnValue.AddCode = 88446;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture/overview") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture/location") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture/amenities") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture/images")) {
+                        returnValue.AddCode = 56079;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest/overview") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest/location") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest/masterplan") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest/images") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest/amenities")) {
+                        returnValue.AddCode = 51546;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-oasis/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-oasis/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-oasis/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-oasis/images")) {
+                        returnValue.AddCode = 48176;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/images")) {
+                        returnValue.AddCode = 48199;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/images")) {
+                        returnValue.AddCode = 51250;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-101/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-101/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-101/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-101/images")) {
+                        returnValue.AddCode = 35687;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-meridien/overview") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-meridien/location") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-meridien/amenities") ||
+                        url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-meridien/images")) {
+                        returnValue.AddCode = 53907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/faridabad/plotted/godrej-retreat/overview") ||
+                        url.includes("https://www.godrejproperties.com/faridabad/plotted/godrej-retreat/location") ||
+                        url.includes("https://www.godrejproperties.com/faridabad/plotted/godrej-retreat/amenities") ||
+                        url.includes("https://www.godrejproperties.com/faridabad/plotted/godrej-retreat/images")) {
+                        returnValue.AddCode = 65563;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kurukshetra/plotted/godrej-parkland-estate/overview") ||
+                        url.includes("https://www.godrejproperties.com/kurukshetra/plotted/godrej-parkland-estate/location") ||
+                        url.includes("https://www.godrejproperties.com/kurukshetra/plotted/godrej-parkland-estate/amenities") ||
+                        url.includes("https://www.godrejproperties.com/kurukshetra/plotted/godrej-parkland-estate/images")) {
+                        returnValue.AddCode = 86192;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat/overview") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat/location") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat/amenities") ||
+                        url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat/images")) {
+                        returnValue.AddCode = 58238;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens/landingpage") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens/download")) {
+                        returnValue.AddCode = 82430;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon/compliances")) {
+                        returnValue.AddCode = 67106;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend/compliances")) {
+                        returnValue.AddCode = 79836;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera/compliances")) {
+                        returnValue.AddCode = 78162;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview/compliances")) {
+                        returnValue.AddCode = 59617;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/overview/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park/overview/compliances")) {
+                        returnValue.AddCode = 69304;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/overview/compliances")) {
+                        returnValue.AddCode = 69138;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city/overview/compliances")) {
+                        returnValue.AddCode = 51235;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/overview/compliances")) {
+                        returnValue.AddCode = 62943;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-rks/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-rks/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-rks/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-rks/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-rks/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-rks/overview/compliances")) {
+                        returnValue.AddCode = 59626;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan/overview/compliances")) {
+                        returnValue.AddCode = 59501;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/compliances")) {
+                        returnValue.AddCode = 57238;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/overview/compliances")) {
+                        returnValue.AddCode = 49849;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/overview/compliances")) {
+                        returnValue.AddCode = 30029;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vihaa/overview/compliances")) {
+                        returnValue.AddCode = 48207;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-country-estate/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-country-estate/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-country-estate/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-country-estate/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-country-estate/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-country-estate/overview/compliances")) {
+                        returnValue.AddCode = 82504;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss/overview/compliances")) {
+                        returnValue.AddCode = 86441;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-city/overview") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-city/overview/location") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-city/overview/amenities") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-city/overview/images") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-city/overview/download") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-city/overview/compliances")) {
+                        returnValue.AddCode = 51235;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/sonipat/plotted/godrej-green-estate/walkthrough")) {
+                        returnValue.AddCode = 81849;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kurukshetra/plotted/godrej-parkland-estate/walkthrough")) {
+                        returnValue.AddCode = 86192;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/faridabad/plotted/godrej-retreat/walkthrough")) {
+                        returnValue.AddCode = 65563;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/chandigarh/commercial/godrej-eternia/walkthrough")) {
+                        returnValue.AddCode = 48166;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-tropical-isle/walkthrough")) {
+                        returnValue.AddCode = 85889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-woods/walkthrough")) {
+                        returnValue.AddCode = 62498;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat/walkthrough")) {
+                        returnValue.AddCode = 58238;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture/walkthrough")) {
+                        returnValue.AddCode = 56079;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-golf-links/walkthrough")) {
+                        returnValue.AddCode = 48208;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest/walkthrough")) {
+                        returnValue.AddCode = 51546;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-habitat/walkthrough")) {
+                        returnValue.AddCode = 67506;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-air/walkthrough")) {
+                        returnValue.AddCode = 55539;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-meridien/walkthrough")) {
+                        returnValue.AddCode = 53907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-nature-plus/walkthrough")) {
+                        returnValue.AddCode = 52389;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-101/walkthrough")) {
+                        returnValue.AddCode = 35687;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-aria/walkthrough")) {
+                        returnValue.AddCode = 51250;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-icon/walkthrough")) {
+                        returnValue.AddCode = 48199;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurgaon/residential/godrej-oasis/walkthrough")) {
+                        returnValue.AddCode = 48176;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat/walkthrough")) {
+                        returnValue.AddCode = 76310;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/walkthrough")) {
+                        returnValue.AddCode = 84115;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-splendour/walkthrough")) {
+                        returnValue.AddCode = 80588;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda/walkthrough")) {
+                        returnValue.AddCode = 71703;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/plotted/godrej-woodland/walkthrough")) {
+                        returnValue.AddCode = 69127;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/walkthrough")) {
+                        returnValue.AddCode = 88204;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters/walkthrough")) {
+                        returnValue.AddCode = 86603;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/walkthrough")) {
+                        returnValue.AddCode = 84133;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/walkthrough")) {
+                        returnValue.AddCode = 84083;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/walkthrough")) {
+                        returnValue.AddCode = 83539;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/walkthrough")) {
+                        returnValue.AddCode = 80306;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/walkthrough")) {
+                        returnValue.AddCode = 78018;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/walkthrough")) {
+                        returnValue.AddCode = 76901;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows/walkthrough")) {
+                        returnValue.AddCode = 76913;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/walkthrough")) {
+                        returnValue.AddCode = 70889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/walkthrough")) {
+                        returnValue.AddCode = 69340;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/walkthrough")) {
+                        returnValue.AddCode = 66963;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/walkthrough")) {
+                        returnValue.AddCode = 61219;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/walkthrough")) {
+                        returnValue.AddCode = 58188;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/walkthrough")) {
+                        returnValue.AddCode = 56831;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/walkthrough")) {
+                        returnValue.AddCode = 54799;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/commercial/godrej-carnival/walkthrough")) {
+                        returnValue.AddCode = 83777;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/walkthrough")) {
+                        returnValue.AddCode = 77273;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/retreat-at-godrej-prakriti/walkthrough")) {
+                        returnValue.AddCode = 48189;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/commercial/godrej-waterside/walkthrough")) {
+                        returnValue.AddCode = 48172;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/ahmedabad/residential/celeste-at-godrej-garden-city/walkthrough")) {
+                        returnValue.AddCode = 54511;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-elements/walkthrough")) {
+                        returnValue.AddCode = 54799;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/nagpur/plotted/godrej-orchard-estate/overview") ||
+                        url.includes("https://www.godrejproperties.com/nagpur/plotted/godrej-orchard-estate/location") ||
+                        url.includes("https://www.godrejproperties.com/nagpur/plotted/godrej-orchard-estate/amenities") ||
+                        url.includes("https://www.godrejproperties.com/nagpur/plotted/godrej-orchard-estate/images") ||
+                        url.includes("https://www.godrejproperties.com/nagpur/plotted/godrej-orchard-estate/download")) {
+                        returnValue.AddCode = 81719;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/chennai/plotted/godrej-sunrise-estate/overview") ||
+                        url.includes("https://www.godrejproperties.com/chennai/plotted/godrej-sunrise-estate/location") ||
+                        url.includes("https://www.godrejproperties.com/chennai/plotted/godrej-sunrise-estate/amenities") ||
+                        url.includes("https://www.godrejproperties.com/chennai/plotted/godrej-sunrise-estate/walkthrough") ||
+                        url.includes("https://www.godrejproperties.com/chennai/plotted/godrej-sunrise-estate/download")) {
+                        returnValue.AddCode = 86715;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/overview") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/location") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/amenities") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/images") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-se7en/download")) {
+                        returnValue.AddCode = 82159;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/retreat-at-godrej-prakriti/overview") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/retreat-at-godrej-prakriti/location") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/retreat-at-godrej-prakriti/amenities") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/retreat-at-godrej-prakriti/images") ||
+                        url.includes("https://www.godrejproperties.com/kolkata/residential/retreat-at-godrej-prakriti/download")) {
+                        returnValue.AddCode = 75510;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/plotted/godrej-woodland/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/plotted/godrej-woodland/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/plotted/godrej-woodland/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/plotted/godrej-woodland/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/plotted/godrej-woodland/download")) {
+                        returnValue.AddCode = 69127;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-park-retreat/download")) {
+                        returnValue.AddCode = 76310;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena/download")) {
+                        returnValue.AddCode = 84115;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-splendour/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-splendour/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-splendour/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-splendour/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-splendour/download")) {
+                        returnValue.AddCode = 80588;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda/overview") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda/location") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda/amenities") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda/images") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-ananda/download")) {
+                        returnValue.AddCode = 71703;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/download")) {
+                        returnValue.AddCode = 88204;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters/location") ||
+                        url.includes("https://godrejproperties.com/pune/residential/godrej-emerald-waters/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters/download")) {
+                        returnValue.AddCode = 86603;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3/download")) {
+                        returnValue.AddCode = 86289;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/download")) {
+                        returnValue.AddCode = 84133;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/download")) {
+                        returnValue.AddCode = 84083;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/download") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/compliances")) {
+                        returnValue.AddCode = 83539;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/download")) {
+                        returnValue.AddCode = 80306;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/download")) {
+                        returnValue.AddCode = 78018;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/download")) {
+                        returnValue.AddCode = 76901;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows/download")) {
+                        returnValue.AddCode = 76913;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/download")) {
+                        returnValue.AddCode = 70889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/download")) {
+                        returnValue.AddCode = 69340;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/download")) {
+                        returnValue.AddCode = 66963;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/download") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/compliances")) {
+                        returnValue.AddCode = 61219;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside/download")) {
+                        returnValue.AddCode = 59055;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/download") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/compliances")) {
+                        returnValue.AddCode = 58188;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/download") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/compliances")) {
+                        returnValue.AddCode = 56831;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/download")) {
+                        returnValue.AddCode = 48209;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-elements/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-elements/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-elements/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-elements/walkthrough")) {
+                        returnValue.AddCode = 54799;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/commercial/godrej-carnival/overview") ||
+                        url.includes("https://www.godrejproperties.com/pune/commercial/godrej-carnival/location") ||
+                        url.includes("https://www.godrejproperties.com/pune/commercial/godrej-carnival/amenities") ||
+                        url.includes("https://www.godrejproperties.com/pune/commercial/godrej-carnival/images") ||
+                        url.includes("https://www.godrejproperties.com/pune/commercial/godrej-carnival/download")) {
+                        returnValue.AddCode = 83777;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-ascend")) {
+                        returnValue.AddCode = 79836;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-horizon")) {
+                        returnValue.AddCode = 79826;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens")) {
+                        returnValue.AddCode = 82430;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nirvaan")) {
+                        returnValue.AddCode = 59507;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-urban-park")) {
+                        returnValue.AddCode = 69304;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan")) {
+                        returnValue.AddCode = 69138;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/the-highlands-at-godrej-city")) {
+                        returnValue.AddCode = 51235;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite")) {
+                        returnValue.AddCode = 62943;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-riviera")) {
+                        returnValue.AddCode = 78162;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-aristocrat")) {
+                        returnValue.AddCode = 89097;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-tropical-isle")) {
+                        returnValue.AddCode = 85889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-woods")) {
+                        returnValue.AddCode = 62498;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-meridien")) {
+                        returnValue.AddCode = 53907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-golf-links")) {
+                        returnValue.AddCode = 48208;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-nature-plus")) {
+                        returnValue.AddCode = 52389;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nest-noida")) {
+                        returnValue.AddCode = 51546;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-101")) {
+                        returnValue.AddCode = 35687;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-palm-retreat")) {
+                        returnValue.AddCode = 58238;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-nurture")) {
+                        returnValue.AddCode = 56079;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-aria")) {
+                        returnValue.AddCode = 51250;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-icon")) {
+                        returnValue.AddCode = 48199;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-habitat")) {
+                        returnValue.AddCode = 67506;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-air")) {
+                        returnValue.AddCode = 55539;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-oasis")) {
+                        returnValue.AddCode = 48176;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-summit")) {
+                        returnValue.AddCode = 51244;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/sonipat/residential/godrej-green-estate")) {
+                        returnValue.AddCode = 81849;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/faridabad/residential/godrej-retreat")) {
+                        returnValue.AddCode = 65563;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/chennai/residential/godrej-sunrise-estate")) {
+                        returnValue.AddCode = 86715;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bengaluru/residential/godrej-athena")) {
+                        returnValue.AddCode = 84115;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bengaluru/residential/godrej-ananda")) {
+                        returnValue.AddCode = 71703;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/bengaluru/residential/godrej-splendour")) {
+                        returnValue.AddCode = 80588;
+                        returnValue.IsValueExists = true;
+                    }
+
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/orchard-at-godrej-seven")) {
+                        returnValue.AddCode = 82159;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/nagpur/residential/godrej-orchard-estate")) {
+                        returnValue.AddCode = 81719;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale")) {
+                        returnValue.AddCode = 88204;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters")) {
+                        returnValue.AddCode = 86603;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene")) {
+                        returnValue.AddCode = 83539;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat")) {
+                        returnValue.AddCode = 84133;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove")) {
+                        returnValue.AddCode = 61219;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside")) {
+                        returnValue.AddCode = 59055;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2")) {
+                        returnValue.AddCode = 78018;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hill-retreat-2")) {
+                        returnValue.AddCode = 84083;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge")) {
+                        returnValue.AddCode = 70889;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hill-retreat")) {
+                        returnValue.AddCode = 72613;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville")) {
+                        returnValue.AddCode = 80306;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens")) {
+                        returnValue.AddCode = 76901;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-rejuve")) {
+                        returnValue.AddCode = 56227;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens")) {
+                        returnValue.AddCode = 56831;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove")) {
+                        returnValue.AddCode = 66963;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas")) {
+                        returnValue.AddCode = 69340;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture-pune")) {
+                        returnValue.AddCode = 58188;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens")) {
+                        returnValue.AddCode = 48209;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/delhi/residential/godrej-prima") ||
+                        url.includes("https://www.godrejproperties.com/delhi/residential/godrej-south-estate")) {
+                        returnValue.AddCode = 84335;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/elevate-godrej-se7en")) {
+                        returnValue.AddCode = 90938;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/kolkata/residential/elevate-at-godrej-seven/landingpage")) {
+                        returnValue.AddCode = 90938;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/nagpur/residential/godrej-forest-estate")) {
+                        returnValue.AddCode = 90907;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/gurugram/residential/godrej-zenith")) {
+                        returnValue.AddCode = 90210;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/noida/residential/godrej-jardinia")) {
+                        returnValue.AddCode = 90448;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-reserve")) {
+                        returnValue.AddCode = 89873;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vistas")) {
+                        returnValue.AddCode = 88605;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-sky-terraces")) {
+                        returnValue.AddCode = 88617;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/the-gale-at-godrej-park-world")) {
+                        returnValue.AddCode = 89840;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-river-royale/landingpage")) {
+                        returnValue.AddCode = 88204;
+                        returnValue.IsValueExists = true;
+                    }
+                    else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-emerald-waters/landingpage")) {
+                        returnValue.AddCode = 86603;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-serene/landingpage")) {
+                        returnValue.AddCode = 83539;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-urban-retreat/landingpage")) {
+                        returnValue.AddCode = 84133;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-forest-grove/landingpage")) {
+                        returnValue.AddCode = 61219;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside/landingpage")) {
+                        returnValue.AddCode = 59055;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-meadows-2/landingpage")) {
+                        returnValue.AddCode = 78018;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/skyavenue-godrej-hill-retreat-2/landingpage")) {
+                        returnValue.AddCode = 84083;
+                        returnValue.IsValueExists = true;
+                    }
+                   else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-parkridge/landingpage")) {
+                        returnValue.AddCode = 70889;
+                        returnValue.IsValueExists = true;
+                    }
+                  else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hill-retreat/landingpage")) {
+                        returnValue.AddCode = 72613;
+                        returnValue.IsValueExists = true;
+                    }
+                  else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-woodsville/landingpage")) {
+                        returnValue.AddCode = 80306;
+                        returnValue.IsValueExists = true;
+                    }
+                  else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-sky-greens/landingpage")) {
+                        returnValue.AddCode = 76901;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-rejuve/landingpage")) {
+                        returnValue.AddCode = 56227;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-park-greens/landingpage")) {
+                        returnValue.AddCode = 56831;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-cove/landingpage")) {
+                        returnValue.AddCode = 66963;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-green-vistas/landingpage")) {
+                        returnValue.AddCode = 69340;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-nurture/landingpage")) {
+                        returnValue.AddCode = 58188;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-greens/landingpage")) {
+                        returnValue.AddCode = 48209;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/the-rivergreens/landingpage")) {
+                        returnValue.AddCode = 63182;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/plotted/godrej-eden-estate-phase-1-2/landingpage")) {
+                        returnValue.AddCode = 87457;
+                        returnValue.IsValueExists = true;
+                    }
+                 else if (url.includes("https://www.godrejproperties.com/pune/residential/the-gale-at-godrej-park-world/landingpage")) {
+                        returnValue.AddCode = 89840;
+                        returnValue.IsValueExists = true;
+                    }
+                else if (url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-athena-2/landingpage")) {
+                        returnValue.AddCode = 84115;
+                        returnValue.IsValueExists = true;
+                    }
+                else if (url.includes("https://www.godrejproperties.com/nagpur/plotted/godrej-forest-estate/landingpage")) {
+                        returnValue.AddCode = 90907;
+                        returnValue.IsValueExists = true;
+                    }
+                else if (url.includes("https://www.godrejproperties.com/bengaluru/residential/godrej-woodscapes") ||
+                        url.includes("https://www.godrejproperties.com/bangalore/residential/godrej-woodscapes/landingpage")) {
+                        returnValue.AddCode = 89390;
+                        returnValue.IsValueExists = true;
+                    }
+                else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3/landingpage") ||
+                        url.includes("https://www.godrejproperties.com/pune/residential/godrej-hillside-3")) {
+                        returnValue.AddCode = 86289;
+                        returnValue.IsValueExists = true;
+                    }
+               else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-sky-terraces-chembur/landingpage")) {
+                        returnValue.AddCode = 88617;
+                        returnValue.IsValueExists = true;
+                    }
+                else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-five-gardens/landingpage")) {
+                        returnValue.AddCode = 82430;
+                        returnValue.IsValueExists = true;
+                    }
+               else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-upavan/landingpage")) {
+                        returnValue.AddCode = 69138;
+                        returnValue.IsValueExists = true;
+                    }
+               else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-exquisite/landingpage")) {
+                        returnValue.AddCode = 62943;
+                        returnValue.IsValueExists = true;
+                    }
+             else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bliss")) {
+                        returnValue.AddCode = 86441;
+                        returnValue.IsValueExists = true;
+                    }
+              else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/landingpage") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest")) {
+                        returnValue.AddCode = 57238;
+                        returnValue.IsValueExists = true;
+                    }
+               else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil/landingpage") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-tranquil")) {
+                        returnValue.AddCode = 49849;
+                        returnValue.IsValueExists = true;
+                    }
+              else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-bayview")) {
+                        returnValue.AddCode = 59617;
+                        returnValue.IsValueExists = true;
+                    }
+              else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-reserve/landingpage")) {
+                        returnValue.AddCode = 89873;
+                        returnValue.IsValueExists = true;
+                    }
+              else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-vistas/landingpage")) {
+                        returnValue.AddCode = 88605;
+                        returnValue.IsValueExists = true;
+                    }
+               else if (url.includes("https://www.godrejproperties.com/mumbai/plotted/godrej-hillview-estate/landingpage") ||
+                        url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-hillview-estate")) {
+                        returnValue.AddCode = 88413;
+                        returnValue.IsValueExists = true;
+                    }
+              else if (url.includes("https://www.godrejproperties.com/mumbai/residential/godrej-nest/landingpage")) {
+                        returnValue.AddCode = 57238;
+                        returnValue.IsValueExists = true;
+                    }
+              else if (url.includes("https://www.godrejproperties.com/pune/residential/godrej-eden-estate-phase-1-2")) {
+                        returnValue.AddCode = 87457;
+                        returnValue.IsValueExists = true;
+                    }
+
+                 else if (url.split('/')[5] != undefined && url.split('/')[5] != null && url.split('/')[5] != "" && url.split('/')[6] != undefined && url.split('/')[6] != null && url.split('/')[6] != "") {
+                        if (url.split('/')[5] == "godrej-hillside" && url.split('/')[6] == "landingpage") {
+                            returnValue.AddCode = 62304;
+                            returnValue.IsValueExists = true;
+                        }
+                        else if (url.split('/')[5] == "godrej-hillside-3" && url.split('/')[6] == "walkthrough") {
+                            returnValue.AddCode = 86289;
+                            returnValue.IsValueExists = true;
+                        }
+                        else if (url.indexOf("godrej-hillside" && url.split('/')[6] == "walkthrough")) {
+                            returnValue.AddCode = 59055;
+                            returnValue.IsValueExists = true;
+                        }
+                    }
+                    else
+                        returnValue.IsValueExists = false;
+                }
+            }
+        }
+    }
+    return returnValue;
+}

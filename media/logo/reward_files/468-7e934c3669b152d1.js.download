@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[468],{20468:function(e,n,t){t.d(n,{theObj:function(){return i}});let i={initial:"offscreen",whileInView:"onscreen",viewport:{once:!0,amount:.5}};n.Z={offscreen:{y:0,opacity:.1},onscreen:{opacity:1,y:0,transition:{type:"bounce",duration:.5}}}}}]);

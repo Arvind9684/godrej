@@ -1,0 +1,822 @@
+{% include "project_base.html" %}
+{% include "investormenu.html" %}
+<style>
+    .qipBtn{
+        border: 1px solid black;
+        border-radius: 0px 0px 0px 0px;
+        padding:10px;
+    }
+    .qipBtn:hover{
+        background-color: black;
+        color:white;
+    }
+</style>    
+{% block content %}
+<img src="../media/image/compliance.webp" alt="image" style="height:500px;width:100%;">
+<div class="row ml-lg-5 ml-sm-0" >
+    <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
+        <h3>
+            <span style="float:left;color:white"><h1>Compliances</h1></span>
+        </h3>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-lg-12 col-lg-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {{regulations}}" aria-current="page" href="compliances" id="regulations">LISTING REGULATIONS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ballot}}" href="ballot" id="ballot">POSTAL BALLOT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{dividend}}" href="dividend"  id="dividend">UNCLAIMED / UNPAID DIVIDEND</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{esop}}" href="esop" id="esop">ESOP DETAILS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{qip}}" href="qip" id="qip">QIP</a>
+            </li>
+            <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false" onclick="listingMenu('more')" id="more">
+                    More
+                </button>
+            </li>
+            <li class="nav-item dropup">
+                <button class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false" onclick="listingMenu('less')" id="less" style="display:none;">
+                    Less
+                </button>
+            </li>
+        </ul>
+
+    </div>
+    <div class="col-lg-12 col-lg-12" id="submenu" style="display: none;">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {{scheme}}" aria-current="page" href="scheme" id="scheme">SCHEME OF AMALGAMATION</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{credit}}" href="credit" id="credit">CREDIT RATING</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{procedure}}" href="procedure" id="procedure">PROCEDURE OF CLAIMING SHARES AND DIVIDEND FROM IEPF</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{egm}}" href="egm" id="egm">EGM</a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</div>
+{% if regulations %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Listing Regulations</h1><br>
+                <p>
+                    Listing regulations are a prerequisite and it is mandatory for all our companies to meet the laid down set of conditions.
+                </p><br>
+                <select name="fy" id="fy" style="width:200px;height:50px">
+                    {% for i in fy_unique  %}
+                        <option value="{{i}}">FY {{i}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    {% if first %}
+        <div class="row ml-5 pl-3 mt-5">
+            
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                1<sup>st</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in first %} 
+                        {% if forloop.counter <= 10 %}
+                        
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_vlink"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_vlink">{{i.description}}</a>
+                            </div>
+                        
+                        
+                        {% else %}
+                            <div class="col-lg-1 hidden-row" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_blank">{{i.2}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if second %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                2<sup>nd</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in second %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row2" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row2" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn2" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn2" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if third %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                3<sup>rd</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in third %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row3" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row3" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn3" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn3" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if fourth %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                2<sup>nd</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in fourth %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if ballot %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Postal Ballot</h1><br>
+                
+                <select name="fy" id="fy" style="width:200px;height:50px">
+                    {% for i in fy_unique  %}
+                        <option value="{{i}}">FY {{i}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    {% if first %}
+        <div class="row ml-5 pl-3 mt-5">
+            
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                1<sup>st</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in first %} 
+                        {% if forloop.counter <= 10 %}
+                        
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_vlink"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_vlink">{{i.description}}</a>
+                            </div>
+                        
+                        
+                        {% else %}
+                            <div class="col-lg-1 hidden-row" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.3}}" target="_blank">{{i.2}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if second %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                2<sup>nd</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in second %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row2" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row2" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn2" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn2" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if third %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                3<sup>rd</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in third %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row3" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row3" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn3" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn3" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if fourth %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-2 quarter pb-5 pt-2 ml-5">
+                4<sup>th</sup><br>Quarter<br>
+            </div>
+            <div class="col-lg-10">
+                <div class="row">
+                    {% for i in fourth %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+
+{% if dividend %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Unclaimed/Unpaid Dividend</h1><br>
+                <p>
+                    Unclaimed dividends are paid by the company and are yet to be claimed by the shareholder. 
+                    Thus, they form a liability for the company.
+                </p><br>
+                
+                <select name="fy" id="fy" style="width:200px;height:50px">
+                    {% for i in fy_unique %}
+                        <option value="{{i}}">FY {{i}}</option>   
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    {% if dividend_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in dividend_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if esop %}
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>ESOP Details</h1><br>
+                <p>
+                    Know the details of the employee benefit plan and how it enables them to own part or all of the company.
+                </p><br>
+            </div>
+        </div>
+    </div>
+    {% if esop_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in esop_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if qip %}
+    <div class="container mt-5">
+        <div class="row m-sm-0" id="qip-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>QIP</h1><br>
+                <div class="row">
+                    <div class="col-lg-5 col-md-12">
+                        <img src="../media/image/qip.jpg" alt="image">
+                    </div>
+                    <div class="col-lg-7 col-md-12 p-5" style="width: 50%;height:350px;margin-top:75px;margin-left:34px;background-color: rgba(148, 61, 106, .1);">
+                        <div class="qip-bg flex flex-col p-4 sm:p-8 xl:p-14">
+                            <h3>Only people who are not from the United States are permitted to view the QIP materials. Would you like to confirm and proceed?</h3>
+                            <a class="btn btn-outline mt-5 text-center uppercase lg:mt-10 qipBtn" onclick="openqipform()">YES, I AM NOT FROM THE US</a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row m-sm-0 qip-form" style="display:none;">
+            <div class="col-lg-12 col-md-12">
+                <h1>QIP</h1><br>
+                <div class="row">
+                    <h3>From which country you are accessing this document?</h3>
+                    <select name="country" id="country" style="width:200px;height:50px;margin-bottom:50px;">
+                        <option value="india">INDIA</option>
+                        <option value="usa">USA</option>
+                        <option value="uae">UAE</option>
+                    </select>
+
+
+                    <h3>Select the year you wish to access the document.</h3>
+                    <select name="year" id="year" style="width:200px;height:50px;margin-bottom: 50px;">
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                    </select> 
+                </div>
+                <h1>QIP Materials</h1><br>
+            </div>
+        </div>
+    </div>
+    
+{% endif %}
+
+{% if scheme %}
+    <script>
+        document.getElementById('submenu').style.display="";
+        document.getElementById('more').style.display="none";
+        const less = document.getElementById('less');
+        less.classList.add("active");
+        less.style.display="";
+    </script>
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Scheme of Amalgamation</h1><br>
+            </div>
+        </div>
+    </div>
+    {% if scheme_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in scheme_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if credit %}
+    <script>
+        document.getElementById('submenu').style.display="";
+        document.getElementById('more').style.display="none";
+        const less = document.getElementById('less');
+        less.classList.add("active");
+        less.style.display="";
+    </script>
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Credit Rating</h1><br>
+            </div>
+        </div>
+    </div>
+    {% if credit_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in credit_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if procedure %}
+    <script>
+        document.getElementById('submenu').style.display="";
+        document.getElementById('more').style.display="none";
+        const less = document.getElementById('less');
+        less.classList.add("active");
+        less.style.display="";
+    </script>
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>Process to claim refund of dividend and corresponding shares transfer to IEPF Authority:</h1><br>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <table class="table " style="border: 1px solid;">
+            <thead>
+                <th style="border:1px groove;">Steps</th>
+                <th style="border:1px groove;">Procedure</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px groove;">
+                        1.
+                    </td>
+                    <td style="border: 1px groove;">
+                        The Shareholder to contact the Company/Registrar and Transfer Agent of the Company, KFin Technologies Limited and obtain details 
+                        of year wise dividend entitlement and shares transferred to IEPF Authority before proceeding with Step No 2
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        2.
+                    </td>
+                    <td style="border: 1px groove;">
+                        The shareholder to execute the documents as mentioned in step 8 and write to Company to issue the entitlement letter.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        3.
+                    </td>
+                    <td style="border: 1px groove;">
+                        Based on the entitlement letter, the shareholder to visit the website of IEPF Authority
+                        <a href="#"> https://www.iepf.gov.in/content/iepf/global/master/Home/Home.html</a> and submit 
+                        the web based Form IEPF –5. Shareholder to fill in online application and upload Form IEPF-5 on 
+                        the website of IEPF Authority.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        4.
+                    </td>
+                    <td style="border: 1px groove;">
+                        The shareholder to take print of the e-form IEPF – 5 and submit original application with the required documents duly self-attested (including the joint holder) to the Registered office of Godrej Properties Limited (“GPL”), 
+                        Mumbai addressed to the Nodal officer.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        5.
+                    </td>
+                    <td style="border: 1px groove;">
+                        The Company will verify the details of the claim and various documents submitted by the 
+                        shareholder and submit the documents received from the shareholder/claimant in e-Verification 
+                        Report to IEPF Authority.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        6.
+                    </td>
+                    <td style="border: 1px groove;">
+                        <ol>On the basis of Verification Report and the documents submitted by the Company, IEPF Authority, would:
+                            <li>Approve the claim,</li>
+                            <li>Ask the shareholder to resubmit the required documents in case of any discrepancy,</li>
+                        </ol>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        7.
+                    </td>
+                    <td style="border: 1px groove;">
+                        <br>In case, IEPF Authority requests the shareholder to resubmit any documents, shareholders 
+                        to forward the required documents to the Nodal Officer.
+                        <br>On receipt of the revised documents from the shareholder, Nodal Officer would forward the
+                        revised Verification Report to IEPF Authority for settlement of the claim of the shareholder.
+                        <br>In case the claim is rejected by the IEPF Authority, the shareholder to follow the Step 1
+                        to 6 stated above.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        8.
+                    </td>
+                    <td style="border: 1px groove;">
+                        <ol type="a">
+                            Documents to be executed by the shareholder/claimant:
+
+                            <li>Print out of duly filed claim form (IEPF-5) with claimant signature.</li>
+                            <li>Copy of the Acknowledgement (Challan of IEPF-5) with claimant signature</li>
+                            <li>Indemnity Bond (Original) with claimant signature to be executed:</li>
+                                <ol type="i">
+                                    <li>On a non-judicial Stamp Paper of the value as prescribed under the Stamp Act (according to state) if the amount of the claim is Rs10000/- or more.</li>
+                                    <li>On a plain paper if the amount claimed does not exceed Rs10000/-</li>
+                                    <li>In case of refund of shares, on a non-judicial Stamp Paper of the value as prescribed under the Stamp Act.</li>
+                                </ol>
+                            <li>Advance Stamped receipt (Revenue affixed) with signature of claimant and two witnesses.</li>
+                            <li>In case of refund of matured deposit or debenture, original certificate thereto</li>
+                            <li>Copy of the Aadhar card (For Indian National) self-attested</li>
+                            <li>Copy of the PAN card self-attested</li>
+                            <li>Proof of Entitlement (certificate of share/Interest warrant application No., Company letter etc.)</li>
+                            <li>Cancelled Cheque leaf</li>
+                            <li>Copy of the Passport, OCI and PIO card in case of foreigners and NRI</li>
+                            <li>Other Optional document, if any</li>
+                            <li>Client Master List</li>
+                        </ol>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px groove;">
+                        9.
+                    </td>
+                    <td style="border: 1px groove;">
+                        Submit all the above and self-attested copy of e-form along with the other documents as 
+                        mentioned in the Form IEPF-5 and ENTITLEMENT LETTER to Nodal Officer (IEPF) of the company
+                        at its registered office in an envelope marked Claim for refund from IEPF Authority.
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+
+{% if egm %}
+    <script>
+        document.getElementById('submenu').style.display="";
+        document.getElementById('more').style.display="none";
+        const less = document.getElementById('less');
+        less.classList.add("active");
+        less.style.display="";
+    </script>
+    <div class="container mt-5">
+        <div class="row m-sm-0 regulations-content">
+            <div class="col-lg-12 col-md-12">
+                <h1>EGM</h1><br>
+            </div>
+        </div>
+    </div>
+    {% if egm_df %}
+        <div class="row ml-5 pl-3 mt-5">
+            <div class="col-lg-10 ml-4">
+                <div class="row">
+                    {% for i in egm_df %} 
+                        {% if forloop.counter <= 10 %}
+                            <div class="col-lg-1" style="width:fit-content;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5" style="width:45%;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-1 hidden-row4" style="width:fit-content;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank"><span><i class="bi bi-download"></i></span></a>
+                            </div>
+                            <div class="col-lg-5 hidden-row4" style="width:45%;display: none;">
+                                <a href="http://127.0.0.1:8000/media/{{i.pdf}}" target="_blank">{{i.description}}</a>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if city|length > 9 %}
+                        <button id="show-more-btn4" class="btn  mt-3">Show More <span><i class="bi bi-more"></i></span></button>
+                        <button id="show-less-btn4" class="btn mt-3" style="display: none;">Show Less <span><i class='fas fa-angle-down'></i></span></button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+
+
+
+<script>
+    function listingMenu(value){
+        if(value==='more'){
+            document.getElementById('more').style.display="none";
+            document.getElementById('submenu').style.display="";
+            const less=document.getElementById('less');
+            less.style.display="";
+            less.classList.add("active");
+        }
+        if(value==='less'){
+            document.getElementById('more').style.display="";
+            document.getElementById('submenu').style.display="none";
+            const less=document.getElementById('less');
+            less.style.display="none";
+            less.classList.remove("active");
+        }
+        
+    }
+
+    function openqipform(){
+        
+        document.getElementsById('qip-content').style.display="none";
+        alert("hi");
+        document.getElementById('qip-form').style.display="";
+    }
+</script>
+
+{% endblock content %}
+{% include "footer.html" %}

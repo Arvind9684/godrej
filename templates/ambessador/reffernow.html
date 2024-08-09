@@ -1,0 +1,133 @@
+{% extends 'ambessador/ambessador_base.html' %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{% block head %}
+<style>
+    .styled-table {
+        width: 90%;
+        margin: 5%;
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden; /* Ensure rounded corners on all browsers */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .styled-table thead tr {
+        background-color: #007BFF;
+        color: #ffffff;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #007BFF;
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .styled-table h3,
+    .styled-table h4 {
+        margin: 0;
+        padding: 0;
+    }
+
+    .styled-table thead th {
+        padding: 20px;
+        border-radius: 10px 10px 0 0;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<section>
+    <div class="row mt-2">
+        <div class="col-lg-5 col-md-12">
+            <img src="../media/image/slider1.jpg" alt="Image" class="img-fluid" style="width:100%;height:500px;">
+            <div class="img-text" style="position:absolute;width:95%;height:500px;background:linear-gradient(rgba(0,255,0,0.2),rgba(0,0,255,0.2));top:0;">
+                <center>
+                    <div class="text-center mt-5" style="width: fit-content;" >
+                        <h5 style="border-bottom: 1px solid;">Reffer & Win a Trip to Finland</h5>
+                        <p>
+                            Refer to loved once during the game, and you could be one of the </br>
+                            <b>5 Lucky winners to witness the dazling northen lights in Finland</b> 
+                        </p>
+                    </div>
+                </center>
+                
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-12" style="margin: 0px; padding: 0px;">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="text-lighter">
+                            <h3>MORE MEDALS = MORE AMAZING PRIZES!<sup>*</sup></h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><h4>MEDALS</h4></td>
+                        <td><h4>WINNERS</h4></td>
+                        <td><h4>PRIZES</h4></td>
+                    </tr>
+                    <tr>
+                        <td>10+ Medals</td>
+                        <td>15 Lucky Winners</td>
+                        <td>5 Trip to Finland & 10 iPhone 15 Pro</td>
+                    </tr>
+                    <tr>
+                        <td>6-10 Medals</td>
+                        <td>10 Lucky Winners</td>
+                        <td>3 Trips to Bali & 7 iPhone 15 Pro</td>
+                    </tr>
+                    <tr>
+                        <td>0-5 Medals</td>
+                        <td>5 Lucky Winners</td>
+                        <td>1 Trip to Goa & 4 iPhone 15 Pro</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 text-center">
+                    <center>
+                        <div style="width: 200px; height: 40px; border-radius: 5px; background-color: brown; display: flex; align-items: center; justify-content: center;">
+                            <a href="#" data-toggle="modal" data-target="#loginModal" style="color: white; text-decoration: none; font-weight: bold;">Refer Now</a>
+                        </div>
+                        
+                        <div class="text-center mt-2" style="width: fit-content;" >
+                            <h5 style="border-bottom: 1px solid;">THE NORTHEN LIGHTS ARE CALLING YOU!</h5>
+                            <p style="font-weight: bolder;color:lightcoral">
+                               CONTEST ENDS ON 15<sup>th</sup> AUGUST 2024.  
+                            </p>
+                        </div>
+                        
+                    </center>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock content %}

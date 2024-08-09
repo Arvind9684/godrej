@@ -1,0 +1,2 @@
+PS G:\godrejproperties2> Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+PS G:\godrejproperties2> myenv\Scripts\activate

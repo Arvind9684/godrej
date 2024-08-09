@@ -1,0 +1,21 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Project Update{% endblock title %}
+{% block content %}
+<style>
+    .update-table input{
+        width:500px;
+    }
+    .update-table  td select{
+        width:500px;
+    }
+</style>
+<table class="table update-table">
+    <form action="{% url 'add_project' %}" enctype="multipart/form-data">{% csrf_token %}
+        {{form}}
+        <tr><th><input type="submit" value="ADD"></th></tr>
+    </form>
+        
+        
+        
+</table>
+{% endblock content %}

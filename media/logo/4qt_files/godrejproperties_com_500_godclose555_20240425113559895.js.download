@@ -1,0 +1,23 @@
+﻿var iscalledclose = false;
+
+setInterval(
+    function () {
+        if (!iscalledclose) {
+            if (document.getElementsByClassName('close').length) {
+                iscalledclose = true;
+                document.querySelector(".close", parent.window.document).addEventListener("click", function (event) {
+                    document.getElementsByClassName("p5animated")[0].remove();
+                    
+                });
+
+
+
+               
+
+
+            }
+        }
+    }, 10);
+
+
+

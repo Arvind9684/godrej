@@ -1,0 +1,45 @@
+﻿var IsGodreformclose = false;
+
+setInterval(
+    function () {
+        if (!IsGodreformclose) {
+            if (document.getElementById("Plumb5FromCampaign_587")) {
+                var IframeElement = document.getElementById("Plumb5FromCampaign_587");
+                if (IframeElement != undefined && IframeElement != null) {
+                    var innerDoc = IframeElement.contentDocument || IframeElement.contentWindow.document;
+                    if (innerDoc != undefined && innerDoc.getElementById("dvMainContentDiv") != undefined && innerDoc.getElementById("dvMainContentDiv") != null && innerDoc.getElementById("dvMainContentDiv").innerHTML != "") {
+                        document.getElementById("Plumb5FromCampaign_587").remove();
+
+			  if (parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground") != undefined && parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground") != null) {
+        parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground").remove()
+    }
+
+
+                        //document.getElementById("dvPlumb5AppendExtraDivForBackground").remove();
+                        IsGodreformclose = true;
+                    }
+                }
+            }
+        }
+    }, 10);
+
+var IsGodreformclose633 = false;
+
+setInterval(
+    function () {
+        if (!IsGodreformclose633) {
+            if (document.getElementById("Plumb5FromCampaign_633")) {
+                var IframeElement = document.getElementById("Plumb5FromCampaign_633");
+                if (IframeElement != undefined && IframeElement != null) {
+                    var innerDoc = IframeElement.contentDocument || IframeElement.contentWindow.document;
+                    if (innerDoc != undefined && innerDoc.getElementById("dvMainContentDiv") != undefined && innerDoc.getElementById("dvMainContentDiv") != null && innerDoc.getElementById("dvMainContentDiv").innerHTML != "") {
+                        document.getElementById("Plumb5FromCampaign_633").remove();
+                        if (parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground") != undefined && parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground") != null) {
+        parent.window.document.getElementById("dvPlumb5AppendExtraDivForBackground").remove()
+    }
+                        IsGodreformclose633 = true;
+                    }
+                }
+            }
+        }
+    }, 10);

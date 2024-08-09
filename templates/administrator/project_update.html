@@ -1,0 +1,181 @@
+{% extends 'administrator/base.html' %}
+{% block title %}Project Update{% endblock title %}
+{% block content %}
+<style>
+    .update-table input{
+        width:500px;
+    }
+    .update-table  td select{
+        width:500px;
+    }
+</style>
+<table class="table update-table">
+    
+    {% for project in project_data %}
+    <form action="{% url 'project_update' project.id %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <tr><th>id</th><td><input type="text" name="id" value="{{project.id}}" placeholder="{{project.id}}" id="id" class="id" disabled></td></tr>
+        <tr><th>name</th><td><input type="text" name="name" value="{{project.name}}" placeholder="{{project.name}}" id="name" class="name"></td></tr>
+        <tr><th>description</th><td><input type="text" name="description" value="{{project.description}}" placeholder="{{project.description}}" id="description" class="description"></td></tr>
+        <tr><th>picture</th><td><input type="file" name="picture" id="picture" class="picture"></td></tr>
+        <tr><th>view</th><td><input type="text" name="view" value="{{project.view}}" placeholder="{{project.view}}" id="view" class="view"></td></tr>
+        <tr><th>is_verified</th><td><input type="text" name="is_verified" value="{{project.is_verified}}" placeholder="{{project.is_verified}}" id="is_verified" class="is_verified"></td></tr>
+        <tr><th>is_for_rent</th><td><input type="text" name="is_for_rent" value="{{project.is_for_rent}}" placeholder="{{project.is_for_rent}}" id="is_for_rent" class="is_for_rent"></td></tr>
+        <tr><th>title</th><td><input type="text" name="title" value="{{project.title}}" placeholder="{{project.title}}" id="title" class="title"></td></tr>
+        <tr><th>city</th>
+            <td>
+                <select type="text" name="city"  id="city" class="city">
+                    <option value="{{project.city}}">{{project.city}}</option>
+                    
+                    {% for ct in city  %}
+                    <option value="{{ct.id}}">{{ct}}</option>                        
+                    {% endfor %}
+                        
+                </select>
+            </td></tr>
+        <tr><th>sub_area</th>
+            <td>
+                <select name="sub_area" id="sub_area" class="sub_area">
+                    <option>{{project.sub_area}}</option>
+                    {% for subarea in sub_area %}
+                    <option value={{subarea.id}}>
+                        {{subarea}}
+                    </option>
+                        
+                    {% endfor %}
+                        
+                </select>
+
+            </td>
+        </tr>
+        <tr><th>property_type</th>
+            <td>
+                <select name="property_type"  id="property_type" class="property_type">
+                    <option value="{{project.property_type}}">{{project.property_type}}</option>
+                    
+                    {% for propertytype in property_type %}
+                    <option value="{{propertytype.id}}">{{propertytype}}</option>
+                        
+                    {% endfor %}
+                        
+                </select>
+            </td>
+        </tr>
+        <tr><th>category</th>
+            <td>
+                <select name="category"  id="category" class="category">
+                    <option value="project.category">{{project.category}}</option>
+                    {% for cat in category %}
+                        <option value="cat.id">{{cat}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr><th>sub_category</th>
+            <td>
+                <select  name="sub_category"  id="sub_category" class="sub_category">
+                    <option value="{{project.sub_category}}">{{project.sub_category}}</option>
+                    
+                    {% for subcategory in sub_category %}
+                    <option value="{{subcategory.id}}">{{subcategory}}</option>
+                        
+                    {% endfor %}
+                        
+                </select>
+            </td>
+        </tr>
+        <tr><th>website</th>
+            <td>
+                <select  name="website"  id="website" class="website">
+                    <option value="project.website">{{project.website}}</option>
+                    
+                    {% for webst in website %}
+                    <option value="webst.id">{{webst}}</option>
+                        
+                    {% endfor %}
+                        
+                </select>
+            </td>
+        </tr>
+        <tr><th>amenities</th><td><input type="text" name="amenities" value="{{project.amenities}}" placeholder="{{project.amenities}}" id="amenities" class="amenities"></td></tr>
+        <tr><th>nearby</th><td><input type="text" name="nearby" value="{{project.nearby}}" placeholder="{{project.nearby}}" id="nearby" class="nearby"></td></tr>
+        <tr><th>construction_status</th><td><input type="text" name="construction_status" value="{{project.construction_status}}" placeholder="{{project.construction_status}}" id="construction_status" class="construction_status"></td></tr>
+        <tr><th>status</th><td><input type="text" name="status" value="{{project.status}}" placeholder="{{project.status}}" id="status" class="status"></td></tr>
+        <tr><th>furnished</th><td><input type="text" name="furnished" value="{{project.furnished}}" placeholder="{{project.furnished}}" id="furnished" class="furnished"></td></tr>
+        <tr><th>security_deposit</th><td><input type="text" name="security_deposit" value="{{project.security_deposit}}" placeholder="{{project.security_deposit}}" id="security_deposit" class="security_deposit"></td></tr>
+        <tr><th>rent_property</th><td><input type="text" name="rent_property" value="{{project.rent_property}}" placeholder="{{project.rent_property}}" id="rent_property" class="rent_property"></td></tr>
+        <tr><th>rent_escalation_period</th><td><input type="text" name="rent_escalation_period" value="{{project.rent_escalation_period}}" placeholder="{{project.rent_escalation_period}}" id="rent_escalation_period" class="rent_escalation_period"></td></tr>
+        <tr><th>rent_priority_comment</th><td><input type="text" name="rent_priority_comment" value="{{project.rent_priority_comment}}" placeholder="{{project.rent_priority_comment}}" id="rent_priority_comment" class="rent_priority_comment"></td></tr>
+        <tr><th>size</th><td><input type="text" name="size" value="{{project.size}}" placeholder="{{project.size}}" id="size" class="size"></td></tr>
+        <tr><th>carpet_area</th><td><input type="text" name="carpet_area" value="{{project.carpet_area}}" placeholder="{{project.carpet_area}}" id="carpet_area" class="carpet_area"></td></tr>
+        <tr><th>type</th><td><input type="text" name="type" value="{{project.type}}" placeholder="{{project.type}}" id="type" class="type"></td></tr>
+        <tr><th>builder</th><td><input type="text" name="builder" value="{{project.builder}}" placeholder="{{project.builder}}" id="builder" class="builder"></td></tr>
+        <tr><th>floor</th><td><input type="text" name="floor" value="{{project.floor}}" placeholder="{{project.floor}}" id="floor" class="floor"></td></tr>
+        <tr><th>total_floor</th><td><input type="text" name="total_floor" value="{{project.total_floor}}" placeholder="{{project.total_floor}}" id="total_floor" class="total_floor"></td></tr>
+        <tr><th>facing</th><td><input type="text" name="facing" value="{{project.facing}}" placeholder="{{project.facing}}" id="facing" class="facing"></td></tr>
+        <tr><th>possession_type</th><td><input type="text" name="possession_type" value="{{project.possession_type}}" placeholder="{{project.possession_type}}" id="possession_type" class="possession_type"></td></tr>
+        <tr><th>is_rented</th><td><input type="text" name="is_rented" value="{{project.is_rented}}" placeholder="{{project.is_rented}}" id="is_rented" class="is_rented"></td></tr>
+        <tr><th>rent</th><td><input type="text" name="rent" value="{{project.rent}}" placeholder="{{project.rent}}" id="rent" class="rent"></td></tr>
+        <tr><th>cost</th><td><input type="text" name="cost" value="{{project.cost}}" placeholder="{{project.cost}}" id="cost" class="cost"></td></tr>
+        <tr><th>extra_charge</th><td><input type="text" name="extra_charge" value="{{project.extra_charge}}" placeholder="{{project.extra_charge}}" id="extra_charge" class="extra_charge"></td></tr>
+        <tr><th>lease_time</th><td><input type="text" name="lease_time" value="{{project.lease_time}}" placeholder="{{project.lease_time}}" id="lease_time" class="lease_time"></td></tr>
+        <tr><th>lease_completed</th><td><input type="text" name="lease_completed" value="{{project.lease_completed}}" placeholder="{{project.lease_completed}}" id="lease_completed" class="lease_completed"></td></tr>
+        <tr><th>lease_balance</th><td><input type="text" name="lease_balance" value="{{project.lease_balance}}" placeholder="{{project.lease_balance}}" id="lease_balance" class="lease_balance"></td></tr>
+        <tr><th>rent_escalation</th><td><input type="text" name="rent_escalation" value="{{project.rent_escalation}}" placeholder="{{project.rent_escalation}}" id="rent_escalation" class="rent_escalation"></td></tr>
+        <tr><th>rent_to</th><td><input type="text" name="rent_to" value="{{project.rent_to}}" placeholder="{{project.rent_to}}" id="rent_to" class="rent_to"></td></tr>
+        <tr><th>maintenance</th><td><input type="text" name="maintenance" value="{{project.maintenance}}" placeholder="{{project.maintenance}}" id="maintenance" class="maintenance"></td></tr>
+        <tr><th>registry</th><td><input type="text" name="registry" value="{{project.registry}}" placeholder="{{project.registry}}" id="registry" class="registry"></td></tr>
+        <tr><th>transfer_charge</th><td><input type="text" name="transfer_charge" value="{{project.transfer_charge}}" placeholder="{{project.transfer_charge}}" id="transfer_charge" class="transfer_charge"></td></tr>
+        <tr><th>gst</th><td><input type="text" name="gst" value="{{project.gst}}" placeholder="{{project.gst}}" id="gst" class="gst"></td></tr>
+        <tr><th>profit_sharing</th><td><input type="text" name="profit_sharing" value="{{project.profit_sharing}}" placeholder="{{project.profit_sharing}}" id="profit_sharing" class="profit_sharing"></td></tr>
+        <tr><th>roi</th><td><input type="text" name="roi" value="{{project.roi}}" placeholder="{{project.roi}}" id="roi" class="roi"></td></tr>
+        <tr><th>profile_pic</th><td><input type="text" name="profile_pic" value="{{project.profile_pic}}" placeholder="{{project.profile_pic}}" id="profile_pic" class="profile_pic"></td></tr>
+        <tr><th>shop_for</th><td><input type="text" name="shop_for" value="{{project.shop_for}}" placeholder="{{project.shop_for}}" id="shop_for" class="shop_for"></td></tr>
+        <tr><th>posted_by</th><td><input type="text" name="posted_by" value="{{project.posted_by}}" placeholder="{{project.posted_by}}" id="posted_by" class="posted_by"></td></tr>
+        <tr><th>possession_status</th><td><input type="text" name="possession_status" value="{{project.possession_status}}" placeholder="{{project.possession_status}}" id="possession_status" class="possession_status"></td></tr>
+        <tr><th>is_corner_plot</th><td><input type="text" name="is_corner_plot" value="{{project.is_corner_plot}}" placeholder="{{project.is_corner_plot}}" id="is_corner_plot" class="is_corner_plot"></td></tr>
+        <tr><th>hidden_notes</th><td><input type="text" name="hidden_notes" value="{{project.hidden_notes}}" placeholder="{{project.hidden_notes}}" id="hidden_notes" class="hidden_notes"></td></tr>
+        <tr><th>lock_in</th><td><input type="text" name="lock_in" value="{{project.lock_in}}" placeholder="{{project.lock_in}}" id="lock_in" class="lock_in"></td></tr>
+        <tr><th>power_breakup_rate</th><td><input type="text" name="power_breakup_rate" value="{{project.power_breakup_rate}}" placeholder="{{project.power_breakup_rate}}" id="power_breakup_rate" class="power_breakup_rate"></td></tr>
+        <tr><th>road_size</th><td><input type="text" name="road_size" value="{{project.road_size}}" placeholder="{{project.road_size}}" id="road_size" class="road_size"></td></tr>
+        <tr><th>publisher</th>
+            <td>
+                <select  name="publisher"  id="publisher" class="publisher">
+                    <option value="project.publisher">{{project.publisher}}</option>
+                    
+                    {% for publser in publisher %}
+                    <option value="publser.id">{{publser}}</option>
+                        
+                    {% endfor %}
+                        
+                </select>
+            </td>
+        </tr>
+        <tr><th>meta_desc</th><td><input type="text" name="meta_desc" value="{{project.meta_desc}}" placeholder="{{project.meta_desc}}" id="meta_desc" class="meta_desc"></td></tr>
+        <tr><th>meta_key</th><td><input type="text" name="meta_key" value="{{project.meta_key}}" placeholder="{{project.meta_key}}" id="meta_key" class="meta_key"></td></tr>
+        <tr><th>is_distress</th><td><input type="text" name="is_distress" value="{{project.is_distress}}" placeholder="{{project.is_distress}}" id="is_distress" class="is_distress"></td></tr>
+        <tr><th>reason_distress</th><td><input type="text" name="reason_distress" value="{{project.reason_distress}}" placeholder="{{project.reason_distress}}" id="reason_distress" class="reason_distress"></td></tr>
+        <tr><th>cost_distress</th><td><input type="text" name="cost_distress" value="{{project.cost_distress}}" placeholder="{{project.cost_distress}}" id="cost_distress" class="cost_distress"></td></tr>
+        <tr><th>recommended</th><td><input type="text" name="recommended" value="{{project.recommended}}" placeholder="{{project.recommended}}" id="recommended" class="recommended"></td></tr>
+        <tr><th>plot_size</th><td><input type="text" name="plot_size" value="{{project.plot_size}}" placeholder="{{project.plot_size}}" id="plot_size" class="plot_size"></td></tr>
+        <tr><th>construction_age</th><td><input type="text" name="construction_age" value="{{project.construction_age}}" placeholder="{{project.construction_age}}" id="construction_age" class="construction_age"></td></tr>
+        <tr><th>code</th><td><input type="text" name="code" value="{{project.code}}" placeholder="{{project.code}}" id="code" class="code"></td></tr>
+        <tr><th>slug</th><td><input type="text" name="slug" value="{{project.slug}}" placeholder="{{project.slug}}" id="slug" class="slug"></td></tr>
+        <tr><th>price</th><td><input type="text" name="price" value="{{project.price}}" placeholder="{{project.price}}" id="price" class="price"></td></tr>
+        <tr><th>locality</th><td><input type="text" name="locality" value="{{project.locality}}" placeholder="{{project.locality}}" id="locality" class="locality"></td></tr>
+        <tr><th>topology</th><td><input type="text" name="topology" value="{{project.topology}}" placeholder="{{project.topology}}" id="topology" class="topology"></td></tr>
+        <tr><th>location</th><td><input type="text" name="location" value="{{project.location}}" placeholder="{{project.location}}" id="location" class="location"></td></tr>
+        <tr><th>neighbourhood</th><td><input type="text" name="neighbourhood" value="{{project.neighbourhood}}" placeholder="{{project.neighbourhood}}" id="neighbourhood" class="neighbourhood"></td></tr>
+        <tr><th>master_plan</th><td><input type="text" name="master_plan" value="{{project.master_plan}}" placeholder="{{project.master_plan}}" id="master_plan" class="master_plan"></td></tr>
+        <tr><th>unit_plan</th><td><input type="text" name="unit_plan" value="{{project.unit_plan}}" placeholder="{{project.unit_plan}}" id="unit_plan" class="unit_plan"></td></tr>
+        <tr><th>image</th><td><input  type="file" name="image" value="{{project.image}}" placeholder="{{project.image}}" id="image" class="image"></td></tr>
+        <tr><th>image2</th><td><input  type="file" name="image2" value="{{project.image2}}" placeholder="{{project.image2}}" id="image2" class="image2"></td></tr>
+        <tr><th>image3</th><td><input  type="file" name="image3" value="{{project.image3}}" placeholder="{{project.image3}}" id="image3" class="image3"></td></tr>
+        <tr><th>image4</th><td><input  type="file" name="image4" value="{{project.image4}}" placeholder="{{project.image4}}" id="image4" class="image4"></td></tr>
+        <tr><th><input type="submit" value="UPDATE"></th></tr>
+    </form>
+    {% endfor %}
+        
+        
+        
+</table>
+{% endblock content %}

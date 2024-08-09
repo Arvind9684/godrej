@@ -1,0 +1,23 @@
+{% extends 'administrator/base.html' %}
+{% block title %}{{last_url_word}}{% endblock title %}
+{% block content %}
+    <table class="table table-rounded">
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>Table Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tab in all_tables %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td><a href="{% url 'views_table' tab %}">{{tab}}</a></td>
+                <td><a href="{% url 'add_table_data' tab %}">ADD</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock content %}

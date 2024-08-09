@@ -1,0 +1,156 @@
+{% include 'base.html' %}
+{% block content %}
+{% load static %}
+{% include "aboutusheader.html" %}
+<img src="../media/image/Sustainability.webp" style="margin-top:-205px;height:620px;width:100%;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 gradient-bg" style="height:620px;margin-top:-620px;"></div>
+        <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
+            <h3>
+                <span style="float:left;">Sustainability</span>
+                <span style="float:right;">Vikhori Mangroves Preserved Godrej</span>
+            </h3>
+        </div>
+    </div>
+
+<p class="url-directory"><a href="/">Home</a> >> <a href="aboutus">Outstory</a> >> <a href="management"><b>{{ last_url_word }}</b></a> <p>
+<center>
+    <div class="row quote-container">
+        <div class="col-lg-4 col-md-12 quote-text text-left fs-3">
+            “Sustainability is an integral part of our DNA at Godrej Properties”
+        </div>
+        <div class="col-lg-8 col-md-12 quote-author text-left">
+            <b>“We will continue our endeavour to set new benchmarks in delivering environment friendly projects across the country”.</b>
+            <br><br>
+            Pirojsha Godrej
+            <br>
+            Executive Chairperson, Godrej Properties
+        </div>
+    </div>
+</center>
+<section class="row textAlign-center d-flex align-items-center bg-light mt-5 md-0 tree" >
+    <div id="row outer" style="background: linear-gradient(to right,rgba(102, 101, 101, 0.5), rgba(17, 17, 17, 0.5));">
+        <div class="col-lg-12 col-md-12 mt-3 text-center">
+            <span class="line-before"></span>
+            <span class="text"><b>RECOGNIZED BY GLOBAL REAL ESTATE SUSTAINABILITY BENCHMARK</b></span>
+            <span class="line-after"></span>
+        </div>
+        <div class="col-lg-12 col-md-12 text-center">
+            <img src="../media/logo/brand4.webp" alt="Logo">
+        </div>
+        <div class="col-lg-12 col-md-12 text-center">
+            <img src="../media/logo/brand3.webp" alt="Logo">
+        </div>
+        <div class="col-lg-12 col-md-12 text-center" >
+            <img src="../media/logo/text.webp" alt="Logo" style="width:30%;height:100%;">
+        </div>
+        <div class="col-lg-12 col-md-12 text-center">
+            <center><p id="years">
+                2022-2023 |
+                2022-2023 |
+                2022-2023 
+            </p></center>
+        </div>
+        <div class="col-log-12 col-md-12 text-center p-2">
+            <center><button id="explor-btn" style="width:auto;height:auto;"><a href="#">EXPLORE</a></button></center>
+        </div>
+    </div>
+    
+</section>
+
+<section>
+    <div class="row m-5" style="height: 500px; overflow: hidden;">
+        <div class="col-lg-1">
+            <button class="btn-left4"><i class="bi bi-arrow-left"></i></button>
+        </div>
+        <div class="col-lg-10 col-md-12" style="position: relative;">
+            {% for project in project_list %}
+            <div class="canvasCard" id="canvasCard{{ forloop.counter }}">
+                
+                <span><img src="..{{project.picture}}" style="width:50%;height:600px"></span>
+                <span style="float:right;margin-left:-60px;position:relative;">
+                    <canvas id="myCanvas{{ forloop.counter }}" width="600" height="450"></canvas>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 400; color: black; font-size: 30px;">
+                        <h2>{{project.title}}<br>"</h2>
+                        <p style="font-size: large; font-weight: lighter;">IGBC Green New Building Platinum Certified</p>
+                    </div>
+                </span>        
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-lg-1">
+            <button class="btn-right4"><i class="bi bi-arrow-right"></i></button>
+        </div>
+    </div>
+</section>
+
+
+<section id="recognigedBest">
+    <div class="row textAlign-center d-flex align-items-center bg-light mt-5">
+        <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+            <span class="line-before"></span>
+            <span class="text"><b>RECOGNIZED BY THE BEST</b></span>
+            <span class="line-after"></span>
+        </div>
+    </div>
+    <center>
+        <p class="col-lg-10 col-md-12 fs-1 fw-lighter text-roman">
+            “Godrej Properties has received over 400 awards and recognitions in the recent years.”
+        </p>
+        {% include "reward.html" %}
+</section>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentIndex = 0;
+        var canvasCards = document.querySelectorAll('.canvasCard');
+        
+        function showCanvasCard(index) {
+            canvasCards.forEach(function(card, i) {
+                card.classList.toggle('active', i === index);
+            });
+        }
+
+        document.querySelector('.btn-left4').addEventListener('click', function() {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : canvasCards.length - 1;
+            showCanvasCard(currentIndex);
+        });
+
+        document.querySelector('.btn-right4').addEventListener('click', function() {
+            currentIndex = (currentIndex < canvasCards.length - 1) ? currentIndex + 1 : 0;
+            showCanvasCard(currentIndex);
+        });
+
+        // Initially show the first canvas card
+        showCanvasCard(currentIndex);
+    });
+
+    // Function to draw on a canvas
+    function drawOnCanvas(canvasId) {
+        var canvas = document.getElementById(canvasId);
+        if (canvas) {
+            var ctx = canvas.getContext('2d');
+            ctx.beginPath();
+            ctx.moveTo(125, 75);    // Starting point
+            ctx.lineTo(175, 75);   // Draw a line to (175, 75)
+            ctx.lineTo(150, 75);   // Draw a line to (150, 75)
+            ctx.lineTo(150, 50);   // Draw a line to (150, 50)
+            ctx.lineTo(500, 50);   // Draw a line to (500, 50)
+            ctx.lineTo(500, 450);  // Draw a line to (500, 450)
+            ctx.lineTo(50, 450);   // Draw a line to (50, 450)
+            ctx.strokeStyle = 'red';
+            ctx.stroke();
+        }
+    }
+
+    // Call the drawOnCanvas function for each canvas
+    document.addEventListener("DOMContentLoaded", function() {
+        var looplength = {{ city|length }};
+        for (var i = 1; i <= looplength; i++) {
+            var canvasId = "myCanvas" + i;
+            drawOnCanvas(canvasId);
+        }
+    });
+</script>
+
+{% endblock content %}
+{% include "footer.html" %}

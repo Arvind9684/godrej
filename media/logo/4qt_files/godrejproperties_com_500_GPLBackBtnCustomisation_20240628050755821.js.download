@@ -1,0 +1,19 @@
+﻿var pageUrl = parent.document.URL.toLowerCase();
+InitiateBackButton();
+
+function InitiateBackButton() {
+    if (pageUrl.indexOf("gurugram/residential/godrej-habitat") > -1) {
+        if (document != undefined && (document.readyState === "interactive" || document.readyState == "complete"))
+            BindBackButton();
+        else
+            window.setTimeout(InitiateBackButton, 10);
+    }
+}
+
+function BindBackButton() {
+    window.addEventListener('popstate', () => {
+        console.log('User clicked back button');
+        setTimeout(function () { TrackingUtil.EventTracking(AllEventDetails); }, 1000);
+    });
+}
+

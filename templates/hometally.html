@@ -1,0 +1,184 @@
+{% include 'base.html' %}
+{% block extra_head %}<title>HOME TALLY</title>{% endblock %}
+{% block content %}
+<!-- Navbar -->
+<nav class="navbar navbar-dark">
+    <div class="container-fluid" style="width:80%;">
+    <a class="navbar-brand" href="/"><img src="../media/logo/brand.webp" style="height:50px;width:170px;"></a>
+    <div class="navbar-item" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+        </div>
+    <div class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon rounded-circle"></span>
+    </div>
+    <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">MENU</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href='{% url "index" %}'>HOME</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    PROJECTS
+                </a>
+            <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="residential">RESIDENTIAL</a></li>
+                <li><a class="dropdown-item" href="commercial">COMMERCIAL</a></li>
+            </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="hometally">HOME ALLY</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    INVESTORS
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" >
+                    <li><a class="dropdown-item" href="finance">FINANCIALS</li>
+                    <li><a class="dropdown-item" href="investorInform">INVESTOR INFORMATION</li>
+                    <li><a class="dropdown-item" href="governanceLeasership">GOVERNANCE & LEADERSHIP</li>
+                    <li><a class="dropdown-item" href="compliances">COMPLIANCES</li>
+                    <li><a class="dropdown-item" href="esg">ESG</li>
+                    <li><a class="dropdown-item" href="discloser">DISCLOSURES UNDER REGULATION <br>46 & 62 OF THE SEBI</li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    MEDIA CENTER
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" >
+                    <li><a class="dropdown-item" href="news">NEWS</li>
+                    <li><a class="dropdown-item" href="pressreleas">PRESS RELEASE</li>
+                    <li><a class="dropdown-item" href="mediagallery">MEDIA GALLERY</li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    NRI CORNER
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark" >
+                    <li><a class="dropdown-item" href="legalinformation">LEGAL INFORMATION</li>
+                    <li><a class="dropdown-item" href="loanfornri">LOAN FOR NRIs</li>
+                    <li><a class="dropdown-item" href="nrifaq">NRI FAQs</li>
+                    <li><a class="dropdown-item" href="internationaloffice">OUR INTERNATIONAL OFFICES</li>
+                    <li><a class="dropdown-item" href="enqurenow">ENQUIRE NOW</li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="blogs">BLOGS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">OUR STORY</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">GODREJ AMBASSADOR</a>
+            </li>
+            <li>
+                <hr>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="enquirynow('{{project.name}}')">ENQUIRE</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">SCHEDULE A SITE VISIT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">WORK WITH US</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">REACH US</a>
+            </li>
+        </ul>
+        
+        </div>
+    </div>
+    </div>
+</nav>
+<section>
+    <div class="row" style="margin-top:-80px;">
+        <div class="col-lg-6 col-md-12 hometallyRightdiv" style="margin-left: -12px;">
+            <div class="content p-5">
+                <div class="fixed-top sticky" style="margin-top: 200px;position:sticky;" id="hometallyRightdiv-content"><h1>HOME ALLY</h1>
+                    <br>
+                    <b>MILESTONES IN YOUR HOME SEARCH</b><br><br><br><br><br>
+                    Home Ally by Godrej Properties makes finding your dream home effortless. Our comprehensive guide outlines 10 essential milestones to lead you towards your perfect home.
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-dm-12 hometallyLeftdiv">
+            <table style="margin-top:25%;">
+                <tr>
+                    <th><h1>1</h1></th>
+                    <td>
+                        <div id="outer" class="rounded-circle">
+                            <div id="mediam" class="rounded-circle">
+                                <img src="../media/image/image3.webp" class="rounded-circle">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p>
+                            <h3>Real Estate Terms</h3>
+                            Where should I look for projects information online?<br>
+                            <a href= "{% url 'real-estate-terms' 'termcondition' %}" style="text-decoration: none;color:normal;"> Read More >></a>
+
+                        </p>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th><h1>1</h1></th>
+                    <td>
+                        <div id="outer" class="rounded-circle">
+                            <div id="mediam" class="rounded-circle">
+                                <img src="../media/image/image3.webp" class="rounded-circle">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p>
+                            <h3>Online Research</h3>
+                            Where should I look for projects information online?<br>
+                            <a href= "{% url 'real-estate-terms' 'onlineresearch' %}" style="text-decoration: none;color:normal;"> Read More >></a>
+
+                        </p>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <th><h1>1</h1></th>
+                    <td>
+                        <div id="outer" class="rounded-circle">
+                            <div id="mediam" class="rounded-circle">
+                                <img src="../media/image/image3.webp" class="rounded-circle">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p>
+                            <h3>The Right Property</h3>
+                            Where should I look for projects information online?<br>
+                            <a href= "{% url 'real-estate-terms' 'rightproperty' %}" style="text-decoration: none;color:normal;"> Read More >></a>
+
+                        </p>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+<section>
+    <p style="margin:30px;">
+       <b> Disclaimer: </b>Godrej Properties Limited (GPL) has made available this website solely for educational and informative purposes with regard to real estate sector and no warranty is made with respect to the accuracy or reliability of the information provided. There is no assurance that any statement contained or cited herein is complete, correct or precise and the same is not to be construed as a legal advice on the matter. GPL has the right to alter or modify any content on the website at its sole discretion. GPL disowns any liability that may arise in connection with the use of this information. Interested persons are advised to apprise 
+        themselves of necessary information before investing/purchasing any property.
+    </p>
+</section>
+{% endblock content %}
+{% include 'footer.html' %}
