@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Picture, City, SubArea, PropertyType, Category, SubCategory, Website, Location, Publisher, Gallery, Project
+from .models import (Picture, City, SubArea, PropertyType, Category, SubCategory, Website, Location, Publisher, 
+                     Gallery, Project,APIKey,History)
+
+@admin.register(APIKey)
+class APIKeyAdmin(admin.ModelAdmin):
+    list_display = ('key', 'user', 'created_at')
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display=[
@@ -10,7 +15,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "is_verified",
         "is_for_rent",
         "title",
-        "city",
+        "location",
         "sub_area",
         "property_type",
         "category",
@@ -145,8 +150,11 @@ admin.site.register(Website,WebsiteAdmin)
 
 class LocationAdmin(admin.ModelAdmin):
     list_display=[
+        "country",
+        "state",
+        "dist",
         "city",
-        "name",
+        "other",
         "longitude",
         "latitude",
     ]
@@ -158,3 +166,14 @@ class GalleryAdmin(admin.ModelAdmin):
         "image",
     ]
 admin.site.register(Gallery,GalleryAdmin)
+
+class HistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        "visiter",
+        "action",
+        "url",
+        "record_id",
+        "description",
+        "timestamp",
+    ]
+admin.site.register(History,HistoryAdmin)

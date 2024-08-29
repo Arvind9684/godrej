@@ -2,6 +2,7 @@
 from django import forms
 from api.models import *
 from django.apps import apps
+from myapp.models import customer
 
 class OTPForm(forms.Form):
     otp = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'placeholder': 'Enter OTP'}))
@@ -10,7 +11,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = [
-            'name', 'description', 'view', 'is_verified', 'is_for_rent', 'title', 'city',
+            'name', 'description', 'view', 'is_verified', 'is_for_rent', 'title', 'location',
             'sub_area', 'property_type', 'category', 'sub_category', 'website', 'amenities',
             'nearby', 'construction_status', 'status', 'furnished', 'security_deposit', 'rent_property',
             'rent_escalation_period', 'rent_priority_comment', 'size', 'carpet_area', 'type', 'builder',
@@ -22,8 +23,8 @@ class ProjectForm(forms.ModelForm):
             'reason_distress', 'cost_distress', 'recommended', 'plot_size', 'construction_age', 'code',
             'listing_date', 'slug'
         ]
-from django import forms
-from django.apps import apps
+
+
 
 def buildForm(name):
     # Define the DynamicForm class with the retrieved model
@@ -42,3 +43,18 @@ def buildForm(name):
 
 class TextToAudioForm(forms.Form):
     text = forms.CharField(widget=forms.Textarea, label='Enter text')
+    
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = customer
+        fields = [
+            "name",
+            "mobile",
+            "email",
+            "countryName",
+            "address",
+            "password",
+        ]
+        widgets = {
+            'password': forms.PasswordInput(),
+        }

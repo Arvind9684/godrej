@@ -1,5 +1,4 @@
-{% include "project_base.html" %}
-{% include "investormenu.html" %}
+{% extends "base.html" %}
 <style>
     .qipBtn{
         border: 1px solid black;
@@ -12,6 +11,7 @@
     }
 </style>    
 {% block content %}
+{% include "investormenu.html" %}
 <img src="../media/image/compliance.webp" alt="image" style="height:500px;width:100%;">
 <div class="row ml-lg-5 ml-sm-0" >
     <div class="col-lg-12 col-md-12 text-container" style="margin-top: -80px;color:white;">
@@ -819,4 +819,3 @@
 </script>
 
 {% endblock content %}
-{% include "footer.html" %}

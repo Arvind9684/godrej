@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import posts,shareholderPattern,compliance,projectEnquary,projectTable,schedulOn,Callback
+from .models import (posts,shareholderPattern,compliance,projectEnquary,projectTable,schedulOn,Callback,
+                     chatboatData,sitevisiter,membershipOffer,customerLead,blog,blog_post,searchHistory,
+                     projectCallus)
 
 
 # Register your models here.
@@ -39,7 +41,6 @@ class projectTableAdmin(admin.ModelAdmin):
         "price",
         "locality",
         "topology",
-        "location",
         "neighbourhood",
         "master_plan",
         "unit_plan",
@@ -90,6 +91,91 @@ class customerAdmin(admin.ModelAdmin):
     ]
 admin.site.register(customer,customerAdmin)
 
+class chatboatDataAdmin(admin.ModelAdmin):
+    list_display=[
+    "name",
+    "mobile",
+    "email",
+    "created_at",
+    ]
+admin.site.register(chatboatData,chatboatDataAdmin)
+
+class sitevisiterAdmin(admin.ModelAdmin):
+    list_display =[
+        "mobile",
+        "name",
+        "csrftoken",
+        "created_at",
+    ]
+admin.site.register(sitevisiter,sitevisiterAdmin)
+
+class membershipOfferAdmin(admin.ModelAdmin):
+    list_display = [
+        "type",
+        "offerPer",
+        "price",
+        "other",
+        "validTill",
+        "image",
+        "created_at",
+    ]
+admin.site.register(membershipOffer,membershipOfferAdmin)
+
+class customerLeadAdmin(admin.ModelAdmin):
+    list_display = [
+        "customer",
+        "project",
+        "units",
+        "email",
+        "mobile",
+        "created_at",
+    ]
+admin.site.register(customerLead,customerLeadAdmin)
+
+class blogsAdmin(admin.ModelAdmin):
+    list_display = [
+    "type",
+    "name",
+    "title",
+    "image",
+    "distcription",
+    "view",
+    "created_at",
+    ]
+admin.site.register(blog,blogsAdmin)
+
+class blog_postAdmin(admin.ModelAdmin):
+    list_display = [
+    "type",
+    "name",
+    "title",
+    "image",
+    "distcription",
+    "view",
+    "created_at",
+    ]
+admin.site.register(blog_post,blog_postAdmin)
+
+class searchHistoryAdmin(admin.ModelAdmin):
+    list_display = [
+        "user",
+        "searches",
+        "url",
+        "created_at",
+    ]
+admin.site.register(searchHistory,searchHistoryAdmin)
+
+class projectCallusAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+        "countryName",
+        "countryCode",
+        "city",
+        "mobile",
+        "projectName",
+        "created_at",
+    ]
+admin.site.register(projectCallus,projectCallusAdmin)
 
 
 

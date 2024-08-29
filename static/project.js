@@ -43,6 +43,7 @@ function viewsOption(value) {
         }
         for (var j = 0; j < mapContainers.length; j++) {
             mapContainers[j].style.display = "block";
+            initMap();
         }
     }
 }
@@ -77,27 +78,6 @@ function updateCheckboxCount() {
     const checkboxes = document.querySelectorAll('.cities-checkbox');
     const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
     document.getElementById('citycount').innerText = checkedCount;
-    // const checkedValues = Array.from(document.querySelectorAll('.cities-checkbox:checked')).map(cb => cb.value.toLowerCase());
-    // const rows = document.querySelectorAll('.card');
-
-    // rows.forEach(row => {
-    //     // const cells = row.querySelector('p').textContent.toLowerCase();
-    //     var cells = row.querySelectorAll('p');
-    //     let matches = false;
-
-    //     cells.forEach(cell => {
-    //         if (cell.textContent.toLowerCase().includes(checkedValues)) {
-    //             matches = true;
-    //         }
-    //     });
-
-    //     if (matches) {
-    //         row.style.display = '';
-    //     } else {
-    //         row.style.display = 'none';
-    //     }
-    // });
-
     const checkedValues = Array.from(document.querySelectorAll('.cities-checkbox:checked')).map(cb => cb.value.toLowerCase());
     const rows = document.querySelectorAll('.card');
 
@@ -175,6 +155,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 row.style.display = 'none';
             }
         });
+    });
+    
+    filterInput.addEventListener('change',function(){
+        const visit_csrf=getCookie("visiter_csrf");
+        fetch('/search_history/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({ filter:filterInput.value,csrftoken:visit_csrf }), // Correctly format the data
+        })
     });
 
     const selectCountry = document.getElementById("selectCountry");
@@ -672,6 +664,26 @@ function representative(){
     }
 
 }
+
+document.addEventListener('DOMContentLoaded',function(){
+    var map = L.map('map').setView([20.5937, 78.9629], 3); // Center the map on India
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        // Fetch the location data from the server
+        fetch("{% url 'getmap' %}")
+            .then(response => response.json())
+            .then(locations => {
+                locations.forEach(function(location) {
+                    L.marker([location.lat, location.lng]).addTo(map)
+                        .bindPopup(location.name)
+                        .openPopup();
+                });
+            });
+});
 
         
 

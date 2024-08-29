@@ -1,5 +1,6 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
+</div>
 {% include "aboutusheader.html" %}
 <img src="../media/image/management.webp" style="margin-top:-205px;height:620px;width:100%;">
 <p class="url-directory"><a href="/">Home</a> >> <a href="aboutus">Outstory</a> >> <a href="management"><b>{{ last_url_word }}</b></a> <p>
@@ -149,6 +150,4 @@
         </div>
     </div>
 </div>
- 
 {% endblock content %}
-{% include "footer.html" %}

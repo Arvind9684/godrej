@@ -1,4 +1,4 @@
-{% include "project_base.html" %}
+{% extends "base.html" %}
 <style>
     .nav-link.active{
         border-bottom: 2px solid black;
@@ -20,6 +20,7 @@
     
 </style>
 {% block content %}
+</div>
 <nav class="navbar navbar-dark fixed-top sticky fw-bold" id="investor" style="hight:70px;position:sticky;z-index:500;">
     <div class="container-fluid" style="width:100%;" >
         <div class="navbar-item">
@@ -76,11 +77,10 @@
 {% if loanfornri %}
     <div class="row m-5">
         <div class="col-lg-6 col-md-12 mt-3">
-            <h1>Legal Information</h1>
+            <h1>Loan for NRIs</h1>
             <p class="m-5">
-                At times, navigating the legalities of a new home purchase can be a daunting task. To make the 
-                process easier, we have compiled the basic legal considerations of acquiring a property in India. 
-                Additionally, you can get in touch with us for any specific queries.
+                NRIs recognize that their unique investment and property needs require a special set of services. 
+                The good news here is that the government has allowed NRIs to repatriate 60% of their funds.
             </p>
         </div>
         <div class="col-lg-5 col-md-12 mr-1">
@@ -187,84 +187,114 @@
 
 {% if nrifaq %}
     <div class="row m-5">
-        <div class="col-lg-6 col-md-12 mt-3">
-            <h1>Legal Information</h1>
-            <p class="m-5">
-                At times, navigating the legalities of a new home purchase can be a daunting task. To make the 
-                process easier, we have compiled the basic legal considerations of acquiring a property in India. 
-                Additionally, you can get in touch with us for any specific queries.
-            </p>
+        <div class="row d-flex align-items-ceter">
+            <div class="col-lg-6 col-md-12 mt-3">
+                <h1>NRI FAQs</h1>
+                <p class="m-5">
+                    To make the process of buying a property easier for our ever growing NRI customer base, 
+                    we have compiled a comprehensive set of facts, rules and requirements in one place which 
+                    makes investing in our properties hassle free.
+                </p>
+            </div>
+            <div class="col-lg-5 col-md-12 mr-1">
+                <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+            </div>
         </div>
-        <div class="col-lg-5 col-md-12 mr-1">
-            <img src="../media/image/image3.webp" alt="image" style="width: 100%;height:400px;">
+        <div class="row d-flex align-items-center">
+            <div class="col-lg-5 col-md-12 mr-1">
+                <img src="../media/image/calling.png" alt="image" style="width: 100%;height:400px;">
+            </div>
+            <div class="col-lg-6 col-md-12 mt-3 ">
+                <table style="width:70%; background-color: antiquewhite; height:auto;">
+                    <tr>
+                        <td><span><i class="bi bi-envelope"></i></span></td>
+                        <td>nri@godrejproperties.com</td>
+                    </tr>
+                    <tr>
+                        <td><span><i class="bi bi-telephone"></i></span></td>
+                        <td>Toll Free Numbers:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>USA :</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>1844-7463-126</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Other Countries :</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>+911166575604</td>
+                    </tr>
+                </table>
+            </div>
         </div>
+        
+
         <div class="row m-5">
             <div class="col-lg-10 col-md-12">
+                <p><h4>NRI / PIO / OCI Definition and general guidelines</h4></p>
                 <hr>
-                <span style="float: left;">HOME LOANS</span>
+                <span style="float: left;">Who is a NRI?</span>
                 <a href="#homeloanricontent" onclick="shownriloan()"><span style="float: right;font-size:40px;" id="symbol">+</span></a><br><br><br>
                 <div id="homeloanricontent" style="display: none;">
                     <p>
-                        Non-Resident Indians (NRIs) are recognized under the Foreign Exchange Regulation Act, 1973. Every bank and housing finance company follows the RBI guidelines to define an NRI - "An Indian citizen who holds a valid document like an Indian passport and stays abroad for employment or for carrying on business or vocation outside India or stays abroad under circumstances indicating an intention to stay there for an uncertain duration is an NRI.
-                        <b>"Broadly categorized, Non-Resident Indians qualifying for NRI housing loans are:</b>
-                        <br>
-                        <ul>
-                            <li>Indian citizens who stay abroad for employment or for carrying on business or vocation outside India or for any other purpose in circumstances indicating an indefinite period of stay abroad</li>
-                            <li>Government servants who are posted abroad on duty as part of Indian missions and other similar agencies set up abroad by the Government of India, where the officials draw their salaries out of government resources</li>
-                            <li>Government servants deputed abroad on assignments with foreign Governments or regional/international agencies like World Bank, International Monetary Fund (IMF), World Health Organization (WHO), Economic and Social Commission for Asia and the Pacific (ESCAP)</li>
-                            <li>Officials of the State Government and Public Sector Undertakings deputed abroad on temporary assignments or posted to their branches or offices abroad</li>
-                        </ul>
-                    </p>
-                    <p>
-                        <br>Documents required for Resident Indians and NRIs for getting home loans are different in some respects. Home loans for NRIs are available for construction of new houses/ flats, purchase of old house/ flat addition/ alteration to an existing house and repairs/ renovation etc. NRIs can avail of loans by mortgaging an existing residential property. However, for availing home loans, NRIs have to fulfill certain conditions, according to the provisions of the Income Tax Act. They should have stayed in India for a period of 182 days or more within an assessment year or they should have stayed in India for at least a total of one year or more.
-                        <br>
-                        <br>The FDI policy that permits FDI up to 100% from a foreign/ NRI investor under the automatic route has boosted NRI confidence. Banks have attractive NRI housing schemes to accommodate the housing needs of NRIs. From the stables of HFCs, NRI housing finance plans with suitable repayment options are available.
-                        <br>
-                        <br>Last but not the least, NRIs should take due care while selecting their home loan provider companies or HFCs. Considering the geographical distances involved, it is significant that loan seekers associate with a proactive and responsive HFC.
+                        Non Resident Indian (NRI) is a citizen of India, who stays abroad for employment/carrying 
+                        on business or vocation outside India or stays abroad under circumstances indicating an 
+                        intention for an uncertain duration of stay abroad is a non-resident. Non-resident foreign 
+                        citizens of Indian Origin are treated at par with Non Resident Indian (NRIs).
                     </p>
                 </div>
             </div>
 
             <div class="col-lg-10 col-md-12">
                 <hr>
-                <span style="float: left;">ELIGIBILITY FOR NRI TO RECEIVE A HOME LOAN</span>
+                <span style="float: left;">Who is a PIO?</span>
                 <a href="#eligiblereceive" onclick="eligiblereceive()"><span style="float: right;font-size:40px;" id="symbol2">+</span></a><br><br><br>
                 <div id="eligiblereceive" style="display: none;">
                     <p>
-                        <br>The eligibility criteria for NRIs differ from Resident Indians based on a few parameters. The parameters include:
-                        <br><b>Age:</b>The loan applicant has to be 21 years of age.
-
-                        <br><b>Qualification:</b>The NRI loan seeker has to be a graduate.
-                        <br>
-                        <br><b>Income:</b>The loan applicant has to have a minimum monthly income of $ 2,000 (although, this criterion may differ across HFCs). The eligibility is also determined by the stability and continuity of employment or business.
-                        <br>
-                        <br><b>Payment options:</b>The NRI also has to route his EMI (Equated Monthly Instalment) cheques through his NRE/ NRO account. He cannot make payments from another source such as, his savings account in India.
-                        <br>
-                        <br><b>Number of dependents:</b>The eligibility of the applicant is also determined by the number of dependents, assets and liabilities.
-                        <br>
-                        <br>Home loans for an NRI applicant range from a minimum of INR 5 Lakh to a maximum of INR 1 crore, based on the repayment capacity and the cost of the property, which although is variable by the priorities of the home loan provider. An applicant will be eligible for a maximum of 85% of the cost of the property or the cost of construction as applicable and 75% of the cost of land in case of purchase of land, based on the repayment capacity of the borrower.
-                        <br>
-                        <br>However, the eligibility can be enhanced by applying for home loans with a co-applicant who has a separate source of income. Also, the rate of interest for home loans to NRIs is higher than those offered to Resident Indians. The difference is somewhere between 0.25%-0.50%. Some HFCs also have an internally earmarked 'negative criterion' for NRI home loans. As such, the NRIs who hail from locations that are marked as being 'negative' in the books of HFCs, find it difficult to get a home loan.
+                        Person of Indian Origin (PIO) (not being a citizen of Pakistan or Bangladesh or Sri Lanka or Afghanistan or China or Iran or Nepal or Bhutan), who
+                        <ul>
+                            <li>At any time, held an Indian passport, or</li>
+                            <li>Whose father or grandfather was a citizen of India by virtue of the Constitution of India or the Citizenship Act, 1955 (57 of 1955).</li>
+                        </ul>
+                    </p>
+                    
                 </div>
             </div>
 
             <div class="col-lg-10 col-md-12">
                 <hr>
-                <span style="float: left;">PROPERTY DOCUMENTS</span>
+                <span style="float: left;">Who is OCI?</span>
                 <a href="#propertydocs" onclick="propertydocs()"><span style="float: right;font-size:40px;" id="symbol3">+</span></a><br><br><br>
                 <div id="propertydocs" style="display: none;">
                     <p>
+                        Any person of full age and capacity:
                         <ul>
-                            <li>Original title deeds tracing the title of the property for at least a period of last 13 years/ Encumbrance Certificate for the last 13 years<br><br></li>
-                            <li>Agreement of sale/ construction, if any<br><br></li>
-                            <li>Receipts for payments made for purchase of the dwelling unit<br><br></li>
-                            <li>Approved plan/ license<br><br></li>
-                            <li>ULC clearance/ conversion order, etc.<br><br></li>
-                            <li>Receipts for having invested the margin money through normal banking channels from the Non-Resident (External) account in India and/ or the Non-Resident (Ordinary) account in India<br><br></li>
-                            <li>Latest tax payment receipt<br><br></li>
-                            <li>Allotment letter from the co-operative society/ association of apartment owners<br><br></li>
-                            <li>Agreement for sale/ sale deed/ detailed cost estimate from the Architect/ Engineer for property to be purchased/ constructed/ extended/ improved<br><br></li>
-                            <li>Copy of approved drawings of proposed construction/ purchase/ extension<br><br></li>
+                            <li>Who is a citizen of another country, but was a citizen of India at the time of, or at any time after, the commencement of the constitution, or</li>
+                            <li>Who is a citizen of another country, but was eligible to become a citizen of India at the time of the commencement of the constitution, or</li>
+                            <li>Who is a citizen of another country, but belongs to a territory that became part of India after the 15th of August, 1947.</li>
+                            <li>Who is a child of such a citizen, or</li>
+                            <li>A person, who is minor child of a person mentioned in clause (1)</li>
+                        </ul>
+                        <hr>
+                        Documents required for buying property
+                        <ul>
+                            <li>PAN card (Permanent account number)</li>
+                            <li>OCI / PIO card (In case of OCI / PIO)</li>
+                            <li>Passport (In case of NRI)</li>
+                            <li>Passport size photographs</li>
+                            <li>Address proof</li>
                         </ul>
                     </p>
                 </div>
@@ -272,19 +302,22 @@
 
             <div class="col-lg-10 col-md-12">
                 <hr>
-                <span style="float: left;">ADDITIONAL DOCUMENTS TO BE SUBMITTED BY PERSON OF INDIAN ORIGIN</span>
+                <span style="float: left;">Who can purchase immovable property in India?</span>
                 <a href="#additionaldocs" onclick="additionaldocs()"><span style="float: right;font-size:40px;" id="symbol4">+</span></a><br><br><br>
                 <div id="additionaldocs" style="display: none;">
                     <p>
-                        <b>Photocopy of PIO Card</b>
-                        <br><br>
-                        If the PIO card is not available, photocopies of any of the following documents:
-                        <br><br>
-                        <ul>
-                            <li>The current passport with birthplace as 'INDIA'<br><br></li>
-                            <li>The Indian passport, if held by the individual earlier<br><br></li>
-                            <li>Parent’s/Grandparent’s Indian passport/ Birth Certificate/ Marriage Certificate substantiating the individuals claim as a person of Indian origin<br><br></li>
+                        Under the general permission granted by RBI, the following categories can freely purchase immovable property in India:
+
+                        <ul>Non-Resident Indian (NRI)- who is a citizen of India residing outside India<br>
+                            Person of Indian Origin (PIO)- who is an individual (not being a citizen of Pakistan or Bangladesh or Sri <br>Lanka or Afghanistan or China or Iran or Nepal or Bhutan), who
                         </ul>
+                        <ul>
+                            <ul>   
+                                <li>At any time, held Indian passport or</li>
+                                <li>Whose father or grandfather was a citizen of India by virtue of the Constitution of India or the Citizenship Act, 1955 (57 of 1955).</li>
+                            </ul>
+                        </ul>
+                            The general permission, however, covers only purchase of residential and commercial property and not for the purchase of agricultural land/plantation property/farmhouse in India. OCIs can purchase immovable property in India except agricultural land/plantation property/farmhouse.
                     </p>
                 </div>
             </div>

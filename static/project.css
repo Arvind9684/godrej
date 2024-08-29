@@ -23,6 +23,7 @@ span i{
     margin:5px;
 }
 
+
 /*---------------------------------------Investor navbar CSS --------------------------*/
 .navbar.fixed-top.sticky {
     background-color: rgba(253, 250, 250, 0.8); /* Background color when sticky */
@@ -440,7 +441,7 @@ a{
     height: 80%;
 
 }
-button.btn-left2, button.btn-right2 {
+button.btn-left2, button.btn-right2,button.btn-left5 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -655,6 +656,111 @@ button.btn-right6 {
     margin-top: -100px;
     background: linear-gradient(rgba(31, 30, 30, 0.1),rgba(27, 27, 27, 0.1));
 }
+
+/* --------------------------------------------------------------------------------------------------------------- */
+nav {
+    z-index:1000;
+    background: linear-gradient(rgba(19, 18, 18, 0.1),rgba(37, 37, 37, 0.1));
+    width:100%;
+    top:0;
+  }
+
+  
+nav .bi-telephone, 
+nav .bi-search,
+button .navbar-toggler,
+nav #sidebarToggle {
+    background: linear-gradient(rgba(228, 226, 226, 0.5), rgba(228, 226, 226, 0.5));
+    opacity: 0.4;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    padding:15px;
+    cursor: pointer;
+    font-size: 15px;
+    width:40px;
+    height:40px;
+}
+.navbar-toggler{
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: linear-gradient(rgba(228, 226, 226, 0.5), rgba(228, 226, 226, 0.5));
+    opacity: .4;
+    
+}
+.navbar-toggler-icon{
+    font-size:7px;
+    padding:10px;
+    border-radius: 55%;
+}
+.navbar-item{
+    font-size: large;
+    font-weight: bold;
+    color:whitesmoke;
+}
+#sidebarToggle{
+    width:50px;
+    height: 50px;
+    border: none;
+    color:black;
+}
+.carousel-item img{
+    width: 102%;
+    height: 550px;
+}
+
+
+#aboutus-menu{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(228, 226, 226, 0.5));
+}
+
+
+ .navbar-item {
+    position: relative;
+}
+
+/* Hide the dropdown menu by default */
+#aboutus-menu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Position it just below the parent */
+    left: 0;
+    z-index: 1000; /* Ensure it appears above other elements */
+}
+
+/* Show the dropdown menu on hover */
+#aboutDropdown:hover + #aboutus-menu, #aboutus-menu:hover {
+    display: block;
+}
+/* The navigation menu links */
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+/* --------------------------------------------------------Project View CSS---------------------------------------------------------------- */
+/* Ensure all images in .reward-container5 have the same width and height */
+.reward-container5 .card-img {
+    width: 100%; /* Ensures the image takes up the full width of the card */
+    height: 200px; /* Set the height you want for all images */
+    object-fit: cover; /* Maintains the aspect ratio and ensures the image covers the area */
+}
+
+
 
 
 

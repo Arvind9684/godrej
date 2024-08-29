@@ -1,14 +1,36 @@
-{% include 'project_base.html' %}
-{% block content %}   
+{% extends 'base.html' %}
+{% block content %} 
+{% load static %} 
+{% block head %}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Godrej Properties</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--Bootstrap js-->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- Popper.js (required for Bootstrap) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <!-- Bootstrap JS -->
+        <script src="../static/js/bootstrap.min.js"></script>
+        <!-- Bootstrap CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" rel="javascript"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+        
+        <!-- Link to your custom CSS -->
+        <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{% static '../static/project.css' %}" rel="stylesheet">
+        <!-- Link to your custom JavaScript -->
+        <script src="{% static '../static/project.js' %}" async defer></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    </head>
+{% endblock head %} 
 <div class="container-fluid mb-3">
-    <div class="row textAlign-center d-flex align-items-center">
-        <div class="col-lg-12 col-md-12 text-center">
-            <span class="line-before"></span>
-            <span class="text"><b>FIND WHERE YOU BELONG</b></span>
-            <span class="line-after"></span>
-        </div>
-    </div>
-
     <div class="container-fluid">
         <div class="row">
             <div class="col text-center">
@@ -17,13 +39,23 @@
             </div>
         </div>
     </div>
+    <div class="container-list" style="padding:5px;">
+        <div class="row textAlign-center d-flex align-items-center">
+            <div class="col-lg-12 col-md-12 text-center">
+                <span class="line-before"></span>
+                <span class="text"><b>FIND WHERE YOU BELONG</b></span>
+                <span class="line-after"></span>
+            </div>
+        </div>
     
-    <div class="input-group mb-3 mt-3">
-        <span class="input-group-text" id="basic-addon1" style="float: left;"><i class="bi bi-search"></i></span>
-        <input type="text" id="filterInput" class="form-control" placeholder="Enter Project Name" aria-label="Project Name" aria-describedby="basic-addon1" style="border:none;height:100%;">
-    </div>    
-
-    <div class="input-group" id="selectSearch" style="background-color:black;border:1px solid black;">
+        
+        
+        <div class="input-group mb-3 mt-3">
+            <span class="input-group-text" id="basic-addon1" style="float: left;padding:0px;border-radius: 0px;"><i class="bi bi-search"></i></span>
+            <input type="text" id="filterInput" class="form-control" placeholder="Enter Project Name" aria-label="Project Name" aria-describedby="basic-addon1" style="border:none;height:100%;">
+        </div>    
+    
+        <div class="input-group" id="selectSearch" style="background-color:black;border:1px solid black;">
             <button class="btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="commercialValue" style="border:none;color:gray;">
                 COMMERCIAL
             </button>
@@ -31,91 +63,88 @@
                 <li><a class="dropdown-item" href="#"><input type="radio" value="Residential" name="option" onclick="updateCommercialValue(this.value)"> Residential</a></li>
                 <li><a class="dropdown-item" href="#"><input type="radio" value="Commercial" name="option" onclick="updateCommercialValue(this.value)"> Commercial</a></li>
             </ul>
-
-        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;"><span id="citycount"> </span> CITIES</button>
-        <div class="dropdown-menu" >
-            <table class="table">
-                <tr>
-                    <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Mumbai</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Delhi</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Noida</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Gurugram</a></td>
-                </tr>
-                <tr>
-                    <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Bengaluru</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Pune</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Other</a></td>
-                </tr>
-            </table>
-            
-        </div>
-
-        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray" disabled>TYPE</button>
-        <div class="dropdown-menu" >
-            <table>
-                <tr>
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Mumbai" name="option"> Mumbai</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Delhi" name="option"> Delhi</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Noida" name="option"> Noida</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Gurugram" name="option"> Gurugram</a></td>
-                </tr> 
-                <tr> 
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Bengaluru" name="option"> Bengaluru</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Pune" name="option"> Pune</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Other" name="option"> Other</a></td>
-                </tr>
-            </table>
-        </div>
-
-        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" disabled>STATUS</button>
-        <div class="dropdown-menu">
-            <table class="table">
-                <tr>
-                    <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateFilter()"> Mumbai</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateFilter()"> Delhi</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateFilter()"> Noida</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateFilter()"> Gurugram</a></td>
-                </tr>
-                <tr>
-                    <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateFilter()"> Bengaluru</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateFilter()"> Pune</a></td>
-                    <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateFilter()"> Other</a></td>
-                </tr>
-            </table>
-        </div>
-
-        <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" >BUDGET</button>
-        <div class="dropdown-menu col-lg-2 col-md-12" >
-            <input type="range" min="0" max="100" value="50" class="slider" id="myRange" oninput="updateValue(this.value)">
-            <span id="rangeValue">50</span>
-        </div>
-        <button class="btn-dark col-lg-2 col-md-12" style="margin-right:none;width:265px;background-color:black;border:none;"> <a href="project" style="text-decoration: none;color:gray;">RESET </a> </button>
-    </div>
-    <div class="col-md-12 mb-3 mt-3">
-        <label class="form-check-label" for="flexSwitchCheckDefault">New launches only</label>
-        <div class="form-check form-switch" style="float:left;">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-        </div>
-        <div style="float:right">
-            <a href="#" style="text-decoration:none;">More filter</a>
-        </div>
-    </div>
     
-    <div class="row textAlign-center d-flex align-items-center mb-3">
-        <div class="col-lg-12 col-md-12 text-center">
-            <span class="line-before"></span>
-            <span class="text"><b>EXPLORE HOMES</b></span>
-            <span class="line-after"></span>
-        </div>
-    </div>
+            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;"><span id="citycount"> </span> CITIES</button>
+            <div class="dropdown-menu" >
+                <table class="table">
+                    <tr>
+                        <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Mumbai</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Delhi</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Noida</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Gurugram</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Bengaluru</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Pune</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateCheckboxCount()"> Other</a></td>
+                    </tr>
+                </table>
+                
+            </div>
     
-    <div class="container-list" style="padding:5px;">
-        <h2>List Views</h2>
+            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray" disabled>TYPE</button>
+            <div class="dropdown-menu" >
+                <table>
+                    <tr>
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Mumbai" name="option"> Mumbai</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Delhi" name="option"> Delhi</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Noida" name="option"> Noida</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Gurugram" name="option"> Gurugram</a></td>
+                    </tr> 
+                    <tr> 
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Bengaluru" name="option"> Bengaluru</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Pune" name="option"> Pune</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Other" name="option"> Other</a></td>
+                    </tr>
+                </table>
+            </div>
+    
+            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" disabled>STATUS</button>
+            <div class="dropdown-menu">
+                <table class="table">
+                    <tr>
+                        <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateFilter()"> Mumbai</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateFilter()"> Delhi</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateFilter()"> Noida</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateFilter()"> Gurugram</a></td>
+                    </tr>
+                    <tr>
+                        <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateFilter()"> Bengaluru</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateFilter()"> Pune</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateFilter()"> Other</a></td>
+                    </tr>
+                </table>
+            </div>
+    
+            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" >BUDGET</button>
+            <div class="dropdown-menu col-lg-2 col-md-12" >
+                <input type="range" min="0" max="100" value="50" class="slider" id="myRange" oninput="updateValue(this.value)">
+                <span id="rangeValue">50</span>
+            </div>
+            <button class="btn-dark col-lg-2 col-md-12" style="margin-right:none;width:265px;background-color:black;border:none;"> <a href="project" style="text-decoration: none;color:gray;">RESET </a> </button>
+        </div>
+        <div class="col-md-12 mb-3 mt-3">
+            <label class="form-check-label" for="flexSwitchCheckDefault">New launches only</label>
+            <div class="form-check form-switch" style="float:left;">
+                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+            </div>
+            <div style="float:right">
+                <a href="#" style="text-decoration:none;">More filter</a>
+            </div>
+        </div>
+        
+        <div class="row textAlign-center d-flex align-items-center mb-3">
+            <div class="col-lg-12 col-md-12 text-center">
+                <span class="line-before"></span>
+                <span class="text"><b>EXPLORE HOMES</b></span>
+                <span class="line-after"></span>
+            </div>
+        </div>
         <div class="row card-container project-div">
             {% for project in project_list %}
                 <div class="card">
                     <div class="card-image">
-                        <img src="..{{project.picture}}" alt="Image 1" class="card-img col-lg-12 col-md-12" style="width:100%;height:350px;">
+                        <img src="..{{project.picture}}" alt="picture" class="card-img col-lg-12 col-md-12" style="width:100%;height:350px;">
                         
                         <div class="card-img-text">
                             <div class="row">
@@ -142,10 +171,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-12">
-                                    <span class="bi-beds" style="border:1px solid;border-radius:49%;text-align:center;">
-                                        <i class="bi bi-currency-rupee"></i>
+                                    <span class="bi-beds" style="border:1px solid;border-radius:49%;text-align:center;padding:7px;">
+                                        &#8377; 
                                     </span>
-                                    <span> Price</span>
+                                    <span> &nbsp; Price</span>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     INR <span class="price">{{project.price}}</span> lakh onword
@@ -154,7 +183,7 @@
                         
                             <hr>
                             <div class="col-lg-12 col-md-12">
-                                <span><i class='far fa-comments'></i></span>
+                                <span><i class="bi bi-chat"></i></span>
                                 <span>
                                     <a href="#" onclick="enquirynow('{{project.name}}')">Enquire Now</a>
                                 </span>
@@ -164,7 +193,7 @@
                                 <span> <a href="#" onclick="scheduleOn('{{project.name}}')">Shedule visit</a></span>
                             </div>
                             <div class="col-lg-12 col-md-12 mt-1">
-                                <span><i class="bi bi-telephone-fill"></i></span><span><a href="tel:+918171479684"> Call Us </a></span>
+                                <span><i class="bi bi-telephone-fill"></i></span><span><a href="tel:+918171479684" onclick="callus('{{project.name}}','{{project.city}}')">Call Us</a></span>
                             </div>
                             <div class="col-lg-12 col-md-12 mt-1">
                                 <span><i class="bi bi-whatsapp"></i></span><span><a href="https://wa.me/+918171479684?text=Hello%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank"> Whatsapp</a></span>
@@ -218,9 +247,33 @@
             </div>
         </div>  
     </div>
+    <div class="container-map mt-5">
+        <div id="map-container" style="width:100%;height:500px;">
+            <!-- The map will be embedded here -->
+        </div>
+    </div>
     
-    <div class="container-map">
-        <h2>Map Views</h2>    
+    <script>
+        fetch("{% url 'getmap' %}")
+            .then(response => response.json())
+            .then(data => {
+                const mapUrl = data.map_url;
+                const iframe = document.createElement('iframe');
+                iframe.src = mapUrl;
+                iframe.width = "100%";
+                iframe.height = "500px";
+                iframe.frameBorder = "0";
+                document.getElementById('map-container').appendChild(iframe);
+            })
+            .catch(error => {
+                console.error('Error loading map:', error);
+            });
+    </script>
+    
+    
+    
+
+
     </div>
 </div>
 <div>
@@ -235,7 +288,7 @@
                 Our site representative will give you a call back.<p>
         </span>
         <div class="col-lg-12 col-md-12">
-            <div class="promosion col-lg-9 col-md-12 mb-5 align-items-center">
+            <div class="promosion col-lg-10 col-md-12 mb-5 align-items-center">
                 <form action="{% url 'callback' last_url_word%}" method="POST" class="promosion-form fs-6">{% csrf_token %}
                     <span><input type="text" name="name" placeholder="Name"></span>
                     <span class="countryFlag"><img src="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" alt="Country Flag" id="countryFlag"></span>
@@ -257,12 +310,12 @@
                         <input type="email" name="email" placeholder="Email ID">
                     </span>
                     <br>
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-12 col-md-12 d-flex mt-5">
                         <div class="checkbox-row">
                             <span>
                                 <input type="checkbox" name="confirm">
                             </span>
-                            <span>
+                            <span style="margin-top:10px;">
                                 Yes, I would like to receive updates & promotions from Godrej Properties Limited.
                             </span>
                         </div>
@@ -280,9 +333,7 @@
     </div>
 </div>
 {% endblock%}
-<section id="footer" class="bg-white">
-    {% include 'footer.html' %}
-</section>
+
 
 
 

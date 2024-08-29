@@ -46,6 +46,28 @@ function checkCookie() {
         disclaimerModal.style.display = "none";
         body.classList.remove("disabled");
     } else {
+        let mobile = prompt("Enter Mobile Number");
+        let name = prompt("Enter Name");
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); // Convert days to milliseconds
+                expires = "; expires=" + date.toUTCString(); // Set expiration time
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        // Usage example: Set a cookie named "visit_csrf" with the value "123456" that expires in 7 days
+        setCookie("visiter_csrf",getCookie('csrftoken'), 7);
+        fetch('/sitevisiter_insert/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            
+            body: JSON.stringify({ mobile: mobile,name:name,csrftoken:getCookie('csrftoken') }), // Correctly format the data
+        })
         disclaimerModal.style.display = "block";
         body.classList.add("disabled");
     }
@@ -229,6 +251,133 @@ drawOnCanvas('myCanvas1');
 drawOnCanvas('myCanvas2');
 // Add more drawOnCanvas calls as needed for additional canvases
 
-/*---------------------------------------------------Finance page -------------------------------------------------------*/
+/*---------------------------------------------------chatboat -------------------------------------------------------*/
+function submitData(data) {
+    fetch('/chatbot-data/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.status === 'success') {
+            // Redirect to a new page to display the data
+            window.location.href = `/chatbot-result/${result.id}/`;
+        } else {
+            console.error('Error submitting data:', result.message);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const chatbotBody = document.getElementById('chatbot-body');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const chatbotClose = document.getElementById('chatbot-close');
+
+    const steps = [
+        { question: 'What is your name?', field: 'name' },
+        { question: 'What is your mobile number?', field: 'mobile' },
+        { question: 'What is your email address?', field: 'email' },
+    ];
+
+    let currentStep = 0;
+    const userData = {};
+
+    function showMessage(message, isBot = true) {
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = message;
+        messageDiv.style.marginBottom = '10px';
+        messageDiv.style.padding = '5px';
+        messageDiv.style.backgroundColor = isBot ? '#e9ecef' : '#007bff';
+        messageDiv.style.color = isBot ? '#000' : '#fff';
+        chatbotBody.appendChild(messageDiv);
+        chatbotBody.scrollTop = chatbotBody.scrollHeight;
+    }
+
+    function startChat() {
+        showMessage(steps[currentStep].question);
+    }
+
+    function handleInput() {
+        const userResponse = userInput.value.trim();
+        if (userResponse) {
+            userData[steps[currentStep].field] = userResponse;
+            
+            // Show user response
+            showMessage(`You: ${userResponse}`, false);
+
+            userInput.value = '';
+
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showMessage(steps[currentStep].question);
+            } else {
+                showMessage('Thank you! Here is the data you provided:');
+                showMessage(`Name: ${userData.name}`);
+                showMessage(`Mobile: ${userData.mobile}`);
+                showMessage(`Email: ${userData.email}`);
+                showMessage('Your data has been submitted.');
+                userInput.style.display="none";
+                sendBtn.style.display="none";
+                submitData(userData);
+            }
+        }
+    }
+
+    function submitData(data) {
+        fetch('/chatbot-data/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success') {
+                console.log('Data submitted successfully');
+            } else {
+                console.error('Error submitting data:', result.message);
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        });
+    }
+
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [cookieName, cookieValue] = cookie.split('=');
+            if (cookieName.trim() === name) {
+                return cookieValue;
+            }
+        }
+        return null;
+    }
+
+    sendBtn.addEventListener('click', handleInput);
+    userInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            handleInput();
+        }
+    });
+
+    chatbotClose.addEventListener('click', () => {
+        document.getElementById('chatbot-container').style.display = 'none';
+    });
+
+    startChat();
+});
+// -----------------------------------------------------------------------------------------------------------------
+
 
 

@@ -13,10 +13,12 @@
 {% block content %}
 
 <h1>Table View: {{ last_url_word }}</h1>
+<tr><td><a href="{% url 'add_table_data' last_url_word %}"><div class="btn btn-sm btn-success">ADD</div></a></td></tr>
 <div style="overflow-x: scroll;">
     <table class="table">
         <thead>
             <tr>
+                <td>Action</td>
                 {% for col in columns_name %}
                     <th>{{ col }}</th>
                 {% endfor %}
@@ -26,7 +28,16 @@
             {% for row in zipped_data %}
                 <tr>
                     {% for col,value in row %}
-                        {% if col == "description" %}
+                        {% if col == "id" %}
+                            <td><div style="float:none;">
+                                <table>
+                                    <tr><td><a href="{% url 'update_record' last_url_word value %}"><div class="btn btn-sm btn-primary">UPDATE</div></a></td></tr>
+                                    <tr><td><a href="{% url 'delete_record' last_url_word value %}"><div class="btn btn-sm btn-danger">DELETE</div></a></td></tr>
+                                </table>
+                                </div>
+                            </td>
+                            <td>{{value}}</td>
+                        {% elif col == "description" %}
                             <td class="description-cell" style="width:200px;">{{ value }}</td>
                         {% elif col == "picture" %}
                             <td><img src="../media/{{value}}" alt="image"></td>

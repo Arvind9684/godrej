@@ -74,6 +74,21 @@ urlpatterns = [
     path("curated_events", views.curated_events, name="curated_events"),
     path("life-trends", views.life_trends, name="life-trends"),
     path("posts_details/<int:id>/", views.posts_details, name="posts_details"),
+    path("search", views.search, name="search"),
+    path('chatbot-data/', views.chatbot_data, name='chatbot_data'),
+    path('getmap/', views.getmap, name='getmap'),
+    path('sitevisiter_insert/', views.sitevisiter_insert, name='sitevisiter_insert'),
+    path('update_record/<str:model_name>/<int:pk>/', views.update_record, name='update_record'),
+    path('search_history/', views.search_history, name='search_history'),
+    path('getmapwidthproject/<int:id>/', views.getmapwidthproject, name='getmapwidthproject'),
+    path('save-url/', views.save_url_in_history, name='save_url_in_history'),
+    path('schedule/', views.scheduletime, name='schedule'),
+    path('membership/', views.membership, name='membership'),
+    path('ambessador/units/', views.ambessador_units, name='ambessador/units'),
+    path('delete_record/<str:model_name>/<int:pk>/', views.delete_record, name='delete_record'),
+    path('project_callus', views.project_callus, name='project_callus'),
+    
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

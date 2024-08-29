@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'myapp',
     'api',
 ]
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'myapp.middleware.HistoryMiddleware',
 ]
 
 ROOT_URLCONF = 'godrejproperties2.urls'
@@ -113,6 +115,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+TIME_ZONE = 'Asia/Kolkata'
+
 USE_TZ = True
 
 
@@ -120,6 +124,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+custom_filters = '/templatetags/'
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -132,9 +141,6 @@ STATICFILES_DIRS = [BASE_DIR / 'static']  # Include this if you have a directory
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -144,5 +150,22 @@ EMAIL_HOST_PASSWORD = 'zclpsgtanjxytsop'
 
 
 LOGIN_URL = '/administrator/login/'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    # Other backends
+]
+API_KEY = "MkkcZCGe56IfRyzf82vlLwQwGJoAm5iGhzt33va3KcY"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'api.authentication.APIKeyAuthentication',
+        'rest_framework.authentication.SessionAuthentication',  # Optional, for web sessions
+        # Add other authentication classes if needed
+    ),
+}
+
+
 
 

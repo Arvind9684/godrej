@@ -163,7 +163,16 @@
         <tr><th>price</th><td><input type="text" name="price" value="{{project.price}}" placeholder="{{project.price}}" id="price" class="price"></td></tr>
         <tr><th>locality</th><td><input type="text" name="locality" value="{{project.locality}}" placeholder="{{project.locality}}" id="locality" class="locality"></td></tr>
         <tr><th>topology</th><td><input type="text" name="topology" value="{{project.topology}}" placeholder="{{project.topology}}" id="topology" class="topology"></td></tr>
-        <tr><th>location</th><td><input type="text" name="location" value="{{project.location}}" placeholder="{{project.location}}" id="location" class="location"></td></tr>
+        <tr><th>location</th>
+            <td>
+                <select  name="location"  id="location" class="location">
+                    <option value="project.location">{{project.location}}</option>
+                    {% for loc in location %}
+                        <option value="{{loc.id}}">{{loc}}</option>   
+                    {% endfor %}   
+                </select>
+            </td>
+        </tr>
         <tr><th>neighbourhood</th><td><input type="text" name="neighbourhood" value="{{project.neighbourhood}}" placeholder="{{project.neighbourhood}}" id="neighbourhood" class="neighbourhood"></td></tr>
         <tr><th>master_plan</th><td><input type="text" name="master_plan" value="{{project.master_plan}}" placeholder="{{project.master_plan}}" id="master_plan" class="master_plan"></td></tr>
         <tr><th>unit_plan</th><td><input type="text" name="unit_plan" value="{{project.unit_plan}}" placeholder="{{project.unit_plan}}" id="unit_plan" class="unit_plan"></td></tr>

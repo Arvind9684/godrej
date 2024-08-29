@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<!-- Navbar -->
+    <img src="../media/image/design2.png" alt="Image" style="width:100%;margin-top: -75px;height:500px;">
+    <!-- Form Row -->
+    <div class="row d-flex justify-content-center mt-5">
+        <form action="{% url 'search' %}#search-list" method="post" class="form-inline w-100 d-flex"> {% csrf_token %}
+            <div class="col-lg-2 col-md-4 col-sm-12 mb-3">
+                <label class="form-label">TYPE</label>
+                <select name="property_type" class="form-control w-100">
+                    <option value="" disabled selected>Property Type</option>
+                    {% for project in project_list %}
+                    <option value="{{project.property_type}}">{{project.property_type}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-12 mb-3">
+                <label class="form-label">CITY</label>
+                <select name="city" class="form-control w-100">
+                    <option value="" disabled selected>City</option>
+                    {% for project in project_list %}
+                    <option value="{{project.city}}">{{project.city}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-12 mb-3">
+                <label class="form-label">STATUS</label>
+                <select name="status" class="form-control w-100">
+                    <option value="" disabled selected>Status</option>
+                    {% for project in project_list %}
+                    <option value="{{project.status}}">{{project.status}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-12 mb-3">
+                <label class="form-label">BUDGET</label>
+                <input type="number" name="budget" placeholder="Budget in Lakhs" class="form-control w-100">
+            </div>
+            <div class="col-lg-2 col-md-4 col-sm-12 mb-3">
+                <label class="form-label">Action</label>
+                <input type="submit" value="Search" class="btn btn-primary w-100">
+            </div>
+        </form>
+    </div>
+
+    
+    
+    
+    {% if search_list %}
+    <div id="search-list">
+        <div class="row textAlign-center d-flex align-items-center mb-3">
+            <div class="col-lg-12 col-md-12 text-center">
+                <span class="line-before"></span>
+                <span class="text"><b>EXPLORE HOMES</b></span>
+                <span class="line-after"></span>
+            </div>
+        </div>
+        
+        <div class="container-list" style="padding:5px;">
+            <h2>Your search list</h2>
+        
+        {% for project in search_list %}
+            <div class="row card-container project-div d-flex justify-content-center">
+                <div class="col-lg-12 col-md-8 col-sm-12 mb-4">
+                    <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                        <div class="card" style="margin:10px;margin-left:30px;">
+                            <div class="card-image" style="margin:10px;">
+                                <img src="..{{ project.picture }}" alt="Image 1" class="card-img-top" style="height: 250px;">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                        <div class="card" style="margin:10px;">
+                            <div class="card-image" style="margin:10px;">
+                                <img src="../media/{{ project.profile_pic }}" alt="{{ project.profile_pic }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                        <div class="card" style="margin:10px;">
+                            <div class="card-image" style="margin:10px;">
+                                <img src="..{{ project.image }}" alt="{{ project.image }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <hr>
+            <div class="row d-flex">
+                <div class="col-lg-6 col-md-4 col-sm-12">
+                    <div class="col-lg-12 col-md-12">
+                        <span><i class="bi bi-chat"></i></span>                                        </span>
+                        <span>
+                            <a href="#" onclick="enquirynow('{{project.name}}')">Enquire Now</a>
+                        </span>
+                    </div>
+                    <div class="col-lg-12 col-md-12 mt-1">
+                        <span><i class="bi bi-calendar-check"></i></span>
+                        <span> <a href="#" onclick="scheduleOn('{{project.name}}')">Shedule visit</a></span>
+                    </div>
+                    <div class="col-lg-12 col-md-12 mt-1">
+                        <span><i class="bi bi-telephone-fill"></i></span><span><a href="tel:+918171479684"> Call Us </a></span>
+                    </div>
+                    <div class="col-lg-12 col-md-12 mt-1">
+                        <span><i class="bi bi-whatsapp"></i></span><span><a href="https://wa.me/+918171479684?text=Hello%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank"> Whatsapp</a></span>
+                    </div> 
+                    <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                    <div class="card-content">
+                        <p class="col-lg-12 col-md-12 img-location">
+                            <span style="flaot:left;">{{project.location}}</span>
+                            <span id="bi-plus" style="border:none;">
+                                <i class="bi bi-plus-circle" style="border:none;"></i>
+                            </span>
+                        </p>
+                    </div>
+                    
+                    <div class="card-content">
+                        <h4>{{project.title}}</h4>
+                        <p>
+                            <span style="border:1px groove gray;padding:3px;border-radius:2px;">
+                                <span style="color:blue;"><i class="bi bi-star"></i></span> 
+                                <span class="status">{{project.status}}</span></span> <span class="environmenttype"> {{project.property_type}}</span></p>
+                        <p><strong>INR</strong> {{project.price}}.00 Lakh onwards | <strong>Possession Date </strong>{{project.possession_date}}</p>
+                    </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-12">
+                    <div style="box-shadow: 5px 5px 5px 5px;padding:10px;">
+                        <h4><b>Contact Details</b></h4>
+                        <table class="table">
+                            <tr><th>Mobile</th><td>+91 458475893475</td></tr>
+                            <tr><th>E-mail</th><td>dealer@godrej.com</td></tr>
+                            <tr><th>Office:</th>
+                                <td>
+                                    <strong>Noida</strong><br>
+                                    Sector 63<br>
+                                    c-87
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+                {% endfor %}
+            </div>
+            <div class="textAlign-center d-flex align-items-center mb-3">
+                <div class="pagination" style="margin-left: 34%;margin-top: 3%;font-size: 22px;color: #00ff89;">
+                    <center>
+                    <!-- Pagination links -->
+                <div class="col-lg-12 col-md-12 step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </div>
+                    </center>
+                </div>
+            </div>  
+        </div>
+    </div>
+    {% comment %} --------------------------------------------------------------------------------- {% endcomment %}
+    <!-- Chatbot HTML -->
+    <div id="chatbot-container" class="chatbot-container">
+        <div id="chatbot" class="chatbot">
+            <div id="chatbot-header" class="chatbot-header">
+                Chatbot
+                <span id="chatbot-close" class="chatbot-close">&times;</span>
+            </div>
+            <div id="chatbot-body" class="chatbot-body">
+                <!-- Chat messages will be appended here -->
+            </div>
+            <div id="chatbot-input" class="chatbot-input">
+                <input type="text" id="user-input" placeholder="Type your response...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+    
+
+<!-- Chatbot CSS -->
+<style>
+    .chatbot-container {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        margin: 20px;
+        z-index: 1000;
+    }
+    
+    .chatbot {
+        width: 300px;
+        height: 400px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .chatbot-header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+        font-weight: bold;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .chatbot-close {
+        cursor: pointer;
+    }
+
+    .chatbot-body {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        background-color: #f8f9fa;
+    }
+
+    .chatbot-input {
+        display: flex;
+        border-top: 1px solid #ccc;
+        padding: 5px;
+    }
+
+    #user-input {
+        flex: 1;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    #send-btn {
+        padding: 5px 10px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-left: 5px;
+    }
+
+    #send-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+
+
+
+
+
+
+    
+    
+    {% endif %}
+{% endblock content %}

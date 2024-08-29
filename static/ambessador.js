@@ -105,6 +105,8 @@ function updateFlag() {
     $('#countryFlagSymbol').attr('src', flagSrc);
 }
 function continuewithemail(){
+    var lable=document.getElementById('lable');
+    lable.innerHTML="E-mail Address";
     document.getElementById('email').style.display="block";
     document.getElementById('mobile').style.display="none";
     var getOtpBtn=document.getElementById('getOtpBtnmobile');
@@ -117,6 +119,8 @@ function continuewithemail(){
 }
 
 function continuewithemobile(){
+    var lable=document.getElementById('lable');
+    lable.innerHTML="Phone Number";
     document.getElementById('email').style.display="none";
     document.getElementById('mobile').style.display="block";
     var getOtpBtn=document.getElementById('getOtpBtnmobile');

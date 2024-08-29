@@ -2,6 +2,23 @@
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+import secrets
+
+
+class APIKey(models.Model):
+    key = models.CharField(max_length=40, unique=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = secrets.token_urlsafe(32)  # Generate a random API key
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.key
+
 
 
 class City(models.Model):
@@ -44,31 +61,34 @@ class Website(models.Model):
         return f'Website: {self.name}'
 
 class Location(models.Model):
+    country=models.CharField(max_length=50,null=True,blank=True, default="NA")
+    state=models.CharField(max_length=50,null=True,blank=True, default="NA")
+    dist=models.CharField(max_length=50,null=True,blank=True, default="NA")
     city = models.ForeignKey(City, related_name="locations", on_delete=models.CASCADE)
-    name = models.CharField(max_length=255,default='')
-    longitude = models.CharField(max_length=50,default='')
-    latitude = models.CharField(max_length=50,default='')
+    other = models.CharField(max_length=255,default="NA",null=True,blank=True)
+    longitude = models.CharField(max_length=50,default="NA",null=True,blank=True)
+    latitude = models.CharField(max_length=50,default="NA",null=True,blank=True)
     
     def __str__(self):
-        return f'Location: {self.name} in {self.city.name}'
+        return f'Location: {self.city.name} in {self.state}'
 
 class Publisher(models.Model):
     is_active = models.BooleanField(default=True)
     listing = models.BigAutoField(primary_key=True)
-    state = models.CharField(max_length=255,default='')
-    city = models.CharField(max_length=255,default='')
-    department = models.CharField(max_length=255,default='')
-    designation = models.CharField(max_length=255,default='')
-    role = models.CharField(max_length=255,default='')
-    name = models.CharField(max_length=255,default='')
+    state = models.CharField(max_length=255,default="NA")
+    city = models.CharField(max_length=255,default="NA")
+    department = models.CharField(max_length=255,default="NA")
+    designation = models.CharField(max_length=255,default="NA")
+    role = models.CharField(max_length=255,default="NA")
+    name = models.CharField(max_length=255,default="NA")
     email = models.EmailField(null=True)
-    phone = models.CharField(max_length=20,default='')
-    password = models.CharField(max_length=50,default='')
-    address = models.TextField(default='')
+    phone = models.CharField(max_length=20,default="NA")
+    password = models.CharField(max_length=50,default="NA")
+    address = models.TextField(default="NA")
     created_on = models.DateTimeField(default=timezone.now)
-    pub_id = models.CharField(max_length=255,default='')
-    listing_date = models.DateTimeField(null=True, blank=True,default='')
-    plan_id = models.CharField(max_length=50,default='')
+    pub_id = models.CharField(max_length=255,default="NA")
+    listing_date = models.DateTimeField(null=True, blank=True,default="NA")
+    plan_id = models.CharField(max_length=50,default="NA")
     
     def __str__(self):
         return f'Publisher: {self.name}'
@@ -82,73 +102,73 @@ class Gallery(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(default='',null=True)
+    description = models.TextField(default="NA",null=True)
     picture = models.FileField(upload_to="projects/pictures/", blank=True, null=True)
     view = models.BigIntegerField(default=0)
     is_verified = models.BooleanField(default=False)
     is_for_rent = models.BooleanField(default=False)
-    title = models.TextField(default='',null=True)
-    city = models.ForeignKey(City, related_name="city", on_delete=models.CASCADE)
+    title = models.TextField(default="NA",null=True)
+    location = models.ForeignKey(Location, related_name="location", on_delete=models.CASCADE)
     sub_area = models.ForeignKey(SubArea, related_name='sub_area', on_delete=models.CASCADE)
     property_type = models.ForeignKey(PropertyType, related_name='property_type', on_delete=models.CASCADE)
     category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
     sub_category = models.ForeignKey(SubCategory, related_name='sub_category', on_delete=models.CASCADE)
     website = models.ForeignKey(Website, related_name='website', on_delete=models.CASCADE)
-    amenities = models.TextField(default='',null=True)
-    nearby = models.TextField(default='',null=True)
+    amenities = models.TextField(default="NA",null=True)
+    nearby = models.TextField(default="NA",null=True)
     expiration_date = models.DateTimeField(null=True, blank=True)
-    construction_status = models.TextField(default='',null=True)
-    status = models.TextField(default='',null=True)
-    furnished = models.TextField(default='',null=True)
+    construction_status = models.TextField(default="NA",null=True)
+    status = models.TextField(default="NA",null=True)
+    furnished = models.TextField(default="NA",null=True)
     security_deposit = models.BigIntegerField(default=0)
-    rent_property = models.TextField(default='',null=True)
-    rent_escalation_period = models.TextField(default='',null=True)
-    rent_priority_comment = models.TextField(default='',null=True)
+    rent_property = models.TextField(default="NA",null=True)
+    rent_escalation_period = models.TextField(default="NA",null=True)
+    rent_priority_comment = models.TextField(default="NA",null=True)
     size = models.BigIntegerField(default=0)
     carpet_area = models.BigIntegerField(default=0)
-    type = models.TextField(default='',null=True)
-    builder = models.TextField(default='',null=True)
+    type = models.TextField(default="NA",null=True)
+    builder = models.TextField(default="NA",null=True)
     floor = models.IntegerField(default=0)
     total_floor = models.IntegerField(default=0)
-    facing = models.TextField(default='',null=True)
-    possession_type = models.TextField(default='',null=True)
+    facing = models.TextField(default="NA",null=True)
+    possession_type = models.TextField(default="NA",null=True)
     is_rented = models.BooleanField(default=False)
-    rent = models.CharField(max_length=50, default='',null=True)
+    rent = models.CharField(max_length=50, default="NA",null=True)
     cost = models.BigIntegerField(default=0)
     extra_charge = models.BigIntegerField(default=0)
-    lease_time = models.CharField(max_length=20, default='',null=True)
+    lease_time = models.CharField(max_length=20, default="NA",null=True)
     lease_completed = models.BooleanField(default=False)
     lease_balance = models.BigIntegerField(default=0)
-    rent_escalation = models.TextField(default='',null=True)
-    rent_to = models.CharField(max_length=50, default='',null=True)
-    maintenance = models.CharField(max_length=50, default='',null=True)
-    registry = models.CharField(max_length=100, default='',null=True)
+    rent_escalation = models.TextField(default="NA",null=True)
+    rent_to = models.CharField(max_length=50, default="NA",null=True)
+    maintenance = models.CharField(max_length=50, default="NA",null=True)
+    registry = models.CharField(max_length=100, default="NA",null=True)
     transfer_charge = models.BigIntegerField(default=0)
     gst = models.BigIntegerField(default=0)
     profit_sharing = models.BigIntegerField(default=0)
-    roi = models.TextField(default='',null=True)
+    roi = models.TextField(default="NA",null=True)
     profile_pic = models.ImageField(upload_to="projects/profile_pic/", blank=True, null=True)
-    shop_for = models.TextField(default='',null=True)
-    posted_by = models.TextField(default='',null=True)
+    shop_for = models.TextField(default="NA",null=True)
+    posted_by = models.TextField(default="NA",null=True)
     possession_status = models.BooleanField(default=False)
     possession_date = models.DateTimeField(null=True, blank=True)
     is_corner_plot = models.BooleanField(default=False)
     hidden_notes = models.FileField(upload_to="projects/hidden_notes", blank=True, null=True)
-    lock_in = models.TextField(default='',null=True)
-    power_breakup_rate = models.CharField(max_length=50, default='',null=True)
-    road_size = models.CharField(max_length=100, default='')
+    lock_in = models.TextField(default="NA",null=True)
+    power_breakup_rate = models.CharField(max_length=50, default="NA",null=True)
+    road_size = models.CharField(max_length=100, default="NA")
     publisher = models.ForeignKey(Publisher, related_name='publisher', on_delete=models.CASCADE)
-    meta_desc = models.TextField(default='',null=True)
-    meta_key = models.CharField(max_length=200, default='',null=True)
+    meta_desc = models.TextField(default="NA",null=True)
+    meta_key = models.CharField(max_length=200, default="NA",null=True)
     is_distress = models.BooleanField(default=False)
-    reason_distress = models.CharField(max_length=100, default='',null=True)
-    cost_distress = models.CharField(max_length=50, default='',null=True)
+    reason_distress = models.CharField(max_length=100, default="NA",null=True)
+    cost_distress = models.CharField(max_length=50, default="NA",null=True)
     recommended = models.BooleanField(default=False)
-    plot_size = models.CharField(max_length=50, default='',null=True)
-    construction_age = models.CharField(max_length=200, default='',null=True)
-    code = models.CharField(max_length=50, default='',null=True)
+    plot_size = models.CharField(max_length=50, default="NA",null=True)
+    construction_age = models.CharField(max_length=200, default="NA",null=True)
+    code = models.CharField(max_length=50, default="NA",null=True)
     listing_date = models.DateTimeField(null=True, blank=True)
-    slug = models.SlugField(max_length=200, default='',null=True)
+    slug = models.SlugField(max_length=200, default="NA",null=True)
     def __str__(self):
         return self.name
 class Picture(models.Model):
@@ -158,3 +178,15 @@ class Picture(models.Model):
 
     def __str__(self):
         return f'Image for {self.project_name.name}'
+    
+class History(models.Model):
+    visiter = models.ForeignKey('myapp.sitevisiter', on_delete=models.CASCADE, null=True, blank=True)
+    action = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    record_id = models.IntegerField()
+    description = models.TextField(null=True, blank=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.action} on record ID {self.record_id} at {self.timestamp}"
+

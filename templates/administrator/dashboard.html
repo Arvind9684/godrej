@@ -1,9 +1,10 @@
 {% extends 'administrator/base.html' %}
 {% block content %}
+{% load static %}
 <div class="cards">
     <div class="card-single">
         <div>
-            <h1>54</h1>
+            <h1>{{property_count}}</h1>
             <span>Properties</span>
         </div>
         <div>
@@ -21,7 +22,7 @@
     </div>
     <div class="card-single">
         <div>
-            <h1>124</h1>
+            <h1>{{cust_count}}</h1>
             <span>Clients</span>
         </div>
         <div>
@@ -30,11 +31,101 @@
     </div>
     <div class="card-single">
         <div>
-            <h1>$6K</h1>
+            <h1>&#8377; {{earning}}Lakhs</h1>
             <span>Earnings</span>
         </div>
         <div>
-            <span class="las la-dollar-sign"></span>
+            <span class="las la-rupee-sign"></span>
         </div>
     </div>
+    
+    {% for project in schedulOn_group_df.values %}   
+    <div class="card-single">
+        <div>
+            <h1>{{project.1}}</h1>
+            <span>Schedul On {{project.0}}</span>
+        </div>
+        <div>
+            <span class="las">&#xf4fd;</span>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <div class="card-single">
+        <div>
+            <h1>{{chatboatData_count}}</h1>
+            <span>Chat Boat Data</span>
+        </div>
+        <div>
+            <span class="las">&#xf075;</span>
+        </div>
+    </div>
+
+    <div class="card-single">
+        <div>
+            <h1>{{Callback_count}}</h1>
+            <span>Call Back</span>
+        </div>
+        <div>
+            <span class="las">&#xf2a0;</span>
+        </div>
+    </div>
+    
+    <div class="card-single">
+        <div>
+            <h1>{{sitevisiter_count}}</h1>
+            <span>Site Visiter</span>
+        </div>
+        <div>
+            <span class="las">&#xf2a8;</span>
+        </div>
+    </div>
+
+    {% for project in customerLead_group_df.values %}   
+    <div class="card-single">
+        <div>
+            <h1>{{project.1}}</h1>
+            <span>Customer Lead On {{project.0}}</span>
+        </div>
+        <div>
+            <span class="las la-calendar-check"></span>
+        </div>
+    </div>
+    {% endfor %}
+    
+    {% for project in projectCallus_group_df.values %}   
+    <div class="card-single">
+        <div>
+            <h1>{{project.1}}</h1>
+            <span>Call Us {{project.0}}</span>
+        </div>
+        <div>
+            <span class="las la-phone"></span>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <div class="card-single">
+        <div>
+            <h1>{{blogs_count}}</h1>
+            <span>Blogs</span>
+        </div>
+        <div>
+            <span class="las la-blog"></span>
+        </div>
+    </div>
+    
+    {% for project in projectEnquary_group_df.values %}   
+    <div class="card-single">
+        <div>
+            <h1>{{project.1}}</h1>
+            <span>Enquiry to {{project.0}}</span>
+        </div>
+        <div>
+            <span class="las la-question"></span>
+        </div>
+    </div>
+    {% endfor %}
+
+    
 </div>{% endblock content %}

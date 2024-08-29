@@ -1,4 +1,7 @@
-{% include "project_base.html" %}
+{% extends "base.html" %}
+{% block extra_head %}
+{% load static %}
+<link href="{% static 'project.css' %}" rel="stylesheet">
 <style>
     .navbar-item {
         display: inline-block;
@@ -26,8 +29,10 @@
     .price-table th{
         background-color: wheat;
     }
-</style>
+    
 
+</style>
+{% endblock extra_head %}
 
 <nav class="navbar navbar-dark fixed-top sticky fw-bold" id="investor" style="hight:70px;position:sticky;z-index:500;">
     <div class="container-fluid" style="width:100%;">
@@ -52,6 +57,7 @@
     </div>
 </nav>
 {% block content %}
+
 <section>
     {% for project in project_list2 %}
       <img src="..{{project.picture}}" alt="Image" style="width:100%;height:500px;">  
@@ -66,7 +72,8 @@
 </section>
 
 <!-- Content for sections -->
-<section id="overview" style="margin-top: 80px;">
+<section id="overview" style="margin-top: 80px;" class="justify-content-center">
+    <center>
     <div class="col-lg-12 col-md-12 text-center p-3">
         <span class="line-before"></span>
         <span class="text"><b>OVERVIEW CONTENT</b></span>
@@ -78,10 +85,11 @@
                 {{project.description}}
             </p>
             {% if project.image2 %}
-                <img src="../media/{{project.image2}}" alt="Image2">
+                <img src="..{{project.image2}}" alt="Image2" style="width: 100%;">
             {% endif %}
         {% endfor %}
     </div>
+    </center>
 </section>
 <section id="location">
     <div class="col-lg-12 col-md-12 text-center p-3">
@@ -97,27 +105,45 @@
                         {{project.neighbourhood}}
                     </p>
                     <div class="col-lg-12 col-md-12 card-content" style="opacity: .4;">
-                        <iframe 
-                            src="https://www.google.com/maps?q={{project.lat}},{{project.langt}}&hl=es;z=14&output=embed"
-                            width="100%" 
-                            height="450" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade" >
-                        </iframe>
+                        <div id="map-container" style="width:100%;height:500px;">
+                        </div>
+                        <script>
+                            fetch("{% url 'getmapwidthproject' project.id %}")
+                            .then(response => response.json())
+                            .then(data => {
+                                const mapUrl = data.map_url;
+                                const iframe = document.createElement('iframe');
+                                iframe.src = "../static/map.html";
+                                iframe.width = "100%";
+                                iframe.height = "500px";
+                                iframe.frameBorder = "0";
+                                document.getElementById('map-container').appendChild(iframe);
+                            })
+                            .catch(error => {
+                                console.error('Error loading map:', error);
+                            });
+                        </script>
                     </div>
+                    
                     <div class="container card-title" style="margin-top: -350px;border-radius: 10px;">
-                        <div class="col-lg-12 col-md-12 text-left" style="width:350px;height:300px;background-color: white;border-radius: 10px;">
-                            <p>
+                        <div class="col-lg-12 col-md-12 text-left" style="width:350px;height:auto;background-color:burlywood;border-radius: 10px;padding:10px;">
+                            
                                 <strong>ADDRESS</strong><br>
-                                {{ project.location }}<br>
-                                <span><i class="bi bi-hospital"></i></span> Signature Hospital<br>
-                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-buildings-fill" viewBox="0 0 16 16">
-                                    <path d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"/>
-                                </svg></span> Sheetla Mata Medical College<br>
-                                <span><i class="bi bi-cart4"></i></span> Esplanade Mall<br>
-                            </p>
+                                <div class="text-left">
+                                    {{project.location.city.name}},
+                                    {{project.location.dist}},
+                                    {{project.location.state}},
+                                    {{project.location.country}},
+                                </div>
+                                
+                                {% for amenities in amenities_data %}
+                                <div class="amenity-item" style="display: flex; align-items: center; margin-bottom: 10px;">
+                                    <span><img src="{{ amenities.image.url }}" alt="{{ amenities.name }}" style="width:50px;height:50px; margin-right: 10px;"></span>
+                                    <span>{{ amenities.name }}</span>
+                                </div>
+                                    
+                                {% endfor %}
+                            
                         </div>
                     </div>
                 {% endif %}
@@ -125,8 +151,8 @@
         </div>
     </center>
 </section>
-<section id="price">
-    <div class="col-lg-12 col-md-12 mt-5 text-center p-3">
+<section id="price" style="margin-top:350px;">
+    <div class="col-lg-12 col-md-12 mt-5 text-center p-3" >
         <span class="line-before"></span>
         <span class="text"><b>PRICE</b></span>
         <span class="line-after"></span>
@@ -232,53 +258,84 @@
             <span class="col-lg-3 col-md-12 line-after"></span>
         </div>
     </div>
-    
     <div id="reward5" style="background-color:white;height:300px;">
-        <div class="reward-container5" style="background-color:white;">
-            {% for project in project_list %}
+        <div class="reward-container5 gallary d-flex" style="background-color:white;">
+            {% for project in project_list2 %}
                 <div class="reward-content5" id="content1" style="background-color:white;"> 
                     <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/{{project.picture}}" alt="reward-logo">
+                        <img class="card-img" src="..{{project.picture}}" alt="Image" style="width:100%;height:200px;">
                         <div class="card-body" style="background-color:white;">
                             <p class="card-text">
-                                Picture 1
+                                Picture
                             </p>
                         </div>
                     </div>
                 </div> 
+                {% if project.profile_pic %}
+                    <div class="reward-content5" id="content1" style="background-color:white;"> 
+                        <div class="card" style="width: 18rem;" style="background-color:white;">
+                            <img class="card-img" src="../media/{{project.profile_pic}}" alt="Image" style="width:100%;height:200px;">
+                            <div class="card-body" style="background-color:white;">
+                                <p class="card-text">
+                                    Profile Picture
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
                 
-                <div class="reward-content5" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/{{project.profile_pic}}" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Picture 2
-                            </p>
+                {% if project.image %}
+                    <div class="reward-content5" id="content1" style="background-color:white;"> 
+                        <div class="card" style="width: 18rem;" style="background-color:white;">
+                            <img class="card-img" src="..{{project.image}}" alt="Image" style="width:100%;height:200px;">
+                            <div class="card-body" style="background-color:white;">
+                                <p class="card-text">
+                                    Image
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div> 
+                {% endif %}
 
-                <div class="reward-content5" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="..{{project.image}}" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Picuter 3
-                            </p>
+                {% if project.image2 %}
+                    <div class="reward-content5" id="content1" style="background-color:white;"> 
+                        <div class="card" style="width: 18rem;" style="background-color:white;">
+                            <img class="card-img" src="..{{project.image2}}" alt="Image" style="width:100%;height:200px;">
+                            <div class="card-body" style="background-color:white;">
+                                <p class="card-text">
+                                    Image 2
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div> 
+                {% endif %}
 
-                <div class="reward-content5" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/{{project.picture}}" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                picture 4
-                            </p>
+
+                {% if project.image3 %}
+                    <div class="reward-content5" id="content1" style="background-color:white;"> 
+                        <div class="card" style="width: 18rem;" style="background-color:white;">
+                            <img class="card-img" src="..{{project.image3}}" alt="Image" style="width:100%;height:200px;">
+                            <div class="card-body" style="background-color:white;">
+                                <p class="card-text">
+                                    Image 3
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div> 
+                {% endif %}
+
+                {% if project.image4 %}
+                    <div class="reward-content5" id="content1" style="background-color:white;"> 
+                        <div class="card" style="width: 18rem;" style="background-color:white;">
+                            <img class="card-img" src="..{{project.image4}}" alt="Image" style="width:100%;height:200px;">
+                            <div class="card-body" style="background-color:white;">
+                                <p class="card-text">
+                                    Image4
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
         
@@ -300,20 +357,21 @@
             Our site representative will give you a call back.<p>
     </span>
     <div class="col-lg-12 col-md-12">
-        <div class="promosion col-lg-9 col-md-12 mb-5">
+        <div class="promosion col-lg-10 col-md-12 mb-5 align-items-center">
             <form action="{% url 'callback' last_url_word%}" method="POST" class="promosion-form fs-6">{% csrf_token %}
                 <span><input type="text" name="name" placeholder="Name"></span>
                 <span class="countryFlag"><img src="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" alt="Country Flag" id="countryFlag"></span>
                 <span>
-                <select id="selectCountry" style="width:20px;" name="country">
-                    <option value='["India", "https://www.worldometers.info/img/flags/small/tn_in-flag.gif", "91"]' selected>India</option>
-                    {% for i in country_flag_df.values %}
-                    <option value='["{{i.1}}", "{{i.4}}", "{{i.5}}"]'>{{i.1}}</option>
-                    {% endfor %}
-                </select>
+                    <select id="selectCountry" name="country" style="width:20px;">
+                        <option value="India" countryflag="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" countrycode="91" selected>India</option>
+                        {% for i in country_flag_df.values %}
+                        <option value="{{i.1}}" countrycode="{{i.4}}" countryflag="{{i.5}}">{{i.1}}</option>
+                        {% endfor %}
+                    </select>
+                    
                 </span>
                 <span class="countryCode">
-                    <input type="text" name="countrycode" id="countryCode" value="+91" style="width:50px;height:15px;border:none;">
+                    <input type="text" name="countrycode" id="countryCode" value="" style="width:30px;border:none;">
                 </span>
                 <span>
                     <input type="number" name="mobile" placeholder="Mobile Number">
@@ -322,12 +380,12 @@
                     <input type="email" name="email" placeholder="Email ID">
                 </span>
                 <br>
-                <div class="col-lg-12 col-md-12">
+                <div class="col-lg-12 col-md-12 d-flex mt-5">
                     <div class="checkbox-row">
                         <span>
                             <input type="checkbox" name="confirm">
                         </span>
-                        <span>
+                        <span style="margin-top:10px;">
                             Yes, I would like to receive updates & promotions from Godrej Properties Limited.
                         </span>
                     </div>
@@ -344,94 +402,100 @@
     </center>
 </div>
 
-{% endblock content %}
 <script>
-    function updateCountryInfo() {
-        const selectCountry = document.getElementById('selectCountry');
-        selectCountry.addEventListener('change',function(){ 
-        const selectedOption = JSON.parse(selectCountry.value);
-        const countryFlag = document.getElementById('countryFlag');
-        const countryCode = document.getElementById('countryCode');
-
-        countryFlag.src = selectedOption[2];
-        countryCode.value = `+${selectedOption[1]}`;
-    })
+    function UpdateFlag(selectCountry){
+        const selectedOption = selectCountry.options[selectCountry.selectedIndex];
+        const countryname = selectedOption.value;
+        const countryflag = selectedOption.getAttribute('countryflag');
+        const countrycode = selectedOption.getAttribute('countrycode');
+        document.getElementById("countryCode").value="+"+countrycode;
+        document.getElementById("countryFlag").src=countryflag;
+            //alert(`Country Name: ${countryname}, Country Flag: ${countryflag}, Country Code: ${countrycode}`);
     }
-    document.addEventListener('DOMContentLoaded',function(){
-        updateCountryInfo();
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectCountry = document.getElementById('selectCountry');
+        UpdateFlag(selectCountry);
+        selectCountry.addEventListener('change',function(){
+            UpdateFlag(selectCountry);
+        });
     });
+    
+    
+    
     var elementId = "{{ last_url_word }}";
     var linkID=elementId+"-link";
     var contentdiv=document.getElementById(linkID);
     contentdiv.style.borderBottom="2px solid";
     // Function to calculate EMI
-function calculateEMI() {
-    // Get input values
-    var loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
-    var advancePayment = parseFloat(document.getElementById('advancePayment').value) || 0;
-    var duration = parseFloat(document.getElementById('duration').value) || 0;
-    var interestRate = parseFloat(document.getElementById('interestRate').value) || 0;
-
-    // Adjust loan amount based on advance payment
-    loanAmount = loanAmount - advancePayment;
-
-    // Convert annual interest rate to monthly and duration to months
-    var monthlyInterestRate = interestRate / (12 * 100);
-    var numberOfMonths = duration * 12;
-
-    // Calculate EMI using the formula: EMI = [P * r * (1+r)^n] / [(1+r)^n-1]
-    var emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) / (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
-
-    // Update the estimated EMI value in the form
-    document.getElementById('estimatedEMI').textContent = emi.toFixed(2);
-}
-
-// Function to update the advance payment value
-function updateAdvancePaymentValue(value) {
-    document.getElementById('advancePaymentValue').textContent = value;
-}
-
-// Function to update the duration value
-function updateDurationValue(value) {
-    document.getElementById('durationValue').textContent = value;
-}
-
-// Function to update the interest rate value
-function updateInterestRateValue(value) {
-    document.getElementById('interestRateValue').textContent = value;
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    var rewardContainer = document.querySelector('.reward-container3');
-    var contentDivs = document.querySelectorAll('.reward-content3');
-    let currentIndex = 0;
-
-    function changeContent(direction) {
-        var totalItems = contentDivs.length;
-        var itemWidth = contentDivs[0].offsetWidth + parseInt(window.getComputedStyle(contentDivs[0]).marginRight);
-
-        if (direction === 'left3') {
-            currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
-        } else if (direction === 'right3') {
-            currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
-        }
-
-        var translateX = -currentIndex * itemWidth;
-        rewardContainer.style.transform = 'translateX(' + translateX + 'px)';
+    function calculateEMI() {
+        // Get input values
+        var loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+        var advancePayment = parseFloat(document.getElementById('advancePayment').value) || 0;
+        var duration = parseFloat(document.getElementById('duration').value) || 0;
+        var interestRate = parseFloat(document.getElementById('interestRate').value) || 0;
+    
+        // Adjust loan amount based on advance payment
+        loanAmount = loanAmount - advancePayment;
+    
+        // Convert annual interest rate to monthly and duration to months
+        var monthlyInterestRate = interestRate / (12 * 100);
+        var numberOfMonths = duration * 12;
+    
+        // Calculate EMI using the formula: EMI = [P * r * (1+r)^n] / [(1+r)^n-1]
+        var emi = (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfMonths)) / (Math.pow(1 + monthlyInterestRate, numberOfMonths) - 1);
+    
+        // Update the estimated EMI value in the form
+        document.getElementById('estimatedEMI').textContent = emi.toFixed(2);
     }
-
-    document.querySelector('.btn-left3').addEventListener('click', function () {
-        changeContent('left3');
+    
+    // Function to update the advance payment value
+    function updateAdvancePaymentValue(value) {
+        document.getElementById('advancePaymentValue').textContent = value;
+    }
+    
+    // Function to update the duration value
+    function updateDurationValue(value) {
+        document.getElementById('durationValue').textContent = value;
+    }
+    
+    // Function to update the interest rate value
+    function updateInterestRateValue(value) {
+        document.getElementById('interestRateValue').textContent = value;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        var rewardContainer = document.querySelector('.reward-container3');
+        var contentDivs = document.querySelectorAll('.reward-content3');
+        let currentIndex = 0;
+    
+        function changeContent(direction) {
+            var totalItems = contentDivs.length;
+            var itemWidth = contentDivs[0].offsetWidth + parseInt(window.getComputedStyle(contentDivs[0]).marginRight);
+        
+            if (direction === 'left3') {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalItems - 1;
+            } else if (direction === 'right3') {
+                currentIndex = (currentIndex < totalItems - 1) ? currentIndex + 1 : 0;
+            }
+        
+            var translateX = -currentIndex * itemWidth;
+            rewardContainer.style.transform = 'translateX(' + translateX + 'px)';
+        }
+    
+        document.querySelector('.btn-left3').addEventListener('click', function () {
+            changeContent('left3');
+        });
+    
+        document.querySelector('.btn-right3').addEventListener('click', function () {
+            changeContent('right3');
+        });
     });
-
-    document.querySelector('.btn-right3').addEventListener('click', function () {
-        changeContent('right3');
-    });
-});
 
 
 
 </script>
 
+{% endblock content %}
 
-{% include "footer.html" %}
+
+

@@ -1,0 +1,288 @@
+{% extends 'ambessador/ambessador_base.html' %}
+{% block head %}
+<style>
+    .row{
+        margin:0px auto;
+        padding:0px;
+    }
+    .slider-container {
+        position: relative;
+        width: 95%;
+        overflow: hidden;
+    }
+    .slider {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+    .slider-item {
+        min-width: 100%;
+        box-sizing: border-box;
+    }
+    .slider img {
+        width: 100%;
+        height: 400px;
+    }
+    .slider-caption {
+        padding: 20px;
+        color: gray;
+        height: 400px;
+        overflow-y: hidden;
+    }
+    .slider-controls {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+    }
+    .slider-controls button {
+        background-color: rgba(0,0,0,0.5);
+        border: none;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .card {
+        position: relative;
+        height: fit-content;
+    }
+    .img-text {
+        width: fit-content;
+        background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));
+        position: absolute;
+        color: black;
+        padding: 3px;
+        border-radius: 10px;
+        right: 10px;
+        top: 10px;
+    }
+    .image-text{
+        position: absolute;
+        width:98%;
+        height: 500px;
+        background: linear-gradient(to bottom,rgba(0,225,0,0.7),rgba(0,0,255,0.7));
+        top:0;
+        left:10 auto;
+        border-radius: 0px;
+        
+        
+    }
+    .divider {
+        display: flex;
+        justify-content: space-between;
+    }
+    .brandPromotion {
+        width: 80px;
+        height: 80px;
+        border-radius: 15px;
+        overflow: hidden;
+        margin: 0 10px;
+        box-shadow: 5px 5px 5px 5px;
+    }
+    
+    .brandPromotion img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+
+</style>
+{% endblock head %}
+{% block content %}
+<div>
+    <div class="row d-flex justify-content-center mt-4">
+        <div class="col-lg-8 col-md-8 col-sm-12 mb-4">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Type here to search" id="search">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+        
+        <div class="col-lg-8 col-md-8 col-sm-12 mb-4">
+            <div class="card shadow-sm">
+                <img src="../media/image/image4.webp" class="card-img-top" alt="Image" style="height: 300px;width:100%;">
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-4 col-sm-12 mb-4">
+            <a class="nav-link"  data-toggle="modal" data-target="#loginModal" style="cursor:pointer;">
+                <div class="card shadow-sm text-center">
+                    <img src="../media/logo/earn.jpeg" class="card-img-top" alt="Image" style="width:100px;">
+                    <div class="card-body">
+                        <p class="card-text">
+                            Refer a friend or share our deals to earn a scratch card!
+                        </p>
+                        <hr>
+                        <p class="card-text">
+                            <strong>Scratch and win exciting rewards!</strong><br>
+                            Check your ongoing rewards and scratch to reveal your prizes.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    
+    <div class="row d-flex justify-content-center mt-4">
+        <!-- First column -->
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="card" style="position: relative; overflow: hidden;">
+                <img src="../media/image/image3.webp" class="img-fluid" style="height: 100%; object-fit: cover; width: 100%;" alt="Image 5">
+                <div class="card-text" style="position: absolute; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.5); color: #fff; text-align: center; padding: 0;">
+                    Electronics
+                </div>
+            </div>
+        </div>
+        
+    
+        <!-- Middle column with two rows, each containing two columns -->
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="row mb-3">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card">
+                        <img src="../media/image/image3.webp" class="img-fluid" style="height: 100%; object-fit: cover;" alt="Image 5">
+                        <div class="card-text over-lap" style="position: absolute; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.1); color: #fff; text-align: left; padding: 10px 0;">
+                            Electronics
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card">
+                        <img src="../media/image/image3.webp" class="img-fluid" style="height: 100%; object-fit: cover;" alt="Image 5">
+                        <div class="card-text over-lap" style="position: absolute; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.1); color: #fff; text-align: left; padding: 10px 0;">
+                            Electronics
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card">
+                        <img src="../media/image/image3.webp" class="img-fluid" style="height: 100%; object-fit: cover;" alt="Image 5">
+                        <div class="card-text over-lap" style="position: absolute; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.1); color: #fff; text-align: left; padding: 10px 0;">
+                            Electronics
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card">
+                        <img src="../media/image/image3.webp" class="img-fluid" style="height: 100%; object-fit: cover;" alt="Image 5">
+                        <div class="card-text over-lap" style="position: absolute; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.1); color: #fff; text-align: left; padding: 10px 0;">
+                            Electronics
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Third column -->
+        <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="card" style="position: relative; overflow: hidden;">
+                <img src="../media/image/image3.webp" class="img-fluid" style="height: 100%; object-fit: cover; width: 100%;" alt="Image 5">
+                <div class="card-text" style="position: absolute; top: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.5); color: #fff; text-align: center; padding: 0;">
+                    Electronics
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4">
+        <div class="brandPromotion">
+            <img src="../media/logo/logo.png" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo2.jpg" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo3.jpg" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo4.png" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo5.jpg" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo6.jpg" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo7.jpg" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo11.jpg" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo9.png" alt="India Flag">
+        </div>
+        <div class="brandPromotion">
+            <img src="../media/logo/logo10.jpg" alt="India Flag">
+        </div>
+    </div>
+    
+    
+</div>
+<div class="row mt-5">
+    
+    {% for data in offers %}
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <a class="nav-link"  data-toggle="modal" data-target="#loginModal" style="cursor:pointer;">
+            <div class="card" style="margin:5px;">
+                <img src="../media/{{data.image}}" alt="Image" style="height: 300px; object-fit: cover;width:100%;">
+                <div class="card-text p-3 bg-dark text-light" style="width:100%;height:150px; position: relative;">
+                    {{data.type}}<br>
+                    <p>
+                        {{data.other}}
+                    </p>
+                    <p style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 5px 15px;">
+                        
+                        <span style="float:left;">more >></span>
+                        <span style="float:right;">Valid till : {{data.validTill}} </span>
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+        
+    {% endfor %}
+</div>
+
+
+
+<p style="padding:10px;">
+    *By clicking on Redeem Now, you authorize RELOY and partner brands to contact you via WhatsApp, SMS, 
+    phone, email etc. All brands have their respective terms and conditions and neither Reloy nor Godrej
+     Properties will be responsible in case of any concerns.
+</p>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const filterInput = document.getElementById('search');
+        filterInput.addEventListener('input', function() {
+            const rows = document.querySelectorAll('.card');
+            const filterText = filterInput.value.toLowerCase();
+            let match = false;
+    
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('.card-text');
+                match = false;
+    
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(filterText)) {
+                        match = true;
+                    }
+                });
+    
+                if (match) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        });
+    });
+    
+</script>
+{% endblock content%}

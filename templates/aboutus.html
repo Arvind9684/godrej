@@ -1,13 +1,14 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
+</div>
 {% load static %}
 {% include "aboutusheader.html" %}
 <img src="../media/image/aboutusbackground.png" style="margin-top:-205px;height:620px;width:100%;">
-<div class="text-center text-white" style="margin-top:-80px;">
+{% comment %} <div class="text-center text-white" style="margin-top:-80px;">
     <h2>
         Godrej One #WhereWeWork
     </h2>
-</div>
+</div> {% endcomment %}
 <p class="url-directory" style="margin-top: 80px;"><a href="/">Home</a> >> <a href="aboutus">Outstory</a> >> <a href="management"><b>{{ last_url_word }}</b></a> <p>
 <br>
 <br>
@@ -153,9 +154,9 @@
     <div class="container content-container mt-5">
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
-                <img src="../media/image/image1.webp" class="img-fluid" alt="Image description">
+                <img src="../media/image/image1.webp" class="img-fluid" alt="Image description" style="width:100%;height:450px">
             </div>
-            <div class="col-lg-7 col-md-12 col-sm-12">
+            <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="content">
                     <p>We create spaces that enable Everyday Joys; one community, one family, and one home at a time. The joy we bring to neighbourhoods, to families and our customers is what drives our purpose forward. It has always been at the forefront of everything we do, and every business decision we make. We constantly strive to work in harmony with all our stakeholders to achieve this shared goal of 'Creating Customer Joy'.</p>
                     <div class="svg-container mt-5">

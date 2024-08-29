@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="form-group">
                                 
-                                        <label for="phone-number">Phone Number</label>
+                                        <label for="phone-number"><span id="lable">Phone Number</span></label>
                                         <div id="phone-number" class="d-flex align-items-center">
                                             <span class="country-select">
                                                 <span><img src="../media/image/indiaflag.png" id="countryFlagSymbol" alt="Country Flag" style="width:15px;height:15px;"></span>
@@ -200,8 +200,6 @@
             document.cookie = "subscribed=true; max-age=" + (365*24*60*60) + "; path=/";
             document.getElementById('subscription').style.display = 'none';
         }
-    
-        // Call checkSubscription on page load
         window.onload = checkSubscription;
     </script>
 </footer>

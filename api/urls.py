@@ -5,6 +5,10 @@ from .views import (
     CategoryViewSet, SubCategoryViewSet, WebsiteViewSet, LocationViewSet,
     PublisherViewSet, GalleryViewSet, ProjectViewSet
 )
+headers = {
+    "X-API-KEY": "MkkcZCGe56IfRyzf82vlLwQwGJoAm5iGhzt33va3KcY"
+}
+print(headers)
 
 router = DefaultRouter()
 router.register(r'pictures', PictureViewSet)

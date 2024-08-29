@@ -189,7 +189,7 @@
             <p id="morecontent">
                 <!-- index.html -->
                 {% for project in project_list %}
-                     <a href="#">{{project.city}}</a> |  
+                     <a href="#">{{project.city.name}}</a> |  
                 {% endfor %}
                     
             </p>
@@ -199,7 +199,7 @@
             <p id="morecontent">
                 
                 {% for project in project_list %}
-                     <a href="#">Luxury Flats in {{project.city}}</a> |  
+                     <a href="#">Luxury Flats in {{project.city.name}}</a> |  
                 {% endfor %}
             </p>
         </div>
@@ -207,7 +207,7 @@
             <span class="text"><b>Typology</b></span>
             <p id="morecontent">
                 {% for project in project_list %}
-                    <a href="#">{{project.sub_category}} in {{project.city}}</a> |
+                    <a href="#">{{project.sub_category}} in {{project.city.name}}</a> |
                  {% endfor %}  
             </p>
         </div>
@@ -270,6 +270,7 @@
                                     <div class="country-select">
                                         <img id="countryFlagSymbol" alt="Country Flag" style="width:30px;height:25px;">
                                         <select name="countryName" id="countryName" style="border: none; border-bottom: 1px solid; width:83%;background-color: rgb(245, 252, 249);" onchange="updateFlag()" required>
+                                            <option value="India" data-flag-src="https://www.worldometers.info//img/flags/small/tn_in-flag.gif" data-country-code="91" selected>India</option>
                                             {% for i in country_flag_df.values %}
                                             <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
                                                 {{ i.1 }}
@@ -295,7 +296,6 @@
                                 <td colspan="2">
                                     <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:45%;margin-bottom:40px;background-color: rgb(245, 252, 249);" required>
                                         <option id="projectName" value=""></option>
-                                        
                                         {% for project in project_list %}
                                             <option value="{{project.name}}">{{project.name}}</option>
                                         {% endfor %}
@@ -316,6 +316,80 @@
             </div>
         </div>
 
+        <div id="callus-modal" class="modal">
+            <div class="modal-content col-lg-9 align-items-center" style="width:50%;margin-top: 0px;">
+                <div class="row bg-light" style="width: 100%;">
+                    <div class="col-lg-12 col-md-12">
+                        <h2>Talk to Us</h2>
+                    </div>
+                    <form action="project_callus" method="POST" class="project-enquiry-form">{% csrf_token %}
+                        <table class="mt-5" style="width:100%;">
+                            <tr>
+                                <td>
+                                    Please select your Location
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select name="city" id="city4" style="border: none; border-bottom: 1px solid; width:100%; margin-bottom:40px; background-color: rgb(245, 252, 249);">
+                                        <option value="" id="cityName"></option>
+                                    </select>        
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Please select Interested Project
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:100%;margin-bottom:40px;background-color: rgb(245, 252, 249);" required>
+                                        {% for project in project_list %}
+                                            <option value="{{project.name}}">{{project.name}}</option>
+                                        {% endfor %}
+                                            
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                   <div> Please type your country and enter your phone number</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="country-select">
+                                        <img id="countryFlagSymbol3" alt="Country Flag" style="width:30px;height:25px;">
+                                        <select name="countryName" id="countryName3" style="border: none; width:5px;height:5px;background-color: rgb(245, 252, 249);" required>
+                                            <option value="India" data-flag-src="https://www.worldometers.info//img/flags/small/tn_in-flag.gif" data-country-code="91" selected>India</option>
+                                            {% for i in country_flag_df.values %}
+                                            <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
+                                                {{ i.1 }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <span ><input type="text" id="countryCode3" style="border:1px solid; padding:5px; margin-right: 10px;width:50px;" name="countryCode"></span>
+                                        <input type="text" name="mobile" id="mobile" style="width:72%;" placeholder="Mobile Number" required>
+                                    </div>  
+                                </td>
+                            </tr>
+                        </table>
+                        <center><button type="submit" class="submit-btn">SUBMIT</button></center>
+                    </form>
+                    <div class="col-lg-12 col-md-4 col-sm-12 justify-content-center mt-3">
+                        <span><p>We will call you back immediately</p></span>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-left">
+                        We respect your privacy.<br>
+                        Your Information is safe with us.
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12">
+                       <img src="../media/logo/brand3.png" alt="Logo" style="height:40px;width:200px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="schedule-modal" class="modal">
             <div class="modal-content col-lg-9 align-items-center">
                 <div class="row bg-light" style="width: 90%;">
@@ -325,7 +399,7 @@
                             Fill in the following details and we will get back to you shortly.
                         </p>
                     </div>
-                    <form action="scheduletime" method="POST" class="project-enquiry-form">{% csrf_token %}
+                    <form action="{% url 'schedule' %}" method="POST" class="project-enquiry-form">{% csrf_token %}
                         <table class="mt-5" style="width:100%;">
                             <tr>
                                 <td>
@@ -341,15 +415,16 @@
                                 </td>
                                 <td>
                                     <div class="country-select">
-                                        <img id="countryFlagSymbol3" alt="Country Flag" style="width:30px;height:25px;">
-                                        <select name="countryName" id="countryName3" style="border: none; width:5px;height:5px;background-color: rgb(245, 252, 249);" required>
+                                        <img id="countryFlagSymbol4" alt="Country Flag" style="width:30px;height:25px;">
+                                        <select name="countryName" id="countryName4" style="border: none; width:5px;height:5px;background-color: rgb(245, 252, 249);" required>
+                                            <option value="India" data-flag-src="https://www.worldometers.info//img/flags/small/tn_in-flag.gif" data-country-code="91" selected>India</option>
                                             {% for i in country_flag_df.values %}
                                             <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
                                                 {{ i.1 }}
                                             </option>
                                             {% endfor %}
                                         </select>
-                                        <span id="countryCode3" style="border:1px solid; padding:5px; margin-right: 10px;"></span>
+                                        <span id="countryCode4" style="border:1px solid; padding:5px; margin-right: 10px;"></span>
                                         <input type="text" name="mobile" id="mobile" style="width:72%;" placeholder="Mobile Number" required>
                                     </div>
                                 </td>
@@ -423,6 +498,13 @@
     
     </center>
 </section>
+<section>
+    <center>
+    <div id="TalktoUs" class="modal">
+        <h2>Talk to Us<h2>
+    </div>
+    </center>
+</section>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -467,10 +549,19 @@
         var countryflag3=document.getElementById('countryFlagSymbol3');
         document.getElementById('countryCode3').innerHTML="+"+countryCode;
         countryflag3.src=flagSrc;
-       
+        document.getElementById('countryCode3').value="+"+countryCode;
     }
-    
 
+    function updateFlag4() {
+        var select = document.getElementById('countryName4');
+        var selectedOption=select.options[select.selectedIndex];
+        var flagSrc=selectedOption.getAttribute('data-flag-src');
+        var countryCode=selectedOption.getAttribute('data-country-code');
+        var countryflag3=document.getElementById('countryFlagSymbol4');
+        document.getElementById('countryCode4').innerHTML="+"+countryCode;
+        countryflag3.src=flagSrc;
+        document.getElementById('countryCode4').value="+"+countryCode;
+    }
     // Initialize flag on page load
     document.addEventListener("DOMContentLoaded", function() {
         updateFlag();
@@ -482,12 +573,22 @@
             updateFlag2();
         });
     });
-
-
+    document.addEventListener("DOMContentLoaded", function() {
+        updateFlag4();
+        const select = document.getElementById("countryName4")
+        select.addEventListener('change',function(){
+            updateFlag4();
+        });
+    });
     function enquirynow(projectName) {
         const projectname=document.getElementById('projectName');
         projectname.value=projectName;
         projectname.innerHTML=projectName;
+        const enquiryModal = document.getElementById("enquiry-modal");
+        document.body.classList.add("disabled");
+        enquiryModal.style.display = "block";
+    }
+    function enquirynow2(){
         const enquiryModal = document.getElementById("enquiry-modal");
         document.body.classList.add("disabled");
         enquiryModal.style.display = "block";
@@ -506,11 +607,24 @@
         document.body.classList.add("disabled");
         enquiryModal.style.display = "block";
     }
+
+
+    function callus(projectName, city) {
+        const callusModal = document.getElementById("callus-modal");
+        const cityname=document.getElementById('cityName');
+        cityname.innerHTML=city;
+        cityname.value=city;
+    
+        document.body.classList.add("disabled");
+        callusModal.style.display = "block";
+    }
+    
     
 
     window.onclick = function(event) {
         const modal = document.getElementById("enquiry-modal");
         const modal2 = document.getElementById("schedule-modal");
+        const modal3 = document.getElementById("callus-modal");
         if (event.target == modal) {
             modal.style.display = "none";
             document.body.classList.remove("disabled");
@@ -519,8 +633,49 @@
             modal2.style.display= "none";
             document.body.classList.remove("disabled");
         }
+        else if(event.target==modal3){
+            modal3.style.display="none";
+            document.body.classList.remove('disabled');
+        }
     }
-  </script>
+    document.addEventListener("DOMContentLoaded", function() {
+        checkCookie(); // Ensure this function is defined to handle cookies
+    
+        // Send the current URL to the backend to save in history
+        fetch("{% url 'save_url_in_history' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',  // Use JSON content type if sending JSON
+                'X-CSRFToken': getCookie('csrftoken')  // Include CSRF token for security
+            },
+            body: JSON.stringify({ url: window.location.href })  // Send the current URL
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('URL saved successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error saving URL:', error);
+        });
+    });
+    
+    // Utility function to get CSRF token from cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+</script>
 
 
 

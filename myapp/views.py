@@ -1,15 +1,22 @@
 from django.shortcuts import render,HttpResponse,redirect,get_object_or_404
+from django.core.exceptions import PermissionDenied
+import requests
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 import pandas as pd
 import numpy as np
+from django.middleware.csrf import get_token
+from django.db.models import Sum
 import datetime as dt
 from django.http import FileResponse
-from myapp.models import shareholderPattern,compliance,projectEnquary,projectTable,Callback,amenities,customer,OTP,posts
+from django.forms import modelform_factory
+from myapp.models import (shareholderPattern,compliance,projectEnquary,projectTable,Callback,amenities,customer,
+                          OTP,posts,chatboatData,sitevisiter,schedulOn,membershipOffer,customerLead,blog,blog_post,
+                          searchHistory,projectCallus)
 from myapp.utils import get_project_list,sendOtp
 import ast,shutil,random,os
-
-from api.models import City,Project,SubArea,PropertyType,Category,SubCategory,Website,Publisher
+from django.http import HttpResponseRedirect
+from api.models import (City,Project,SubArea,PropertyType,Category,SubCategory,Website,Publisher,History,Location)
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login
@@ -21,14 +28,18 @@ from django.core.files.storage import FileSystemStorage
 from django.utils.dateparse import parse_datetime
 from django.utils.dateparse import parse_date
 from django.contrib import messages
-from myapp.forms import ProjectForm,buildForm,TextToAudioForm
+from myapp.forms import ProjectForm,buildForm,TextToAudioForm,CustomerForm
 from gtts import gTTS
-from django.shortcuts import render, get_object_or_404
 from pdf2image import convert_from_path
 import matplotlib.pyplot as plt
 from django.conf import settings
 from pdfminer.high_level import extract_text_to_fp
 from io import StringIO,BytesIO
+from django.views.decorators.csrf import csrf_exempt
+import json
+from gmplot import gmplot
+from django.conf import settings
+
 
 
 def copy_pdf_to_other_location(post, destination_dir):
@@ -111,12 +122,13 @@ def hometally(request):
     project_list = get_project_list()
     print(project_list)  # For debugging
     project_df = pd.DataFrame(project_list) 
-    
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     
     context={
         'project_list':project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
+        'country_flag_df':country_flag_df,
     }
     return render(request,"hometally.html",context)
 
@@ -124,7 +136,9 @@ def aboutus(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     context={
+        'country_flag_df':country_flag_df,
         'project_list':project_list,
         'aboutus':"active",
         'full_url': full_url,
@@ -133,10 +147,12 @@ def aboutus(request):
     return render(request,"aboutus.html",context)
 
 def management(request):
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     context={
+        'country_flag_df':country_flag_df,
         'management':'active',
         'project_list':project_list,
         'full_url': full_url,
@@ -149,7 +165,9 @@ def sustatnability(request):
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     city=City.objects.all()
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     context={
+        'country_flag_df':country_flag_df,
         'sustatnability':'active',
         'project_list':project_list,
         'full_url': full_url,
@@ -162,11 +180,13 @@ def design(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     context={
         'design':'active',
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
+        'country_flag_df':country_flag_df,
     }
     return render(request,"design.html",context)
 
@@ -179,7 +199,7 @@ def residential(request):
     project_list = get_project_list()
     print(project_list)  # For debugging
     project_df = pd.DataFrame(project_list) 
-    project = project_df[project_df['property_type'] == 'Regidential']
+    project = project_df[project_df['property_type'] == 'Residential']
 
     # Convert DataFrame to a list of dictionaries
     project_list = project.to_dict(orient='records')
@@ -264,6 +284,7 @@ def finance(request):
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
+        'country_flag_df':country_flag_df
     }
     return render(request,'finance.html',context)
 
@@ -285,7 +306,9 @@ def investorInform(request):
     years = shareholderPattern_df['year'].unique()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     context={
+        'country_flag_df':country_flag_df,
         'investorInform':'active',
         'project_list':project_list,
         'full_url': full_url,
@@ -815,6 +838,8 @@ def internationaloffice(request):
     return render(request,'nricorner.html',context)
 
 def enqurenow(request):
+    full_url = request.build_absolute_uri()
+    last_url_word = full_url.rstrip('/').split('/')[-1]
     if request.method=="POST":
         firstName=request.POST.get('firstName')
         lastName=request.POST.get('lastName')
@@ -833,13 +858,12 @@ def enqurenow(request):
             projectName = projectName
         )
         ins.save()
-    
+        return redirect(last_url_word)
 
     # Read the CSV files
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
     # print(city_df)
-    full_url = request.build_absolute_uri()
-    last_url_word = full_url.rstrip('/').split('/')[-1]
+    
     project_list = get_project_list()
     context={
         "enqurenow":"active",
@@ -849,7 +873,7 @@ def enqurenow(request):
         "country_flag_df":country_flag_df,
         
     }
-    return redirect(last_url_word)
+    return render(request,'nricorner.html',context)
 
 def blogs(request):
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
@@ -857,7 +881,11 @@ def blogs(request):
     sliderImage=["design.webp","design.png","design.jpg","design2.png","design2.webp","design3.png","aboutusBackground.png","medianews.jpg"]
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
-    
+    last_blog=blog.objects.last()
+    blogs_data=blog.objects.all()
+    # Retrieve the last three blog entries
+    last_three_blogs = blog.objects.all().order_by('-id')[:3]
+    blog_post_data=blog_post.objects.all()
     context={
         "enqurenow":"active",
         'country_flag_df':country_flag_df,
@@ -865,6 +893,10 @@ def blogs(request):
         'full_url':full_url,
         'last_url_word':last_url_word,
         'sliderImage':sliderImage,
+        'last_blog':last_blog,
+        'blogs_data':blogs_data,
+        'last_three_blogs':last_three_blogs,
+        'blog_post_data':blog_post_data,
     }
     return render(request,'blogs.html',context)
 def ambessador(request):
@@ -911,6 +943,7 @@ def projectview(request,id):
     project_df2 = project_df[project_df['id']==id]
     project_name = project_df2.iloc[0]['name']
     amenities_data = amenities.objects.filter(project__name=project_name)
+    print("Amenities : ",amenities_data)
     project_list2 = project_df2.to_dict(orient='records')
     
     context={
@@ -940,7 +973,7 @@ def callback(request,last_url_word):
             confirm=confirm
         )
         ins.save()
-    return redirect(last_url_word)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 def real_estate_terms(request,msg):
     print(msg)
     # Read the CSV files
@@ -1096,17 +1129,40 @@ def verifyotp(request):
                     'error':"OTP did not match or has expired",
                     'email':email,
                 }
-                return render(request,'ambessador/veryotp.html',context)
+                return render(request,'ambessador/verfyotp.html',context)
         
         except customer.DoesNotExist:
             return redirect('/')
         except OTP.DoesNotExist:
             return redirect('/')
     
-    return render(request, 'verify_otp.html')
+    return render(request, 'ambessador/verfyotp.html')
 
 def ambessador_customer(request):
-    return render(request,'ambessador/customer.html')
+    customer_data = customer.objects.last()
+    request.session['customer_id']=customer_data.id
+
+    if request.method == 'POST':
+        if customer_data:
+            customer_form = CustomerForm(request.POST, instance=customer_data)
+        else:
+            customer_form = CustomerForm(request.POST)
+        
+        if customer_form.is_valid():
+            customer_form.save()  # This saves the data to the model
+            return redirect('ambessador/units')  # Redirect to a success page or another view after saving
+    else:
+        if customer_data:
+            customer_form = CustomerForm(instance=customer_data)
+        else:
+            customer_form = CustomerForm()
+
+    context = {
+        'customer_data': customer_data,
+        'customerForm': customer_form,
+        'customer': True,
+    }
+    return render(request, 'ambessador/customer.html', context)
 
 
 def administrator(request):
@@ -1140,13 +1196,69 @@ def administratorlogin(request):
 def administrator_dashboard(request):
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    project_field_names = [field.name for field in Project._meta.get_fields() if not field.many_to_one]
+    # Retrieve all Project records
+    projects_data = Project.objects.all().values(*project_field_names)
+    projects_df=pd.DataFrame(list(projects_data))
+    # Get field names from the model
+    schedulOn_field_names = [field.name for field in schedulOn._meta.get_fields() if not field.many_to_one]
+    # Retrieve all records from schedulOn model with the selected fields
+    schedulOn_data = schedulOn.objects.all().values(*schedulOn_field_names)
+    # Convert QuerySet to DataFrame
+    schedulOn_df = pd.DataFrame(list(schedulOn_data))
+    # Group by 'projectName' and count occurrences
+    schedulOn_group_df = schedulOn_df.groupby('projectName').size().reset_index(name='Count')
+    # Print the grouped DataFrame
+    #print(schedulOn_group_df)
+    customerLead_field_name=[field.name for field in customerLead._meta.get_fields() if not field.many_to_one]
+    customerLead_data=customerLead.objects.all().values(*customerLead_field_name)
+    customerLead_df=pd.DataFrame(list(customerLead_data))
+    # print("customerLead_df\n",customerLead_df)
+    # Group by project and count the occurrences
+    customerLead_group_df = customerLead_df.groupby('project').size().reset_index(name='Counts')
 
-    context = {
-        "user": request.user,
-        "dashboard":'active',
-        'last_url_word':last_url_word,
+    # Convert 'project' column to integer type to match 'id' type in projects_df
+    customerLead_group_df['project'] = customerLead_group_df['project'].astype(int)
+
+    # Merge with the projects_df to get the project names
+    customerLead_group_df = pd.merge(customerLead_group_df[["project", "Counts"]], projects_df[['id', 'name']], left_on='project', right_on='id', how='left')
+    # print(customerLead_group_df)
+    # Optionally, replace 'project' with 'name' if you want to keep project names instead of IDs
+    customerLead_group_df['project'] = customerLead_group_df['name']
+    customerLead_group_df.drop(columns=['name', 'id'], inplace=True)
+    # Final DataFrame with project names and counts
+    # print(customerLead_group_df)
+    projectCallus_field_names = [field.name for field in projectCallus._meta.get_fields() if not field.many_to_one]
+    projectCallus_data=projectCallus.objects.all().values(*projectCallus_field_names)
+    projectCallus_df=pd.DataFrame(list(projectCallus_data))
+    # print(projectCallus_df)
+    # Group by 'projectName' and count the occurrences for each column
+    projectCallus_group_df = projectCallus_df.groupby('projectName').count().reset_index()
+    # Optionally, you can focus on a specific column if you want to count based on that
+    projectCallus_group_df = projectCallus_df.groupby('projectName').size().reset_index(name='Count')
+    # Print the result to see the grouped data
+    # print("counts\n",projectCallus_group_df)
+    projectEnquary_field_name=[field.name for field in projectEnquary._meta.get_fields() if not field.many_to_one]
+    projectEnquary_data=projectEnquary.objects.all().values(*projectEnquary_field_name)
+    projectEnquary_df=pd.DataFrame(list(projectEnquary_data))
+    projectEnquary_group_df=projectEnquary_df.groupby("projectName").size().reset_index()
+    
+    context={
+        "last_url_word":last_url_word,
+        "property_count":projects_df["id"].count(),
+        "cust_count":customer.objects.all().count(),
+        "earning":projectTable.objects.aggregate(total_price=Sum('price'))['total_price'],
+        "schedulOn_group_df":schedulOn_group_df,
+        "chatboatData_count":chatboatData.objects.all().count(),
+        "Callback_count":Callback.objects.all().count(),
+        "sitevisiter_count":sitevisiter.objects.all().count(),
+        'customerLead_group_df':customerLead_group_df,
+        "projectCallus_group_df":projectCallus_group_df,
+        "blogs_count":blog.objects.all().count(),
+        "projectEnquary_group_df":projectEnquary_group_df,
     }
-    return render(request, 'administrator/dashboard.html', context)
+    
+    return render(request, 'administrator/dashboard.html',context)
 
 def custom_403_view(request, exception):
     return render(request, 'adminstrator/403.html', status=403)
@@ -1216,6 +1328,12 @@ def project_update(request, id):
             project.website=website
         except:
             pass
+        location_id=request.POST.get('location')
+        try:
+            location=Location.objects.get(id=location_id)
+            project.location=location
+        except:
+            pass
         project.amenities=request.POST.get('amenities')
         project.nearby=request.POST.get('nearby')
         project.construction_status=request.POST.get('construction_status')
@@ -1283,7 +1401,6 @@ def project_update(request, id):
         projectTab.price=request.POST.get('price')
         projectTab.locality=request.POST.get('locality')
         projectTab.topology=request.POST.get('topology')
-        projectTab.location=request.POST.get('location')
         projectTab.neighbourhood=request.POST.get('neighbourhood')
         projectTab.master_plan=request.POST.get('master_plan')
         projectTab.unit_plan=request.POST.get('unit_plan')
@@ -1307,6 +1424,7 @@ def project_update(request, id):
         if image4:
             image4_url = fs.save(image4.name, image4)
         return redirect('properties')
+    location=Location.objects.all()
     city=City.objects.all()
     sub_area=SubArea.objects.all()
     category=Category.objects.all()
@@ -1325,6 +1443,7 @@ def project_update(request, id):
         "last_url_word":last_url_word,
         'project_columns':project_columns,
         'city':city,
+        'location':location,
         'sub_area':sub_area,
         'category':category,
         'sub_category':sub_category,
@@ -1545,3 +1664,373 @@ def posts_details(request, id):
     }
 
     return render(request, 'ambessador/posts_details.html', context)
+
+
+
+def search(request):
+    search_list = []
+    project_list = get_project_list()  # This returns a list of dictionaries
+
+    if request.method == "POST":
+        # Get the form data
+        property_type = request.POST.get('property_type')
+        city = request.POST.get('city')
+        status = request.POST.get('status')
+        budget = request.POST.get('budget')
+
+        # Filter the project list based on the search criteria
+        for project in project_list:
+            type_result = True if  project.get('property_type') == property_type else False
+            city_result = True if   project.get('city') == city else False
+            status_result = True if project.get('status') == status else False
+            budget_result = True if  (project.get('price') and int(project.get('price')) >= int(budget)) else False
+            if type_result or city_result or status_result or budget_result:
+                print("ALl True Data")
+                search_list.append(project)
+
+    # For demonstration purposes: Load country flags CSV
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+
+    # Get the full URL and extract the last segment
+    full_url = request.build_absolute_uri()
+    last_url_word = full_url.rstrip('/').split('/')[-1]
+    # print(search_list)
+    chatbot_data = request.session.get('chatbot_data', {})
+    
+
+    context = {
+        "project_list":project_list,  # Show filtered list or original list
+        "country_flag_df": country_flag_df,
+        'last_url_word': last_url_word,
+        'search_list':search_list,
+        'chatbot_data': chatbot_data,
+    }
+
+    return render(request, 'search.html', context)
+
+
+
+@csrf_exempt  # Exempt from CSRF verification for simplicity, but consider security implications
+def chatbot_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            # Save data to the chatboatData model
+            user_data = chatboatData.objects.create(
+                name=data.get('name'),
+                mobile=data.get('mobile'),
+                email=data.get('email')
+            )
+
+            # Return success response with the created user's ID
+            return JsonResponse({'status': 'success', 'id': user_data.id})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON data'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+    
+
+def getmap(request):
+    # Example data, replace this with your actual data retrieval logic
+    project_list = get_project_list()
+    latitudes=[]
+    longitudes=[]
+	
+    for project in project_list:
+        print(project["latitude"])
+        print(project["longitude"])
+        latitudes.append(float(project["latitude"]))
+        longitudes.append(float(project["longitude"]))
+
+    # Initialize the gmplot object with a center point and zoom level
+    # Here, we take the average latitude and longitude for the center
+    center_lat = sum(latitudes) / len(latitudes)
+    center_lng = sum(longitudes) / len(longitudes)
+    gmap = gmplot.GoogleMapPlotter(center_lat, center_lng, 4)
+
+    # Plot the points on the map
+    gmap.scatter(
+    latitudes, 
+    longitudes, 
+    color='red', 
+    size=20, 
+    marker=True, 
+    edge_width=2.0, 
+    face_alpha=0.8, 
+    edge_alpha=1.0, 
+    edge_color='black'
+    )
+
+
+    # Draw the map and save it to the static folder
+    map_path ='static/map.html'
+    gmap.draw(map_path)
+
+    # Return the URL of the map
+    return JsonResponse({'map_url': 'static/map.html'})
+
+@csrf_exempt
+def sitevisiter_insert(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            mobile = data.get('mobile')
+            name=data.get('name')
+            csrftoken=data.get('csrftoken')
+            try:
+                visiter=sitevisiter.objects.get(mobile=mobile)
+            except:
+                # Save data to the sitevisiter model
+                user_data = sitevisiter.objects.create(
+                    mobile=mobile,
+                    name=name,
+                    csrftoken=csrftoken,
+                )
+
+            # Return success response with the created user's ID
+            return JsonResponse({'status': 'success', 'id': user_data.id})
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+def update_record(request, model_name, pk):
+    # Dynamically get the model class based on the model name
+    form_class = buildForm(model_name)
+    ModelClass=None
+    try:
+        ModelClass = apps.get_model(app_label='api', model_name=model_name)
+    except:
+        ModelClass = apps.get_model(app_label='myapp', model_name=model_name)
+    instance = get_object_or_404(ModelClass, pk=pk)
+    
+    # Dynamically create a ModelForm for the model
+    FormClass = modelform_factory(ModelClass, fields='__all__')
+
+    if request.method == 'POST':
+        form = FormClass(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('tables')
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+
+    form = FormClass(instance=instance)
+    context={
+        'form': form,
+        'instance': instance
+        }
+    return render(request, 'administrator/update_form.html', context)
+@login_required
+def delete_record(request, model_name, pk):
+    ModelClass = None
+    try:
+        ModelClass = apps.get_model(app_label='api', model_name=model_name)
+    except LookupError:
+        ModelClass = apps.get_model(app_label='myapp', model_name=model_name)
+    
+    instance = get_object_or_404(ModelClass, pk=pk)
+
+    # Check if the user has permission to delete this object
+    if not request.user.has_perm('delete_{}'.format(model_name.lower()), instance):
+        raise PermissionDenied
+    
+    instance.delete()
+    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+@csrf_exempt  # Exempt CSRF validation for demonstration (use with caution)
+def search_history(request):
+    if request.method == 'POST':
+        try:
+            # Extract data from the request body
+            data = json.loads(request.body)
+            csrftoken = data.get('csrftoken')
+            filter_value = data.get('filter')
+
+            if not csrftoken:
+                return JsonResponse({'error': 'CSRFTOKEN is required'}, status=400)
+
+            # Get the visiter based on the csrftoken
+            try:
+                visiter = sitevisiter.objects.get(csrftoken=csrftoken)
+            except sitevisiter.DoesNotExist:
+                return JsonResponse({'error': 'User not found'}, status=404)
+
+            # Save the search history record
+            search_record = searchHistory(
+                user=visiter,
+                searches=filter_value,
+                url=request.build_absolute_uri(),
+            )
+            search_record.save()
+
+            # Filter search history
+            filtered_searches = searchHistory.objects.filter(
+                user=visiter,
+                searches__icontains=filter_value
+            )
+
+            # Prepare the response data
+            data = list(filtered_searches.values('searches', 'url', 'created_at'))
+            return JsonResponse(data, safe=False)
+
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+
+
+def getmapwidthproject(request, id):
+    # Example data, replace this with your actual data retrieval logic
+    project_list = get_project_list()
+    latitudes = []
+    longitudes = []
+
+    for project in project_list:
+        if int(project["id"]) == id:
+            latitudes.append(float(project["latitude"]))
+            longitudes.append(float(project["longitude"]))
+
+    # Initialize the gmplot object with a center point and zoom level
+    center_lat = sum(latitudes) / len(latitudes) if latitudes else 0
+    center_lng = sum(longitudes) / len(longitudes) if longitudes else 0
+    gmap = gmplot.GoogleMapPlotter(center_lat, center_lng, 9)
+
+    # Plot the points on the map
+    gmap.scatter(
+        latitudes, 
+        longitudes, 
+        color='red', 
+        size=20, 
+        marker=True, 
+        edge_width=2.0, 
+        face_alpha=0.8, 
+        edge_alpha=1.0, 
+        edge_color='black'
+    )
+
+    # Draw the map and save it to the static folder
+    map_path = 'static/map.html'
+    gmap.draw(map_path)
+
+    # Return the URL of the map
+    map_url = 'static/map.html'
+    return JsonResponse({'map_url': map_url})
+
+
+
+
+@csrf_exempt
+def save_url_in_history(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        url = request.build_absolute_uri()
+        csrftoken=request.POST.get('csrftoken')
+        visiter=get_object_or_404(sitevisiter,csrftoken=csrftoken)
+        # visiter = getattr(request.user, 'sitevisiter', None)
+
+        # Save the history entry
+        History.objects.create(
+            visiter=visiter,
+            action=url.rstrip('/').split('/')[-1],
+            url=url,
+            record_id=0,  # Adjust if you want to capture a specific record ID
+            description=f"Visited {url}",
+            timestamp=timezone.now()
+        )
+        
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'fail'}, status=400)
+
+def scheduletime(request):
+    if request.method=="POST":
+        firsName=request.POST.get("firstName")
+        lastName=request.POST.get("lastName")
+        email=request.POST.get('email')
+        countryName=request.POST.get('countryName')
+        mobile=request.POST.get('mobile')
+        inputdate=request.POST.get('date')
+        inputtime=request.POST.get('time')
+        project=request.POST.get('project')
+        ins=schedulOn(
+            firstName =  firsName,
+            lastName =  lastName,
+            email =  email,
+            country =  countryName,
+            mobile =  mobile,
+            schedule_data =  inputdate,
+            schedule_time =  inputtime,
+            projectName =  project
+        )
+        ins.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+def membership(request):
+    offer=membershipOffer.objects.all()
+    
+    print(offer)
+    context={
+        'offers':offer,
+    }
+    return render(request,'ambessador/membership.html',context)
+    
+def ambessador_units(request):
+    customer_id = request.session.get('customer_id')
+    if request.method == "POST":
+        project_id = request.POST.get('project')
+        unit = request.POST.get('units_no')
+        email = request.POST.get('email')
+        mobile = request.POST.get('mobile')
+        
+        # Fetch the related objects
+        customer_instance = get_object_or_404(customer, id=customer_id)
+        project_instance = get_object_or_404(Project, id=project_id)
+        
+        # Create and save the CustomerLead instance
+        customer_lead_instance = customerLead(
+            customer=customer_instance,
+            project=project_id,
+            units=unit,
+            email=email,
+            mobile=mobile
+        )
+        customer_lead_instance.save()
+        
+        # Redirect after saving
+        return redirect("ambessador/")
+    customer_data=get_object_or_404(customer,id=customer_id)
+    project=projectTable.objects.all()
+    context={
+        'units':True,
+        'project':project,
+        'customer_data':customer_data,
+    }
+    return render(request,'ambessador/customer.html',context)
+
+
+def project_callus(request):
+    if request.method=="POST":
+        city=request.POST.get('city')
+        project=request.POST.get('project')
+        countryName=request.POST.get('countryName')
+        countryCode=request.POST.get('countryCode')
+        mobile=request.POST.get('mobile')
+        ins=projectCallus(
+            countryName=countryName,
+            countryCode=countryCode,
+            city=city,
+            mobile=mobile,
+            projectName=project
+        )
+        ins.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+
+        
+
+
+
+

@@ -17,7 +17,7 @@ class APITest(APITestCase):
         data = {
             "username": "Arvind",
             "email": "arvindgzp672@gmail.com",
-            "password": "Arvind@123"
+            "password": "Amit"
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
