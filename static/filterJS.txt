@@ -1,0 +1,170 @@
+let type_row_collection=[];
+let city_arr=[];
+let cities_row_collection=[];
+let status_row_collection=[];
+let price=0;
+function allFilter(){
+    alert(cities_row_collection.length);
+
+}
+
+// Function to update the display value
+function updateValue(value) {
+    const output = document.getElementById('rangeValue');
+    output.innerText = value;
+
+    const rows = document.querySelectorAll(".card");
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('.price');
+        let matches = false;
+
+        cells.forEach(cell => {
+            if (parseInt(cell.textContent) <= parseInt(value)) {
+                matches = true;
+            }
+        });
+
+        if (matches) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+
+
+function updateCheckboxCount() {
+    cities_row_collection=[];
+    city_arr=[];
+    const checkboxes = document.querySelectorAll('.cities-checkbox');
+    checkboxes.forEach((city)=>{
+        if(city.checked){
+            city_arr.push(city.value);
+        }
+    });
+    
+    document.getElementById('citycount').innerText = city_arr.length;
+    const checkedValues = Array.from(document.querySelectorAll('.cities-checkbox:checked')).map(cb => cb.value.toLowerCase());
+    const rows = document.querySelectorAll('.card');
+
+    if (checkedValues.length === 0) {
+        // If no checkboxes are checked, show all rows
+        rows.forEach(row => {
+            row.style.display = '';
+        });
+    } else {
+        // Otherwise, filter rows based on checked checkboxes
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('p');
+            let matches = false;
+
+            cells.forEach(cell => {
+                checkedValues.forEach(value => {
+                    if (cell.textContent.toLowerCase().includes(value)) {
+                        cities_row_collection.push(row);
+                    }
+                });
+            });
+        });
+        
+    }
+    allFilter();
+}
+
+
+function updateCommercialValue(value) {
+    document.getElementById('commercialValue').textContent = value;
+    const filterInput = value; // Assuming `value` is the input value
+    const filterValue = filterInput.toLowerCase(); // Use parentheses to call the function
+    const rows = document.querySelectorAll('.card');
+    
+    rows.forEach(row => {
+    const cells = row.querySelectorAll('.environmenttype');
+    let matches = false;
+    cells.forEach(cell => {
+        if (cell.textContent.toLowerCase().includes(filterValue)) {
+            matches = true;
+        }
+    });
+
+    if (matches) {
+        row.style.display = '';
+    } else {
+        row.style.display = 'none';
+    }
+}); 
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const filterInput = document.getElementById('filterInput');
+    filterInput.addEventListener('keyup', function() {
+        const filterValue = filterInput.value.toLowerCase();
+        const rows = document.querySelectorAll('.card');
+        rows.forEach(row => {
+            
+            const cells = row.querySelectorAll('h4');
+            let matches = false;
+
+            cells.forEach(cell => {
+                if (cell.textContent.toLowerCase().includes(filterValue)) {
+                    matches = true;
+                }
+            });
+
+            if (matches) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+    
+    filterInput.addEventListener('change',function(){
+        const visit_csrf=getCookie("visiter_csrf");
+        fetch('/search_history/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({ filter:filterInput.value,csrftoken:visit_csrf }), // Correctly format the data
+        })
+    });
+
+   
+
+    const switchCheck = document.getElementById('flexSwitchCheckDefault');
+    switchCheck.addEventListener('change', function() {
+        if (this.checked) {
+            const filterValue = "new launch";
+            const rows = document.querySelectorAll('.card');
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('.status');
+                let matches = false;
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(filterValue)) {
+                        matches = true;
+                    }
+                });
+
+                if (matches) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        } 
+        else {
+            const rows = document.querySelectorAll('.card');
+            rows.forEach(row => {
+                
+                    row.style.display = '';
+            });
+        
+        }
+    });
+    
+});

@@ -77,7 +77,7 @@ urlpatterns = [
     path("search", views.search, name="search"),
     path('chatbot-data/', views.chatbot_data, name='chatbot_data'),
     path('getmap/', views.getmap, name='getmap'),
-    path('sitevisiter_insert/', views.sitevisiter_insert, name='sitevisiter_insert'),
+    path('sitevisiter_insert', views.sitevisiter_insert, name='sitevisiter_insert'),
     path('update_record/<str:model_name>/<int:pk>/', views.update_record, name='update_record'),
     path('search_history/', views.search_history, name='search_history'),
     path('getmapwidthproject/<int:id>/', views.getmapwidthproject, name='getmapwidthproject'),
@@ -87,6 +87,10 @@ urlpatterns = [
     path('ambessador/units/', views.ambessador_units, name='ambessador/units'),
     path('delete_record/<str:model_name>/<int:pk>/', views.delete_record, name='delete_record'),
     path('project_callus', views.project_callus, name='project_callus'),
+    path('contactus', views.contactus, name='contactus'),
+    path('projectMapView', views.projectMapView, name='projectMapView'),
+    path('city_project/<str:city>', views.city_project, name='city_project'),
+    path('log-project-click/', views.log_project_click, name='log_project_click'),
     
     
 ]

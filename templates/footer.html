@@ -103,7 +103,7 @@
         </div>
         <div class="col-lg-2 col-md-12">
             <p class="social-title">
-                <a href="#">WORK WITH US ENQUIRE SCHEDULE A SITE VISIT</a>
+                <a href="#" onclick="scheduleOn('{{project.name}}')">WORK WITH US ENQUIRE SCHEDULE A SITE VISIT</a>
             </p>
 
         </div>
@@ -129,17 +129,17 @@
             <p class="social-title">
                 PROJECT
             </p>
-            <p><a href="#">Residential</a></p>
-            <p><a href="#">Commercial</a></p>
+            <p><a href="{% url 'residential' %}">Residential</a></p>
+            <p><a href="{% url 'commercial' %}">Commercial</a></p>
 
         </div>
         <div class="col-lg-1 col-md-12">
             <p class="social-title">
                 MEDIA CENTER
             </p>
-            <p><a href="#"></a>In The News</p>
-            <p><a href="#"></a>Press Release</p>
-            <p><a href="#"></a>Media Gallery</p>
+            <p><a href="{% url 'news' %}">In The News</a></p>
+            <p><a href="{% url 'pressreleas' %}">Press Release</a></p>
+            <p><a href="{% url 'mediagallery' %}">Media Gallery</a></p>
 
         </div>
         <div class="col-lg-2 col-md-12">
@@ -147,19 +147,19 @@
                 INVESTOR SECTION
             </p>
             <p>
-                <a href="#">Financials</a>
+                <a href="{% url 'finance' %}">Financials</a>
             </p>
             <p>
-                <a href="#">Investor Information</a>
+                <a href="{% url 'investorInform' %}">Investor Information</a>
             </p>
             <p>
-                <a href="#">Governance & Leadership</a>
+                <a href="{% url 'governanceLeasership' %}">Governance & Leadership</a>
             </p>
             <p>
-                <a href="#">Compliances</a>
+                <a href="{% url 'compliance' %}">Compliances</a>
             </p>
             <p>
-                <a href="#">ESG Policies</a>
+                <a href="{% url 'csr' %}">ESG Policies</a>
             </p>
         </div>
         <div class="row social-icon">
@@ -188,8 +188,8 @@
             <span class="text"><b>Location</b></span>
             <p id="morecontent">
                 <!-- index.html -->
-                {% for project in project_list %}
-                     <a href="#">{{project.city.name}}</a> |  
+                {% for i in city %}
+                     <a href="{% url 'city_project' i %}">{{i}}</a> |  
                 {% endfor %}
                     
             </p>
@@ -198,8 +198,8 @@
             <span class="text"><b>Luxury Flats</b></span>
             <p id="morecontent">
                 
-                {% for project in project_list %}
-                     <a href="#">Luxury Flats in {{project.city.name}}</a> |  
+                {% for i in city %}
+                     <a href="{% url 'city_project' i %}">Luxury Flats in {{i}}</a> |  
                 {% endfor %}
             </p>
         </div>
@@ -207,7 +207,7 @@
             <span class="text"><b>Typology</b></span>
             <p id="morecontent">
                 {% for project in project_list %}
-                    <a href="#">{{project.sub_category}} in {{project.city.name}}</a> |
+                    <a href="{% url 'projectview' project.id %}">{{project.sub_category}} in {{project.city}}</a> |
                  {% endfor %}  
             </p>
         </div>
@@ -215,7 +215,7 @@
             <span class="text"><b>Locality</b></span>
             <p id="morecontent">
                 {% for project in project_list %}
-                    <a href="#">{{project.locality}}</a> |  
+                    <a href="{% url 'projectview' project.id %}">{{project.locality}}</a> |  
                 {% endfor %}
             </p>
         </div>
@@ -223,7 +223,7 @@
             <span class="text"><b>Projects</b></span>
             <p id="morecontent">
                 {% for project in project_list %}
-                    <a href="#">{{project.name}}</a> |  
+                    <a href="{% url 'projectview' project.id %}">{{project.name}}</a> |  
                 {% endfor %}
             </p>
         </div>

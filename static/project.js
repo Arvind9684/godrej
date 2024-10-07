@@ -1,219 +1,55 @@
 
-function viewsOption(value) {
-    const val1 = value;
 
-    if (val1 === "list") {
-        var listContainers = document.getElementsByClassName("container-list");
-        var mapContainers = document.getElementsByClassName("container-map");
-        var listviews=document.getElementById("listviews");
-        var mapviews=document.getElementById("mapviews");
+// function viewsOption(value) {
+//     const val1 = value;
 
-        listviews.style.fontWeight="bold";
-        listviews.style.textDecoration="underline";
-        mapviews.style.fontWeight="normal";
-        mapviews.style.textDecoration="none";
+//     if (val1 === "list") {
+//         var listContainers = document.getElementsByClassName("container-list");
+//         var mapContainers = document.getElementsByClassName("container-map");
+//         var listviews=document.getElementById("listviews");
+//         var mapviews=document.getElementById("mapviews");
+
+//         listviews.style.fontWeight="bold";
+//         listviews.style.textDecoration="underline";
+//         mapviews.style.fontWeight="normal";
+//         mapviews.style.textDecoration="none";
 
 
-        // Display list containers and hide map containers
-        for (var i = 0; i < listContainers.length; i++) {
-            listContainers[i].style.display = "block";
-        }
-        for (var j = 0; j < mapContainers.length; j++) {
-            mapContainers[j].style.display = "none";
+//         // Display list containers and hide map containers
+//         for (var i = 0; i < listContainers.length; i++) {
+//             listContainers[i].style.display = "block";
+//         }
+//         for (var j = 0; j < mapContainers.length; j++) {
+//             mapContainers[j].style.display = "none";
             
-        }
+//         }
         
-    }
+//     }
 
-    if (val1 === "map") {
-        var listContainers = document.getElementsByClassName("container-list");
-        var mapContainers = document.getElementsByClassName("container-map");
-        var listviews=document.getElementById("listviews");
-        var mapviews=document.getElementById("mapviews");
+//     if (val1 === "map") {
+//         var listContainers = document.getElementsByClassName("container-list");
+//         var mapContainers = document.getElementsByClassName("container-map");
+//         var listviews=document.getElementById("listviews");
+//         var mapviews=document.getElementById("mapviews");
 
-        listviews.style.fontWeight="normal";
-        listviews.style.textDecoration="none";
-        mapviews.style.fontWeight="bold";
-        mapviews.style.textDecoration="underline";
-
-
-        // Display map containers and hide list containers
-        for (var i = 0; i < listContainers.length; i++) {
-            listContainers[i].style.display = "none";
-        }
-        for (var j = 0; j < mapContainers.length; j++) {
-            mapContainers[j].style.display = "block";
-            initMap();
-        }
-    }
-}
-
-// Function to update the display value
-function updateValue(value) {
-    const output = document.getElementById('rangeValue');
-    output.innerText = value;
-
-    const rows = document.querySelectorAll(".card");
-    rows.forEach(row => {
-        const cells = row.querySelectorAll('.price');
-        let matches = false;
-
-        cells.forEach(cell => {
-            if (parseInt(cell.textContent) <= parseInt(value)) {
-                matches = true;
-            }
-        });
-
-        if (matches) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
+//         listviews.style.fontWeight="normal";
+//         listviews.style.textDecoration="none";
+//         mapviews.style.fontWeight="bold";
+//         mapviews.style.textDecoration="underline";
 
 
+//         // Display map containers and hide list containers
+//         for (var i = 0; i < listContainers.length; i++) {
+//             listContainers[i].style.display = "none";
+//         }
+//         for (var j = 0; j < mapContainers.length; j++) {
+//             mapContainers[j].style.display = "block";
+//             alert("hellow");
+//             initMap();
+//         }
+//     }
+// }
 
-function updateCheckboxCount() {
-    const checkboxes = document.querySelectorAll('.cities-checkbox');
-    const checkedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
-    document.getElementById('citycount').innerText = checkedCount;
-    const checkedValues = Array.from(document.querySelectorAll('.cities-checkbox:checked')).map(cb => cb.value.toLowerCase());
-    const rows = document.querySelectorAll('.card');
-
-    if (checkedValues.length === 0) {
-        // If no checkboxes are checked, show all rows
-        rows.forEach(row => {
-            row.style.display = '';
-        });
-    } else {
-        // Otherwise, filter rows based on checked checkboxes
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('p');
-            let matches = false;
-
-            cells.forEach(cell => {
-                checkedValues.forEach(value => {
-                    if (cell.textContent.toLowerCase().includes(value)) {
-                        matches = true;
-                    }
-                });
-            });
-
-            if (matches) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    }
-}
-
-
-function updateCommercialValue(value) {
-    const filterInput = value; // Assuming `value` is the input value
-    const filterValue = filterInput.toLowerCase(); // Use parentheses to call the function
-    const rows = document.querySelectorAll('.card');
-    
-    rows.forEach(row => {
-    const cells = row.querySelectorAll('.environmenttype');
-    let matches = false;
-    cells.forEach(cell => {
-        if (cell.textContent.toLowerCase().includes(filterValue)) {
-            matches = true;
-        }
-    });
-
-    if (matches) {
-        row.style.display = '';
-    } else {
-        row.style.display = 'none';
-    }
-}); 
-}
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    const filterInput = document.getElementById('filterInput');
-    filterInput.addEventListener('keyup', function() {
-        const filterValue = filterInput.value.toLowerCase();
-        const rows = document.querySelectorAll('.card');
-        rows.forEach(row => {
-            
-            const cells = row.querySelectorAll('h4');
-            let matches = false;
-
-            cells.forEach(cell => {
-                if (cell.textContent.toLowerCase().includes(filterValue)) {
-                    matches = true;
-                }
-            });
-
-            if (matches) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-    
-    filterInput.addEventListener('change',function(){
-        const visit_csrf=getCookie("visiter_csrf");
-        fetch('/search_history/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-            body: JSON.stringify({ filter:filterInput.value,csrftoken:visit_csrf }), // Correctly format the data
-        })
-    });
-
-    const selectCountry = document.getElementById("selectCountry");
-    selectCountry.addEventListener('change', function() {
-        var countryData = selectCountry.value;
-        var countryArr = JSON.parse(countryData);
-        // alert("Country: " + countryArr[0] + "\nFlag URL: " + countryArr[1] + "\nCode: " + countryArr[2]);
-
-        // Update the flag image and other elements
-        document.getElementById("countryFlag").src = countryArr[2];
-        document.getElementById("countryName").innerText = countryArr[0];
-        document.getElementById("countryCode").value ="+"+countryArr[1];
-    });
-
-    const switchCheck = document.getElementById('flexSwitchCheckDefault');
-    switchCheck.addEventListener('change', function() {
-        if (this.checked) {
-            const filterValue = "new launch";
-            const rows = document.querySelectorAll('.card');
-            
-            rows.forEach(row => {
-                const cells = row.querySelectorAll('.status');
-                let matches = false;
-                cells.forEach(cell => {
-                    if (cell.textContent.toLowerCase().includes(filterValue)) {
-                        matches = true;
-                    }
-                });
-
-                if (matches) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        } 
-        else {
-            const rows = document.querySelectorAll('.card');
-            rows.forEach(row => {
-                
-                    row.style.display = '';
-            });
-        
-        }
-    });
-    
-});
 function read(value) {
     if (value === 'more') {
         document.getElementById("more").style.display = "";
@@ -255,7 +91,7 @@ window.addEventListener('scroll', function () {
     if (window.scrollY >90) {
         navbar.style.background="linear-gradient(to bottom, #8a8886, #fcf9f9)";
     } else {
-        navbar.style.background="none";
+        navbar.style.background="grey";
     }
 });
 document.addEventListener('DOMContentLoaded', function () {
@@ -684,6 +520,10 @@ document.addEventListener('DOMContentLoaded',function(){
                 });
             });
 });
+// -------------------------------------------------Filter function-------------------------------------------------------------------
+
+
+
 
         
 

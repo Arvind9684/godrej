@@ -1,27 +1,4 @@
 
-body{
-    background-color:white;
-    font-family: Arial, sans-serif;
-}
-h3 {
-    color: #333;
-    margin-bottom: 20px;
-}
-p {
-    color: #666;
-}
-img {
-    display: block;
-    margin: 0 auto;
-}
-span .bi{
-    color: rgb(189, 163, 163);
-}
-span i{
-    border: 1px groove;
-    padding: 5px;
-    margin:5px;
-}
 
 
 /*---------------------------------------Investor navbar CSS --------------------------*/
@@ -44,14 +21,11 @@ margin: 0 10px;
 
 .nav-link {
 text-decoration: none;
-color:black;
+color:white;
 font-size: large;
 }
 
-.nav-link:hover {
-color:black;
-border-bottom: 2px solid;
-}
+
 .nav-link .active:hover{
 border-bottom: none;
 }
@@ -156,6 +130,9 @@ a{
 .bi-search{
     width: 70px;
 }
+.bi .bi-star{
+    color:red;
+}
 #cities-checkbox{
     width: 15px;
     height: 15px;
@@ -201,48 +178,20 @@ a{
     color: #555;
     margin-top: 5px;
 }
-#bi-plus {
-    float: right;
-    margin-top: -6px;
-    cursor: pointer;
-}
 
-.bi-plus-circle {
-    font-size: x-large;
-    transition: transform 0.2ms;
-}
 
-#plus-icon:hover .bi-plus-circle {
-    transform: rotate(180deg);
-}
+
+
 .card {
     position: relative;
     display: inline-block;
 }
 
-.card-img {
-    width: 100%;
-    height: auto;
-    display: block;
-}
 .card img{
     width:400px;
 }
 
-#plus-icon {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
 
-.card:hover #plus-icon {
-    transform: translateY(-100%);
-    opacity: 0;
-}
 
 .card:hover .card-img-text {
     opacity: 1;
@@ -303,30 +252,7 @@ a{
 }
 
 
-.promosion{
-    box-shadow: 5px 5px 5px 5px gainsboro;
-    margin-top: 2%;
-    padding: 5%;
-}
 
-.countryFlag img{
-    width:25px;
-    height: 25px;
-    border:1px solid blue;
-}
-.countryCode{
-    border: 1px solid;   
-}
-
-.promosion-form input{
-    border:none;
-    border-bottom: 1px solid;
-    height: 20px;
-}
-.promosion-form span{
-    float:left;
-    margin-right: 10px;
-}
 .social-link{
     background-color:white;
     border-top:1px groove;
@@ -774,11 +700,6 @@ nav #sidebarToggle {
     }
 }
 
-@media (min-width: 900px) {
-    .card {
-        width: calc(33.333% - 20px);
-    }
-}
 @media (min-width: 900px) {
     .card {
         width: calc(33.333% - 20px);

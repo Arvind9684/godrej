@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Picture,City, SubArea, PropertyType, Category, SubCategory, Website, Location, Publisher, Gallery, Project
+from .models import Picture, Location, Publisher, Gallery, Project
 # api/serializers.py
 from django.contrib.auth.models import User
 
@@ -23,36 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
 class PictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Picture
-        fields = '__all__'
-
-class CitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = City
-        fields = '__all__'
-
-class SubAreaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SubArea
-        fields = '__all__'
-
-class PropertyTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PropertyType
-        fields = '__all__'
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-class SubCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SubCategory
-        fields = '__all__'
-
-class WebsiteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Website
         fields = '__all__'
 
 class LocationSerializer(serializers.ModelSerializer):

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    
+<div class="container-fluid" style="margin-top: 150px;">
+    <!-- Main Content: Project Thumbnails in Carousel -->
+    <div id="imageframe" class="col-lg-12 col-md-8">
+        <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for project in city_project_list %}
+                    {% if forloop.counter0|divisibleby:4 %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row d-flex justify-content-center">
+                    {% endif %}
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <a href="{% url 'projectview' project.id %}" style="text-decoration: none;"> 
+                                    <div class="card">
+                                        <div class="card-image">
+                                            <img src="..{{project.picture.url}}" alt="picture" class="card-img col-lg-12 col-md-12" style="width:100%;height:350px;">
+                                            
+                                            <div class="card-img-text">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-12">
+                                                        <span class="bi-beds">
+                                                            <i class="bi bi-person-workspace"></i>
+                                                        </span>
+                                                        <span>Beds</span>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12">
+                                                        plots
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-12">
+                                                        <span class="bi-beds">
+                                                            <i class="bi bi-bounding-box"></i>
+                                                        </span>
+                                                        <span>Area</span>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12">
+                                                        Available on request
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-12">
+                                                        <span class="bi-beds" style="border:1px solid;border-radius:49%;text-align:center;padding:7px;">
+                                                            &#8377; 
+                                                        </span>
+                                                        <span> &nbsp; Price</span>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-12">
+                                                        INR <span class="price">{{project.price}}</span> lakh onword
+                                                    </div>
+                                                </div>
+                                            
+                                                <hr>
+                                                <div class="col-lg-12 col-md-12">
+                                                    <span><i class="bi bi-chat"></i></span>
+                                                    <span>
+                                                        <a href="#" onclick="enquirynow('{{project.name}}')">Enquire Now</a>
+                                                    </span>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 mt-1">
+                                                    <span><i class="bi bi-calendar-check"></i></span>
+                                                    <span> <a href="#" onclick="scheduleOn('{{project.name}}')">Shedule visit</a></span>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 mt-1">
+                                                    <span><i class="bi bi-telephone-fill"></i></span><span><a href="tel:+918171479684" onclick="callus('{{project.name}}','{{project.city}}')">Call Us</a></span>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 mt-1">
+                                                    <span><i class="bi bi-whatsapp"></i></span><span><a href="https://wa.me/+918171479684?text=Hello%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank"> Whatsapp</a></span>
+                                                </div> 
+                                            </div>
+                                            
+                                            
+                                            <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                                                <div class="card-content">
+                                                    <p class="col-lg-12 col-md-12 img-location mt-1">
+                                                        <span style="flaot:left;">{{project.location}}</span>
+                                                        {% comment %} <span id="bi-plus" style="border:none;">
+                                                            <i class="bi bi-plus-circle" style="border:none;"></i>
+                                                        </span> {% endcomment %}
+                                                    </p>
+                                                </div>
+                                                
+                                                <div class="card-content">
+                                                    <h5>{{ project.title|slice:":25" }}...</h5>
+                                                    <p>
+                                                        <span style="border:1px groove gray;padding:3px;border-radius:2px;">
+                                                            <span style="color:blue;border:none;"><i class="bi bi-star" style="border:none;"></i></span> 
+                                                            <span class="status">{{project.status}}</span></span> <span class="environmenttype"> {{project.property_type}}</span></p>
+                                                    <p><strong>INR</strong> {{project.price}}.00 Lakh onwards | <strong>Possession Date </strong>{{project.possession_date}}</p>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                    {% if forloop.counter|divisibleby:4 or forloop.last %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Controls -->
+            <a class="carousel-control-prev" href="#projectCarousel" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#projectCarousel" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
+        </div>
+    </div>
+</div>
+        
+    
+{% endblock content %}
+    

@@ -16,7 +16,7 @@ from myapp.models import (shareholderPattern,compliance,projectEnquary,projectTa
 from myapp.utils import get_project_list,sendOtp
 import ast,shutil,random,os
 from django.http import HttpResponseRedirect
-from api.models import (City,Project,SubArea,PropertyType,Category,SubCategory,Website,Publisher,History,Location)
+from api.models import (Project,Publisher,History,Location)
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login
@@ -68,14 +68,25 @@ def index(request):
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
-    print(project_list)  # For debugging
+    project_field_names = [field.name for field in Project._meta.get_fields() if not field.many_to_one]
+    # Retrieve all Project records
+    projects_data = Project.objects.all().values(*project_field_names)
+    zipped_projects = []
+    for project in projects_data:
+        zipped_project = dict(zip(project_field_names, [project[field] for field in project_field_names]))
+        zipped_projects.append(zipped_project)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
+    # print(projects_df.columns)
     context = {
         "project_list": project_list,
         "country_flag_df": country_flag_df,
         'last_url_word': last_url_word,
+        'zipped_projects':zipped_projects,
+        'city':city,
     }
-    
     return render(request, "index.html", context)
+    # return render(request, "error.html", context)
 
 def project(request):
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
@@ -83,7 +94,7 @@ def project(request):
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
-    print(project_list)  # For debugging
+    # print(project_list)  # For debugging
     
     #--------------------------------------------------------------------------------
     # Number of items per page
@@ -105,30 +116,35 @@ def project(request):
         project_list = project_list[start_index:end_index]
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     context={
         'page_obj': page_obj,
         "project_list":project_list,
         "country_flag_df":country_flag_df,
         'last_url_word':last_url_word,
+        'city':city,
     }
 
     return render(request,"project.html",context)
 
 def hometally(request):
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
-    print(project_list)  # For debugging
+    # print(project_list)  # For debugging
     project_df = pd.DataFrame(project_list) 
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     
     context={
         'project_list':project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
         'country_flag_df':country_flag_df,
+        'city':city,
     }
     return render(request,"hometally.html",context)
 
@@ -137,12 +153,15 @@ def aboutus(request):
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'project_list':project_list,
         'aboutus':"active",
         'full_url': full_url,
         'last_url_word': last_url_word,
+        'city':city,
     }
     return render(request,"aboutus.html",context)
 
@@ -151,12 +170,15 @@ def management(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'management':'active',
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
+        'city':city,
     }
     return render(request,"management.html",context)
 
@@ -164,15 +186,16 @@ def sustatnability(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
-    city=City.objects.all()
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'sustatnability':'active',
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
-        'city':city,
+        'ctiy':city,
     }
     return render(request,"sustatnability.html",context)
 
@@ -181,23 +204,24 @@ def design(request):
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'design':'active',
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
         'country_flag_df':country_flag_df,
+        'city':city,
     }
     return render(request,"design.html",context)
 
 def residential(request):
-    
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
-    print(project_list)  # For debugging
+    # print(project_list)  # For debugging
     project_df = pd.DataFrame(project_list) 
     project = project_df[project_df['property_type'] == 'Residential']
 
@@ -221,23 +245,24 @@ def residential(request):
         start_index = one_page * (int(page_number) - 1)
         end_index = one_page * int(page_number)
         project = project[start_index:end_index]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'page_obj': page_obj,
         "project":project,
         "country_flag_df":country_flag_df,
         'project_list':project_list,
         'last_url_word':last_url_word,
+        'city':city,
     }
     return render(request,"project.html",context)
 
 def commercial(request):
-    
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
-    print(project_list)  # For debugging
+    # print(project_list)  # For debugging
     project_df = pd.DataFrame(project_list) 
     project = project_df[project_df['property_type'] == 'Commercial']
 
@@ -264,49 +289,59 @@ def commercial(request):
     project.to_csv("myapp/static/project.csv", index=False)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'page_obj': page_obj,
         "project":project,
         "country_flag_df":country_flag_df,
         'project_list':project_list,
         'last_url_word':last_url_word,
+        'city':city,
     }
     return render(request,"project.html",context)
 
 def finance(request):
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'finance':'active',
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
-        'country_flag_df':country_flag_df
+        'country_flag_df':country_flag_df,
+        'city':city,
     }
     return render(request,'finance.html',context)
 
 def investorInform(request):
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
     shareholderPattern_data = shareholderPattern.objects.all().values()
-
+    
     # Step 2: Convert the QuerySet to a list of dictionaries
     shareholderPattern_list = list(shareholderPattern_data)
 
     # Step 3: Create a Pandas DataFrame
     shareholderPattern_df = pd.DataFrame(shareholderPattern_list)
+    
+    if not shareholderPattern_df.empty:
+        years = shareholderPattern_df['year'].unique()
+    else:
+        years = []  # or some other default value
 
-    # Step 4: Extract the 'years' column
-    years = shareholderPattern_df['year'].unique()
+    
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'investorInform':'active',
@@ -316,6 +351,7 @@ def investorInform(request):
         'years':years,
         'shareholderPattern_df':shareholderPattern_df,
         'country_flag_df':country_flag_df,
+        'city':city,
     }
     return render(request,'investorInform.html',context)
 
@@ -324,12 +360,15 @@ def governanceLeasership(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'governanceLeasership':'active',
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
         'country_flag_df':country_flag_df,
+        'city':city,
     }
     return render(request,'governanceLeasership.html',context)
 
@@ -371,6 +410,8 @@ def compliances(request):
         if not fourth.empty:
             fourth_list = second.to_dict('records')
     project_list = get_project_list()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'project_list':project_list,
         'full_url': full_url,
@@ -382,6 +423,7 @@ def compliances(request):
         'fourth':fourth_list,
         'fy_unique':fy_unique,
         'country_flag_df':country_flag_df,
+        'city':city,
     }
     return render(request,'compliances.html',context)
 
@@ -404,6 +446,8 @@ def csr(request):
 
     # Get unique fiscal years
     fy_unique = compliance_df['fy'].unique()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
 
     context={
         'country_flag_df':country_flag_df,
@@ -413,6 +457,7 @@ def csr(request):
         'csr_df':csr_df,
         'fy_unique':fy_unique,
         'project_list':project_list,
+        'city':city,
     }
     return render(request,'csr.html',context)
 
@@ -421,11 +466,14 @@ def discloser(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'full_url': full_url,
         'last_url_word': last_url_word,
         'country_flag_df':country_flag_df,
         'project_list':project_list,
+        'city':city,
     }
     return render(request,'discloser.html',context)
 
@@ -466,7 +514,8 @@ def ballot(request):
         if not fourth.empty:
             fourth_list = second.to_dict('records')
 
-    
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
 
     context={
         'country_flag_df':country_flag_df,
@@ -479,6 +528,7 @@ def ballot(request):
         'fourth':fourth_list,
         'fy_unique':fy_unique,
         'project_list':project_list,
+        'city':city,
     }
     return render(request,'compliances.html',context)
 
@@ -501,6 +551,8 @@ def dividend(request):
 
     # Get unique fiscal years
     fy_unique = compliance_df['fy'].unique()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
 
     context={
         'country_flag_df':country_flag_df,
@@ -510,6 +562,7 @@ def dividend(request):
         'dividend_df':dividend_df,
         'fy_unique':fy_unique,
         'porject_list':project_list,
+        'city':city,
     }
     return render(request,'compliances.html',context)
 
@@ -529,7 +582,8 @@ def esop(request):
 
     # Convert the filtered DataFrame to a dictionary for the template
     esop_df = compliance_df.to_dict(orient='records')
-
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     
     context={
         'country_flag_df':country_flag_df,
@@ -538,6 +592,7 @@ def esop(request):
         'last_url_word': last_url_word,
         'esop':"active",
         'esop_df':esop_df,
+        'city':city,
         
     }
     return render(request,'compliances.html',context)
@@ -547,6 +602,8 @@ def qip(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
 
     context={
         'country_flag_df':country_flag_df,
@@ -554,6 +611,7 @@ def qip(request):
         'full_url': full_url,
         'last_url_word': last_url_word,
         'qip':"active",
+        'city':city,
     }
     return render(request,'compliances.html',context)
 
@@ -573,6 +631,8 @@ def scheme(request):
 
     # Convert the filtered DataFrame to a dictionary for the template
     scheme_df = compliance_df.to_dict(orient='records')
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
 
     
     context={
@@ -582,6 +642,7 @@ def scheme(request):
         'last_url_word': last_url_word,
         'scheme':"active",
         'scheme_df':scheme_df,
+        'city':city,
         
     }
     return render(request,'compliances.html',context)
@@ -603,7 +664,8 @@ def credit(request):
 
     # Convert the filtered DataFrame to a dictionary for the template
     credit_df = compliance_df.to_dict(orient='records')
-
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     
     context={
         'country_flag_df':country_flag_df,
@@ -612,6 +674,7 @@ def credit(request):
         'last_url_word': last_url_word,
         'credit':"active",
         'credit_df':credit_df,
+        'city':city,
         
     }
     return render(request,'compliances.html',context)
@@ -622,13 +685,15 @@ def procedure(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
-    
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'project_list':project_list,
         'full_url': full_url,
         'last_url_word': last_url_word,
         'procedure':"active",
+        'city':city,
     }
     return render(request,'compliances.html',context)
  
@@ -650,7 +715,8 @@ def egm(request):
     # Convert the filtered DataFrame to a dictionary for the template
     egm_df = compliance_df.to_dict(orient='records')
 
-    
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'project_list':project_list,
@@ -658,6 +724,7 @@ def egm(request):
         'last_url_word': last_url_word,
         'egm':"active",
         'egm_df':egm_df,
+        'city':city,
         
     }
     return render(request,'compliances.html',context)
@@ -681,7 +748,8 @@ def annual(request):
 
     # Get unique fiscal years
     fy_unique = compliance_df['fy'].unique()
-
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'project_list':project_list,
@@ -690,6 +758,7 @@ def annual(request):
         'annual':"active",
         'annual_df':annual_df,
         'fy_unique':fy_unique,
+        'city':city,
     }
     return render(request,'csr.html',context)
 
@@ -712,6 +781,8 @@ def commission(request):
 
     # Get unique fiscal years
     fy_unique = compliance_df['fy'].unique()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
 
     context={
         'country_flag_df':country_flag_df,
@@ -721,6 +792,7 @@ def commission(request):
         'commission':"active",
         'commission_df':commission_df,
         'fy_unique':fy_unique,
+        'city':city,
     }
     return render(request,'csr.html',context)
 
@@ -729,6 +801,8 @@ def news(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         "news":"active",
         'country_flag_df':country_flag_df,
@@ -737,6 +811,7 @@ def news(request):
         'last_url_word':last_url_word,
         'image_text':"In the News",
         'image_path':"../media/image/mediabackground.jpg",
+        'city':city,
         
     }
     return render(request,'media.html',context)
@@ -746,6 +821,8 @@ def pressreleas(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         "pressreleas":"active",
         'country_flag_df':country_flag_df,
@@ -754,6 +831,7 @@ def pressreleas(request):
         'last_url_word':last_url_word,
         'image_text':"",
         'image_path':"../media/image/pressrelease.jpg",
+        'city':city
         
     }
     return render(request,'media.html',context)
@@ -763,6 +841,8 @@ def mediagallery(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     context={
         "mediagallery":"active",
         'country_flag_df':country_flag_df,
@@ -771,6 +851,7 @@ def mediagallery(request):
         'last_url_word':last_url_word,
         'image_text':"Media",
         'image_path':"../media/image/mediagallery.jpg",
+        'city':city,
         
     }
     return render(request,'media.html',context)
@@ -780,12 +861,15 @@ def legalinformation(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     context={
         "legalinformation":"active",
         'country_flag_df':country_flag_df,
         'project_list':project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
+        'city':city,
         
     }
     return render(request,'nricorner.html',context)
@@ -795,12 +879,15 @@ def loanfornri(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     context={
         "loanfornri":"active",
         'country_flag_df':country_flag_df,
         'project_list':project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
+        'city':city,
         
     }
     return render(request,'nricorner.html',context)
@@ -810,6 +897,8 @@ def nrifaq(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     
     context={
         "nrifaq":"active",
@@ -817,6 +906,7 @@ def nrifaq(request):
         'project_list':project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
+        'city':city,
         
     }
     return render(request,'nricorner.html',context)
@@ -826,6 +916,8 @@ def internationaloffice(request):
     project_list = get_project_list()
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     
     context={
         "internationaloffice":"active",
@@ -833,6 +925,7 @@ def internationaloffice(request):
         'project_list':project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
+        'city':city,
         
     }
     return render(request,'nricorner.html',context)
@@ -862,15 +955,16 @@ def enqurenow(request):
 
     # Read the CSV files
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
-    
     project_list = get_project_list()
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     context={
         "enqurenow":"active",
         "projects":project_list,
         'full_url':full_url,
         'last_url_word':last_url_word,
         "country_flag_df":country_flag_df,
+        'city':city,
         
     }
     return render(request,'nricorner.html',context)
@@ -886,6 +980,8 @@ def blogs(request):
     # Retrieve the last three blog entries
     last_three_blogs = blog.objects.all().order_by('-id')[:3]
     blog_post_data=blog_post.objects.all()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     context={
         "enqurenow":"active",
         'country_flag_df':country_flag_df,
@@ -897,6 +993,7 @@ def blogs(request):
         'blogs_data':blogs_data,
         'last_three_blogs':last_three_blogs,
         'blog_post_data':blog_post_data,
+        'city':city,
     }
     return render(request,'blogs.html',context)
 def ambessador(request):
@@ -933,18 +1030,18 @@ def chunk_list(lst, chunk_size):
 def projectview(request,id):
     # Read the CSV files
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
-    print(project_list)  # For debugging
+    # print(project_list)  # For debugging
     
     project_df = pd.DataFrame(project_list)
     project_df2 = project_df[project_df['id']==id]
     project_name = project_df2.iloc[0]['name']
     amenities_data = amenities.objects.filter(project__name=project_name)
-    print("Amenities : ",amenities_data)
+    # print("Amenities : ",amenities_data)
     project_list2 = project_df2.to_dict(orient='records')
+    city=project_df['city'].unique()
     
     context={
         "project_list":project_list,
@@ -952,41 +1049,52 @@ def projectview(request,id):
         'last_url_word':last_url_word,
         'project_list2':project_list2,
         'amenities_data':amenities_data,
+        "city":city,
     }
     return render(request,'projectview.html',context)
 
-def callback(request,last_url_word):
-    if request.method=="POST":
+from django.http import HttpResponseRedirect
+from .models import Callback  # Make sure to import your Callback model
+
+def callback(request, last_url_word):
+    if request.method == "POST":
         name = request.POST.get('name')
-        country = request.POST.get('country')
-        countrycode=request.POST.get('countrycode')
+        country = request.POST.get('country')  # No need for ast.literal_eval
+        countrycode = request.POST.get('countrycode')
         mobile = request.POST.get('mobile')
         email = request.POST.get('email')
         confirm = request.POST.get('confirm') == 'on'  # Convert "on" to True
-        country_list = ast.literal_eval(country)
-        mobile=countrycode+" "+ mobile
-        ins=Callback(
+
+        # Concatenate country code and mobile number
+        mobile = f"{countrycode} {mobile}"
+
+        # Create and save the callback instance
+        ins = Callback(
             name=name,
-            country=country_list[0],
+            country=country,  # Directly use the country string
             mobile=mobile,
             email=email,
             confirm=confirm
         )
         ins.save()
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
 def real_estate_terms(request,msg):
-    print(msg)
+    # print(msg)
     # Read the CSV files
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     if msg=='termcondition':
         context={
             'country_flag_df':country_flag_df,
             'project_list':project_list,
             'termcondition':True,
+            'city':city,
         }
         return render(request,"realtermcondition.html",context)
     elif msg=='onlineresearch':
@@ -994,6 +1102,7 @@ def real_estate_terms(request,msg):
             'country_flag_df':country_flag_df,
             'project_list':project_list,
             'onlineresearch':True,
+            'city':city,
         }
         return render(request,"realtermcondition.html",context)
     elif msg=='rightproperty':
@@ -1001,27 +1110,25 @@ def real_estate_terms(request,msg):
             'country_flag_df':country_flag_df,
             'project_list':project_list,
             'rightproperty':True,
+            'city':city,
         }
         return render(request,"realtermcondition.html",context)
         
     else:
-        context={
-        "project_list":project_list,
-        "country_flag_df":country_flag_df,
-        'last_url_word':last_url_word,
-        }
         return redirect(msg)
     
     
 def reachus(request):
     country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
-    # print(city_df)
     full_url = request.build_absolute_uri()
     last_url_word = full_url.rstrip('/').split('/')[-1]
     project_list = get_project_list()
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
     context={
         'country_flag_df':country_flag_df,
         'project_list':project_list,
+        'city':city,
     }
     return render(request,'reachus.html',context)
 
@@ -1282,52 +1389,18 @@ def properties(request):
 def project_update(request, id):
     if request.method=="POST":
         project = get_object_or_404(Project, id=id)
-        city_id=request.POST.get('city')
-        try:
-            city=City.objects.get(id=city_id)
-            project.city=city
-        except:
-            pass
-        
+        project.city=request.POST.get('city')
         project.name=request.POST.get('name')
         project.description=request.POST.get('description')
         project.view=request.POST.get('view')
         project.is_verified=request.POST.get('is_verified')
         project.is_for_rent=request.POST.get('is_for_rent')
         project.title=request.POST.get('title')
-        sub_area_id=request.POST.get('sub_area')
-        try:
-            sub_area=SubArea.objects.get(id=sub_area_id)
-            project.sub_area=sub_area
-        except:
-            pass
-    
-        property_type_id=request.POST.get('property_type')
-        try:
-            property_type=PropertyType.objects.get(id=property_type_id)
-            project.property_type=property_type
-        except:
-            pass
-        
-        category_id=request.POST.get('category')
-        try:
-            category=Category.objects.get(id=category_id)
-        except:
-            pass
-        
-        sub_category_id=request.POST.get('sub_category')
-        try:
-            sub_category=SubCategory.objects.get(id=sub_category_id)
-            project.sub_category=sub_category
-        except:
-            pass
-        
-        website_id=request.POST.get('website')
-        try:
-            website=Website.objects.get(id=website_id)
-            project.website=website
-        except:
-            pass
+        project.sub_area=request.POST.get('sub_area')
+        project.property_type=request.POST.get('property_type')
+        project.category=request.POST.get('category')
+        project.sub_category=request.POST.get('sub_category')
+        project.website=request.POST.get('website')
         location_id=request.POST.get('location')
         try:
             location=Location.objects.get(id=location_id)
@@ -1425,11 +1498,6 @@ def project_update(request, id):
             image4_url = fs.save(image4.name, image4)
         return redirect('properties')
     location=Location.objects.all()
-    city=City.objects.all()
-    sub_area=SubArea.objects.all()
-    category=Category.objects.all()
-    sub_category=SubCategory.objects.all()
-    website=Website.objects.all()
     project_list=get_project_list()
     project_df=pd.DataFrame(project_list)
     project_df=project_df[project_df["id"]==id]
@@ -1442,12 +1510,7 @@ def project_update(request, id):
         'Properties':"active",
         "last_url_word":last_url_word,
         'project_columns':project_columns,
-        'city':city,
         'location':location,
-        'sub_area':sub_area,
-        'category':category,
-        'sub_category':sub_category,
-        'website':website,
     }
     return render(request,"administrator/project_update.html",context)
 
@@ -1475,7 +1538,7 @@ def get_all_models(app_name):
         models = app_config.get_models()
         return [model for model in models]
     except LookupError:
-        print(f"App '{app_name}' not found.")
+        # print(f"App '{app_name}' not found.")
         return []
 
 
@@ -1685,7 +1748,7 @@ def search(request):
             status_result = True if project.get('status') == status else False
             budget_result = True if  (project.get('price') and int(project.get('price')) >= int(budget)) else False
             if type_result or city_result or status_result or budget_result:
-                print("ALl True Data")
+                # print("ALl True Data")
                 search_list.append(project)
 
     # For demonstration purposes: Load country flags CSV
@@ -1696,6 +1759,8 @@ def search(request):
     last_url_word = full_url.rstrip('/').split('/')[-1]
     # print(search_list)
     chatbot_data = request.session.get('chatbot_data', {})
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
     
 
     context = {
@@ -1704,6 +1769,7 @@ def search(request):
         'last_url_word': last_url_word,
         'search_list':search_list,
         'chatbot_data': chatbot_data,
+        'city':city,
     }
 
     return render(request, 'search.html', context)
@@ -1735,12 +1801,13 @@ def chatbot_data(request):
 def getmap(request):
     # Example data, replace this with your actual data retrieval logic
     project_list = get_project_list()
+    project_list = Project.objects.all()
     latitudes=[]
     longitudes=[]
 	
     for project in project_list:
-        print(project["latitude"])
-        print(project["longitude"])
+        # print(project["latitude"])
+        # print(project["longitude"])
         latitudes.append(float(project["latitude"]))
         longitudes.append(float(project["longitude"]))
 
@@ -1774,29 +1841,25 @@ def getmap(request):
 @csrf_exempt
 def sitevisiter_insert(request):
     if request.method == 'POST':
+        mobile = request.POST.get('mobile')
+        name=request.POST.get('name')
+        email=request.POST.get('email')
         try:
-            data = json.loads(request.body)
-            mobile = data.get('mobile')
-            name=data.get('name')
-            csrftoken=data.get('csrftoken')
-            try:
-                visiter=sitevisiter.objects.get(mobile=mobile)
-            except:
-                # Save data to the sitevisiter model
-                user_data = sitevisiter.objects.create(
-                    mobile=mobile,
-                    name=name,
-                    csrftoken=csrftoken,
-                )
-
-            # Return success response with the created user's ID
-            return JsonResponse({'status': 'success', 'id': user_data.id})
-        except json.JSONDecodeError:
-            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-    else:
-        return JsonResponse({'status': 'error', 'message': 'Invalid request method'}, status=405)
+            visiter=sitevisiter.objects.get(mobile=mobile)
+            visiter.email=email
+            visiter.created_at=timezone.now()
+            visiter.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        except:
+            # Save data to the sitevisiter model
+            user_data = sitevisiter(
+               mobile = mobile,
+               name = name,
+               email = email
+            )
+            user_data.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 def update_record(request, model_name, pk):
     # Dynamically get the model class based on the model name
     form_class = buildForm(model_name)
@@ -1972,7 +2035,7 @@ def scheduletime(request):
 def membership(request):
     offer=membershipOffer.objects.all()
     
-    print(offer)
+    # print(offer)
     context={
         'offers':offer,
     }
@@ -2029,6 +2092,102 @@ def project_callus(request):
         ins.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
+def contactus(request):
+    # Read the CSV files
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    # print(city_df)
+    full_url = request.build_absolute_uri()
+    last_url_word = full_url.rstrip('/').split('/')[-1]
+    project_list = get_project_list()
+    project_field_names = [field.name for field in Project._meta.get_fields() if not field.many_to_one]
+    # Retrieve all Project records
+    projects_data = Project.objects.all().values(*project_field_names)
+    zipped_projects = []
+    for project in projects_data:
+        zipped_project = dict(zip(project_field_names, [project[field] for field in project_field_names]))
+        zipped_projects.append(zipped_project)
+    projects_df=pd.DataFrame(list(project_list))
+    city=projects_df['city'].unique()
+    context = {
+        "project_list": project_list,
+        "country_flag_df": country_flag_df,
+        'last_url_word': last_url_word,
+        'zipped_projects':zipped_projects,
+        'city':city,
+    }
+    return render(request, "contact.html", context)
+def projectMapView(request):
+    projects = Project.objects.all()
+    project_list2 = []
+    for project in projects:
+        project_list2.append({
+            "id":project.id,
+            "title": project.title,
+            "location": project.location.city,
+            "latitude": project.location.latitude,
+            "longitude": project.location.longitude
+        })
+        # Load the country flag data
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    
+    # Get the current URL and extract the last part
+    full_url = request.build_absolute_uri()
+    last_url_word = full_url.rstrip('/').split('/')[-1]
+    project_list=get_project_list()
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
+    # Prepare context for the template
+    context = {
+        "project_list":project_list,
+        "project_list2": project_list2,
+        "country_flag_df": country_flag_df.to_dict(orient='records'),  # Convert DataFrame to a list of dicts
+        "last_url_word": last_url_word,
+        "city":city,
+    }
+    return render(request, "map.html", context)
+
+def city_project(request,city):
+    # Load the country flag data
+    country_flag_df = pd.read_csv('myapp/static/Countyr_list_code_flag.csv', index_col=False)
+    
+    # Get the current URL and extract the last part
+    full_url = request.build_absolute_uri()
+    last_url_word = full_url.rstrip('/').split('/')[-1]
+    city_project_list = Project.objects.filter(location__city=city)
+    print(city_project_list)
+    print(city_project_list)
+    project_list=get_project_list()
+    projects_df=pd.DataFrame(project_list)
+    city=projects_df['city'].unique()
+    print(city_project_list)
+    context = {
+        "project_list":project_list,
+        "city_project_list": city_project_list,
+        "country_flag_df": country_flag_df.to_dict(orient='records'),  # Convert DataFrame to a list of dicts
+        "last_url_word": last_url_word,
+        "city":city,
+    }
+    return render(request,'city_project.html',context)
+
+def log_project_click(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        href = data.get('href')
+        csrf = data.get('id')
+        discription=data.get('discription')
+
+        History.objects.create(
+            visiter=request.user.sitevisiter if request.user.is_authenticated else None,
+            action="Click",
+            url=href,
+            record_id=csrf,
+            description=f"User clicked on {discription}",
+            timestamp=timezone.now()
+        )
+        return JsonResponse({'status': 'success'})
+    
+    
+    
         
 
 

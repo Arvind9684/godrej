@@ -1,3 +1,27 @@
+body{
+    background-color:white;
+    font-family: Arial, sans-serif;
+}
+h3 {
+    color: #333;
+    margin-bottom: 20px;
+}
+p {
+    color: #666;
+}
+img {
+    display: block;
+    margin: 0 auto;
+}
+span .bi{
+    color: rgb(189, 163, 163);
+}
+span i{
+    border: 1px groove;
+    padding: 5px;
+    margin:5px;
+}
+
 body.disabled {
     overflow: auto;
     pointer-events: none;
@@ -46,6 +70,9 @@ body{
 }
 main{
     background-color: white;
+}
+nav .navbar .nav-item .nav-link:hover{
+    border:none;
 }
 /*----------------------------------Disclamer CSS------------------------------------------------*/
 /* Styles for the overlay */
@@ -177,40 +204,63 @@ nav #sidebarToggle {
 .sidebar a:hover {
     color: #f1f1f1;
 }
-/* -------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------Index CSS------------------------------------------------------- */
+.carousel-overlay-box {
+    position: absolute;
+    top: 0;
+    left: 155px;
+    height: 100%;
+    width: 79%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.2); /* Optional background overlay */
+}
+
+.carousel-overlay-box h1 {
+    margin: 0;
+    font-size: 3rem;
+    text-align: center;
+}
+fieldset {
+    border: 2px solid #4CAF50;
+    padding: 10px;
+  }
+
+  legend {
+    font-weight: bold;
+    color: #4CAF50;
+  }
+
+  label {
+    margin-right: 10px;
+  }
+
+  input[type="text"], input[type="email"] {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 200px;
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+/* ------------------------------------------------------------------------------------------------------------------------------- */
 
 /* Slider css */
 #main-content {
     transition: margin-right .5s;  /* Change from margin-left to margin-right */
     padding: 16px;
-}
-
-.promosion{
-    background-color: white;
-    box-shadow: 5px 5px 5px 5px rgb(214, 211, 211);
-    margin-top: 2%;
-}
-
-.countryFlag img{
-    width:25px;
-    height: 25px;
-    border:1px solid blue;
-}
-.countryCode{
-    border: 1px solid;
-    padding: 2px;
-}
-.promosion-form{
-    margin-bottom:5%;
-}
-.promosion-form input{
-    border-bottom: 1px solid;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    margin: 10px;
-    height: 40px;
-    font-size: large;
 }
 .checkbox-container {
     display: flex;
@@ -628,10 +678,10 @@ body {
     font-size: large;
 }
 
-.nav-link:hover {
+/* .nav-link:hover {
     color:white;
     border-bottom: 2px solid white;
-}
+} */
 .nav-link .active:hover{
     border-bottom: none;
 }
@@ -869,6 +919,94 @@ button.btn-right4 {
     background-color: #0056b3;
     border-color: #004085;
 }
+/* -------------------------------------------------------Project Views---------------------------------------------------------------- */
+.btn-left5 {
+    position: absolute;
+    left: 10px; /* Set to place the button on the left */
+    width: 50px;
+    height: 50px;
+    border: 1px double;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 100;
+    background-color: whitesmoke;
+  }
+  
+  .btn-right5 {
+    position: absolute; /* Needs positioning to align opposite the left button */
+    right: 10px; /* Set to place the button on the right */
+    width: 50px;
+    height: 50px;
+    border: 1px double;
+    padding: 10px;
+    border-radius: 50%;
+    z-index: 100;
+    background-color: whitesmoke;
+  }
+  
+/* --------------------------------------------------------------poromosion-form----------------------------------------------------------------- */
+
+.promotion-form input {
+    border: none;
+    border-bottom: 1px solid;
+    height: 20px;
+}
+
+.promotion-form span {
+    float: left;
+    margin-right: 10px;
+}
+.promotion-form .form-control {
+    border: none;
+    border-bottom: 1px solid black; /* Specify color if needed */
+    height: 35px; /* Match height for all inputs */
+}
+
+.promotion-form .form-group span {
+    display: inline-block; /* Ensures consistent alignment */
+    margin-right: 10px;
+}
+
+/* Responsive text alignment and spacing */
+.contact-description {
+    margin: 0 auto;
+    width: 70%;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .contact-description {
+        width: 90%;
+        font-size: 1.25rem;
+    }
+
+    .form-row span {
+        flex-basis: 100%;
+        margin-bottom: 10px;
+    }
+
+    .form-row {
+        justify-content: center;
+    }
+
+    .promotion-form .form-row .btn {
+        margin-top: 15px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-description {
+        font-size: 1rem;
+    }
+
+    .form-row span {
+        flex-basis: 100%;
+    }
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------------------- */
 /* Smaller screens */
 @media screen and (max-height: 450px) {
     .sidebar {padding-top: 15px;}

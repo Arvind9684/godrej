@@ -1,0 +1,116 @@
+
+
+<div class="row textAlign-center d-flex align-items-center bg-light mt-5 justify-content-center">
+    <div class="col-lg-12 col-md-12 text-center p-3">
+        <span class="line-before"></span>
+        <span class="text"><b>GET IN TOUCH</b></span>
+        <span class="line-after"></span>
+    </div>
+    
+    <div class="col-lg-8 col-md-10 text-center">
+        <p class="contact-description" style="font-size: 1.5rem; font-weight: lighter;">
+            If you would like to know more details or something specific, feel free to contact us.
+            Our site representative will give you a call back.
+        </p>
+    </div>
+
+    <div class="promotion col-lg-10 col-md-12 mb-5 align-items-center justify-content-center"
+        style="
+        box-shadow: 5px 5px 5px 5px gainsboro;
+        margin-top: 2%;
+        padding: 5%;
+        "
+        >
+        <form action="{% url 'callback' last_url_word %}" method="POST" class="promotion-form fs-6">
+            {% csrf_token %}
+
+            <!-- First Row with inputs aligned in a row -->
+            <div class="form-row d-flex flex-wrap justify-content-between">
+                <span class="form-group">
+                    <input type="text" name="name" class="form-control" placeholder="Name" required>
+                </span>
+                
+                <span class="form-group countryFlag">
+                    <img src="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" 
+                    alt="Country Flag" 
+                    id="countryFlag" 
+                    class="img-fluid" 
+                    style="width:35px;
+                            height:30px;
+                            border:1px solid blue;
+                            "
+                    >
+                </span>
+                
+                <span class="form-group">
+                    <select id="selectCountry" name="country" class="form-control" onchange="updateCountryDetails()"
+                        style="
+                            width:100px;
+                            height: 35px;
+                        "
+                        aria-placeholder="Country"
+                    >
+                        <option value="India" countryflag="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" countrycode="91" selected>India</option>
+                        {% for i in country_flag_df.values %}
+                        <option value="{{ i.1 }}" countrycode="{{ i.4 }}" countryflag="{{ i.5 }}">{{ i.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </span>
+                
+                <span class="form-group countryCode">
+                    <input type="text" 
+                    name="countrycode" 
+                    id="countryCode" 
+                    class="form-control" 
+                    style="border: 1px solid;
+                            width:60px;"
+                    value="91" readonly >
+                </span>
+                
+                <span class="form-group">
+                    <input type="number" name="mobile" class="form-control" placeholder="Mobile Number" required>
+                </span>
+                
+                <span class="form-group">
+                    <input type="email" name="email" class="form-control" placeholder="Email ID" required>
+                </span>
+            </div>
+            
+            <!-- Second Row with checkbox and submit button -->
+            <div class="form-row d-flex flex-wrap justify-content-between mt-5">
+                <div class="checkbox-row d-flex align-items-center">
+                    <span>
+                        <input type="checkbox" name="confirm" required style="margin-right: 5px;">
+                    </span>
+                    <span class="ml-2">
+                         Yes, I would like to receive updates & promotions from Godrej Properties Limited.
+                    </span>
+                </div>
+                
+                <span class="ml-auto">
+                    <input type="submit" value="SEND" class="btn btn-dark" style="width: 100px; height: 40px;">
+                </span>
+            </div>
+        </form>
+    </div>
+    
+</div>
+<script>
+    function UpdateFlag(selectCountry){
+        const selectedOption = selectCountry.options[selectCountry.selectedIndex];
+        const countryname = selectedOption.value;
+        const countryflag = selectedOption.getAttribute('countryflag');
+        const countrycode = selectedOption.getAttribute('countrycode');
+        document.getElementById("countryCode").value="+"+countrycode;
+        document.getElementById("countryFlag").src=countryflag;
+            //alert(`Country Name: ${countryname}, Country Flag: ${countryflag}, Country Code: ${countrycode}`);
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        const selectCountry = document.getElementById('selectCountry');
+        UpdateFlag(selectCountry);
+        selectCountry.addEventListener('change',function(){
+            UpdateFlag(selectCountry);
+        });
+    });
+    
+</script>

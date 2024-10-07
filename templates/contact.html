@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .contact-info, .contact-form {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .contact-info h2, .contact-form h2 {
+            margin-top: 0;
+            font-size: 2em;
+            color: #333;
+        }
+        .contact-info p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        .contact-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .contact-info ul li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        .contact-info ul li i {
+            margin-right: 10px;
+            color: #333;
+        }
+        .contact-form form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .contact-form form .full-width {
+            grid-column: span 2;
+        }
+        .contact-form form input,
+        .contact-form form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .contact-form form textarea {
+            height: 150px;
+        }
+        .contact-form form button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .contact-form form button:hover {
+            background-color: #555;
+        }
+        @media(max-width: 768px) {
+            .contact-form form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <div class="header">
+        <h1>Contact Us</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <p>If you have any questions, feel free to reach out to us through the form or the contact information provided below.</p>
+            <ul>
+                <li><i class="fas fa-map-marker-alt"></i> 1234 Street Name, City, Country</li>
+                <li><i class="fas fa-phone-alt"></i> +123 456 7890</li>
+                <li><i class="fas fa-envelope"></i> info@example.com</li>
+            </ul>
+        </div>
+
+        <div class="contact-form">
+            <h2>Contact Form</h2>
+            <form action="#" method="post">
+                <input type="text" name="first_name" placeholder="First Name" required>
+                <input type="text" name="last_name" placeholder="Last Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="subject" placeholder="Subject" class="full-width" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit" class="full-width">Send Message</button>
+            </form>
+        </div>
+
+    </div>
+
+
+{% endblock content %}

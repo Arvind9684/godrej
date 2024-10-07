@@ -1,4 +1,66 @@
+// -----------------------------------------------------------Filter Function build------------------------------------------------------
 
+// ---------------------------------------------index JS-------------------------------------------------------
+
+function nameValidation(name) {
+    // Regular expression to match strings with only letters and spaces and at least one vowel
+    var nameExp = new RegExp(/^[A-Za-z\s]*[AEIOUaeiou][A-Za-z\s]*$/);
+    // Check if the name matches the regular expression and has at least 2 characters
+    if (name.value.length > 2 && name.value.match(nameExp)) {
+        name.style.border="";
+    }
+    else{
+        alert("Name must be at least 2 characters long, contain only letters and spaces, and include at least one vowel.");
+        name.style.border="1px solid red";
+        return false;
+    }
+    return true;
+}
+
+
+
+function mobileValidation(mobile) {
+    // Mobile number should be 10 digits long and should contain only numbers
+    var mobilePattern = /^[0-9]{10}$/;
+    if (!mobilePattern.test(mobile.value)) {
+        alert("Mobile number must be 10 digits long.");
+        mobile.style.border="1px solid red";
+        return false;
+    }
+    mobile.style.border="";
+    return true;
+}
+
+function emailValidation(email) {
+    // Basic email pattern validation
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailPattern.test(email.value)) {
+        alert("Please enter a valid email address.");
+        return false;
+    }
+    email.style.border="";
+    return true;
+}
+
+function validateform() {
+    var name = document.getElementById('name');
+    var mobile = document.getElementById('mobile');
+    var email = document.getElementById('email');
+
+    var nameVal = nameValidation(name);
+    var mobileVal = mobileValidation(mobile);
+    var emailVal = emailValidation(email);
+
+    if (nameVal && mobileVal && emailVal) {
+        return true;
+    }
+    else{
+        return false;
+    }
+    return false;
+}
+
+// ---------------------------------------------------------------------------------------------------------------
 function showContent() {
     document.getElementById("arrowcontent").style.display = "block";
     document.getElementById("showBtn").style.display = "none";
@@ -46,8 +108,6 @@ function checkCookie() {
         disclaimerModal.style.display = "none";
         body.classList.remove("disabled");
     } else {
-        let mobile = prompt("Enter Mobile Number");
-        let name = prompt("Enter Name");
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -59,15 +119,6 @@ function checkCookie() {
         }
         // Usage example: Set a cookie named "visit_csrf" with the value "123456" that expires in 7 days
         setCookie("visiter_csrf",getCookie('csrftoken'), 7);
-        fetch('/sitevisiter_insert/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken'),
-            },
-            
-            body: JSON.stringify({ mobile: mobile,name:name,csrftoken:getCookie('csrftoken') }), // Correctly format the data
-        })
         disclaimerModal.style.display = "block";
         body.classList.add("disabled");
     }
@@ -377,7 +428,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startChat();
 });
-// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 

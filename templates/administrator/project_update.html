@@ -20,82 +20,21 @@
         <tr><th>view</th><td><input type="text" name="view" value="{{project.view}}" placeholder="{{project.view}}" id="view" class="view"></td></tr>
         <tr><th>is_verified</th><td><input type="text" name="is_verified" value="{{project.is_verified}}" placeholder="{{project.is_verified}}" id="is_verified" class="is_verified"></td></tr>
         <tr><th>is_for_rent</th><td><input type="text" name="is_for_rent" value="{{project.is_for_rent}}" placeholder="{{project.is_for_rent}}" id="is_for_rent" class="is_for_rent"></td></tr>
-        <tr><th>title</th><td><input type="text" name="title" value="{{project.title}}" placeholder="{{project.title}}" id="title" class="title"></td></tr>
-        <tr><th>city</th>
-            <td>
-                <select type="text" name="city"  id="city" class="city">
-                    <option value="{{project.city}}">{{project.city}}</option>
-                    
-                    {% for ct in city  %}
-                    <option value="{{ct.id}}">{{ct}}</option>                        
-                    {% endfor %}
-                        
-                </select>
-            </td></tr>
-        <tr><th>sub_area</th>
-            <td>
-                <select name="sub_area" id="sub_area" class="sub_area">
-                    <option>{{project.sub_area}}</option>
-                    {% for subarea in sub_area %}
-                    <option value={{subarea.id}}>
-                        {{subarea}}
-                    </option>
-                        
-                    {% endfor %}
-                        
-                </select>
-
-            </td>
-        </tr>
-        <tr><th>property_type</th>
+        <tr><th>Title</th><td><input type="text" name="title" value="{{project.title}}" placeholder="{{project.title}}" id="title" class="title"></td></tr>
+        <tr><th>City</th><td><input type="text" name="city"  id="city" class="city" value="{{project.city}}" placeholder="{{project.city}}"></td></tr>
+        <tr><th>Sub Area</th><td><input name="sub_area" id="sub_area" class="sub_area" value="{{project.sub_area}}" placeholder="{{project.sub_area}}"></td></tr>
+        <tr><th>Property Type</th>
             <td>
                 <select name="property_type"  id="property_type" class="property_type">
-                    <option value="{{project.property_type}}">{{project.property_type}}</option>
-                    
-                    {% for propertytype in property_type %}
-                    <option value="{{propertytype.id}}">{{propertytype}}</option>
-                        
-                    {% endfor %}
-                        
+                    <option value="{{project.property_type}}" selected>{{project.property_type}}</option>
+                    <option value="Commercial">Commercial</option> 
+                    <option value="Rasidential">Residential</option> 
                 </select>
             </td>
         </tr>
-        <tr><th>category</th>
-            <td>
-                <select name="category"  id="category" class="category">
-                    <option value="project.category">{{project.category}}</option>
-                    {% for cat in category %}
-                        <option value="cat.id">{{cat}}</option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
-        <tr><th>sub_category</th>
-            <td>
-                <select  name="sub_category"  id="sub_category" class="sub_category">
-                    <option value="{{project.sub_category}}">{{project.sub_category}}</option>
-                    
-                    {% for subcategory in sub_category %}
-                    <option value="{{subcategory.id}}">{{subcategory}}</option>
-                        
-                    {% endfor %}
-                        
-                </select>
-            </td>
-        </tr>
-        <tr><th>website</th>
-            <td>
-                <select  name="website"  id="website" class="website">
-                    <option value="project.website">{{project.website}}</option>
-                    
-                    {% for webst in website %}
-                    <option value="webst.id">{{webst}}</option>
-                        
-                    {% endfor %}
-                        
-                </select>
-            </td>
-        </tr>
+        <tr><th>category</th><td><input name="category"  id="category" class="category" value="{{project.category}}" placeholder="project.category"></td></tr>
+        <tr><th>sub_category</th><td><input  name="sub_category"  id="sub_category" class="sub_category" value="{{project.sub_category}}" placeholder="{{project.sub_category}}"></td></tr>
+        <tr><th>website</th><td><input  name="website"  id="website" class="website" value="{{project.website}}" placeholder="{{project.website}}"></td></tr>
         <tr><th>amenities</th><td><input type="text" name="amenities" value="{{project.amenities}}" placeholder="{{project.amenities}}" id="amenities" class="amenities"></td></tr>
         <tr><th>nearby</th><td><input type="text" name="nearby" value="{{project.nearby}}" placeholder="{{project.nearby}}" id="nearby" class="nearby"></td></tr>
         <tr><th>construction_status</th><td><input type="text" name="construction_status" value="{{project.construction_status}}" placeholder="{{project.construction_status}}" id="construction_status" class="construction_status"></td></tr>

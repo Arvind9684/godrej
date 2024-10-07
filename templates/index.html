@@ -1,27 +1,102 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .card-content{
+        padding-left: 10px;
+    }
+    .card {
+        position: relative;
+        width: 300px; /* Adjust the width as needed */
+        overflow: hidden;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-img {
+        width: 100%;
+        height: 300px;
+        display: block;
+    }
+    
+    .card-img-text {
+        position: absolute;
+        height: 60%;
+        margin-bottom:60%;
+        width: 85%;
+        bottom: -100%; /* Start offscreen */
+        left: 25px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 5px 10px;
+        border-radius:none;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out; /* Add transition for bottom */
+        z-index: 600;
+    }
+    .card:hover .card-img-text {
+        bottom: 10px; /* Transition to this position */
+        opacity: 1;
+    }
+</style>
+
 </div>
 {% load static %}
-
 <section>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="margin-top:-110px;width:100%;">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="width:100%;">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            
             {% for i in project_list %}
-                <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}">  
+                <li data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"></li>
             {% endfor %}
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="{% static '../media/image/slider1.jpg' %}" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption d-none d-md-block img-text">
+                    <h5>First Slide Title</h5>
+                    <p>Description for the first slide.</p>
+                </div>
             </div>
             
             {% for i in project_list %}
             <div class="carousel-item">
                 <img src="{% static '../media/image/slider2.jpg' %}" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block img-text">
+                    <h5>Slide Title {{ forloop.counter }}</h5>
+                    <p>Description for slide {{ forloop.counter }}.</p>
+                </div>
             </div>  
             {% endfor %}
+            
+            <!-- Carousel Overlay Box -->
+            <div class="row carousel-overlay-box">
+                <div class="col-lg-6 col-md-8 col-sm-12">
+                    {% lorem 2 b random %}
+                </div>
+                <div class="col-lg-6 col-md-8 col-sm-12">
+                    <form action="sitevisiter_insert" method="POST" onsubmit="return validateform()">{% csrf_token %}
+                        <fieldset>
+                            <legend>Personal Information</legend>
+                            <table>
+                                <tr>
+                                    <th><label for="name">Name:</label></th>
+                                    <td><input type="text" id="name" name="name"></td>
+                                </tr>
+                                <tr>
+                                    <th><label for="mobile">Mobile:</label></th>
+                                    <td><input type="text" id="mobile" name="mobile"></td>
+                                </tr>
+                                <tr>
+                                    <th><label for="email">Email:</label></th>
+                                    <td><input type="email" id="email" name="email"></td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+                  
+            </div>
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -31,18 +106,18 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-        </div>
     </div>
 </section>
 
 
 
+
 <!-- Section 2 -->
-<section id="section2" style="background-color:white;">
+<section id="top-project" style="background-color:white;">
     <div class="row textAlign-center d-flex align-items-center bg-light m-5">
         <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
             <span class="line-before"></span>
-            <span class="text"><b>VALUES WE PRESERVE</b></span>
+            <span class="text"><b>OUR TOP PROJECT</b></span>
             <span class="line-after"></span>
         </div>
     </div>
@@ -52,42 +127,132 @@
         </div>
     </center>
 
-
-</section>
-
-<section id="imageframe">
-    <div class="row">
-        
-        
-        <div class="col-lg-3 col-md-12 mb-1">
-            <div class="image text-white">
-                <img src="{% static '../media/image/image1.webp' %}" class="card-img col-lg-12" alt="image">
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-12 mb-1">
-            <div class="image text-white">
-                <img src="{% static '../media/image/image1.webp' %}" class="card-img col-lg-12" alt="image">
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-12 mb-1">
-            <div class="image text-white">
-                <img src="{% static '../media/image/image1.webp' %}" class="card-img col-lg-12" alt="image">
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-12 mb-1">
-            <div class="image text-white">
-                <img src="{% static '../media/image/image1.webp' %}" class="card-img col-lg-12" alt="image">
+    <div class="container-fluid">
+        <!-- Main Content: Project Thumbnails in Carousel -->
+        <div id="imageframe" class="col-lg-12 col-md-8">
+            <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for project in project_list %}
+                        {% if forloop.counter0|divisibleby:4 %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="row d-flex justify-content-center">
+                        {% endif %}
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <a href="{% url 'projectview' project.id %}" style="text-decoration: none;"> 
+                                        <div class="card">
+                                            <div class="card-image">
+                                                <img src="..{{project.picture}}" alt="picture" class="card-img col-lg-12 col-md-12" style="width:100%;height:350px;">
+                                                
+                                                <div class="card-img-text">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-12">
+                                                            <span class="bi-beds">
+                                                                <i class="bi bi-person-workspace"></i>
+                                                            </span>
+                                                            <span>Beds</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12">
+                                                            plots
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-12">
+                                                            <span class="bi-beds">
+                                                                <i class="bi bi-bounding-box"></i>
+                                                            </span>
+                                                            <span>Area</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12">
+                                                            Available on request
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-12">
+                                                            <span class="bi-beds" style="border:1px solid;border-radius:49%;text-align:center;padding:7px;">
+                                                                &#8377; 
+                                                            </span>
+                                                            <span> &nbsp; Price</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12">
+                                                            INR <span class="price">{{project.price}}</span> lakh onword
+                                                        </div>
+                                                    </div>
+                                                
+                                                    <hr>
+                                                    <div class="col-lg-12 col-md-12">
+                                                        <span><i class="bi bi-chat"></i></span>
+                                                        <span>
+                                                            <a href="#" onclick="enquirynow('{{project.name}}')">Enquire Now</a>
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 mt-1">
+                                                        <span><i class="bi bi-calendar-check"></i></span>
+                                                        <span> <a href="#" onclick="scheduleOn('{{project.name}}')">Shedule visit</a></span>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 mt-1">
+                                                        <span><i class="bi bi-telephone-fill"></i></span><span><a href="tel:+918171479684" onclick="callus('{{project.name}}','{{project.city}}')">Call Us</a></span>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 mt-1">
+                                                        <span><i class="bi bi-whatsapp"></i></span><span><a href="https://wa.me/+918171479684?text={{project.name}} in {{project.location.city}}" target="_blank"> Whatsapp</a></span>
+                                                    </div> 
+                                                </div>
+                                                
+                                                
+                                                <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                                                    <div class="card-content">
+                                                        <p class="col-lg-12 col-md-12 img-location mt-1">
+                                                            <span style="flaot:left;">{{project.location}}</span>
+                                                            {% comment %} <span id="bi-plus" style="border:none;">
+                                                                <i class="bi bi-plus-circle" style="border:none;"></i>
+                                                            </span> {% endcomment %}
+                                                        </p>
+                                                    </div>
+                                                    
+                                                    <div class="card-content">
+                                                        <h5>{{ project.title|slice:":25" }}...</h5>
+                                                        <p>
+                                                            <span style="border:1px groove gray;padding:3px;border-radius:2px;">
+                                                                <span style="color:blue;border:none;"><i class="bi bi-star" style="border:none;"></i></span> 
+                                                                <span class="status">{{project.status}}</span></span> <span class="environmenttype"> {{project.property_type}}</span></p>
+                                                        <p><strong>INR</strong> {{project.price}}.00 Lakh onwards | <strong>Possession Date </strong>{{project.possession_date}}</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                        {% if forloop.counter|divisibleby:4 or forloop.last %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+    
+                <!-- Controls -->
+                <a class="carousel-control-prev" href="#projectCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#projectCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
             </div>
         </div>
     </div>
-    <div class="col-lg-12 col-md-12 text-center mt-3"><a href="aboutus" class="btn btn-outline-secondary fw-bold">OUR BRAND STORY</a></div>
+    
+     
+    <div class="col-lg-12 col-md-12 text-center mt-3">
+        <a href="aboutus" class="btn btn-outline-secondary fw-bold">OUR BRAND STORY</a>
+    </div>
+    
 </section>
 
-<section id="footerSlider" style="background-color:white;">
+<section id="explor-project" style="background-color:white;">
     <div class="row textAlign-center d-flex align-items-center bg-light mt-5" style="margin-bottom: 70px;">
         <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
             <span class="line-before"></span>
-            <span class="text"><b>FEATURED PROJECTS</b></span>
+            <span class="text"><b>EXPLORE PROJECTS</b></span>
             <span class="line-after"></span>
         </div>
     </div>
@@ -98,7 +263,7 @@
             </div>
             {% for project in project_list %}
                 <div class="carousel-item">
-                    <img src="{{ project.picture.url }}" alt="Project Picture" class="d-block w-100" alt="Second slide">
+                    <a href="{% url 'projectview' project.id %}" target="_blank"><img src="..{{ project.picture}}" alt="Project Picture" class="d-block w-100" alt="Second slide"></a>
                 </div>  
             {% endfor %}
         </div>
@@ -125,13 +290,13 @@
     <!--Slider bootstrap-->
     <marquee>
         <div class="row m-5" id="cityslider">
-            {% for project in project_list %}
-                <div class="col-lg-2 col-md-12" ><p class="city-link"><a href="#">{{project.city.name}}</a> | </p></div>
+            {% for i in city %}
+                <div class="col-lg-2 col-md-12" ><p class="city-link"><a href="{% url 'city_project' i %}">{{i}}</a> | </p></div>
             {% endfor %} 
         </div>
     </marquee>
     <p style="text-align:center;">
-        <div class="col-lg-12 col-md-12 text-center mt-3"><a href="aboutus" class="btn btn-outline-secondary fw-bold">EXPLORE PROJECTS</a></div>
+        <div class="col-lg-12 col-md-12 text-center mt-3"><a href="{% url 'project' %}" target="_blank" class="btn btn-outline-secondary fw-bold">EXPLORE PROJECTS</a></div>
     </p>
 </section>
 
@@ -161,7 +326,7 @@
             <span class="line-after"></span>
         </div>
         <div class="col-lg-12 col-md-12 text-center">
-            <img src="{% static '../media/logo/brand4.webp' %}" alt="Logo">
+            <img src="{% static '../media/logo/grebs.webp' %}" alt="Logo">
         </div>
         <div class="col-lg-12 col-md-12 text-center">
             <img src="{% static '../media/logo/brand3.webp' %}" alt="Logo">
@@ -177,89 +342,39 @@
             </p></center>
         </div>
         <div class="col-log-12 col-md-12 text-center p-2">
-            <center><button id="explor-btn" style="width:auto;height:auto;"><a href="#">EXPLORE</a></button></center>
+            <center><button id="explor-btn" style="width:auto;height:auto;"><a href="{% url 'project' %}" target="_blank">EXPLORE</a></button></center>
         </div>
     </div>
     
 </section>
 
-<section class="row textAlign-center d-flex align-items-center" style="background-color:white;">
+<section class="row textAlign-center d-flex align-items-center" style="background-color:white;" id="project-features">
+    <div class="row textAlign-center d-flex align-items-center bg-light mt-5" style="margin-bottom: 70px;">
+        <div class="col-lg-12 col-md-12 text-center" style="background-color:white;">
+            <span class="line-before"></span>
+            <span class="text"><b>FEATURED PROJECTS</b></span>
+            <span class="line-after"></span>
+        </div>
+    </div>
     <div id="reward2" style="background-color:white;">
         <div class="reward-container2" style="background-color:white;">
-            {% for i in project_list %}
-                <div class="reward-content2" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the 
-                                card's content.
-                            </p>
+            {% for project in project_list %}
+                {% if project.status == "Upcoming" %}
+                <a href="{% url 'projectview' project.id %}" style="text-decoration: none;">
+                    <div class="reward-content2" id="content1" style="background-color:white;"> 
+                        <div class="card" style="width: 18rem;" style="background-color:white;">
+                            <img class="card-img" src="..{{project.picture}}" alt="reward-logo" style="height:300px;">
+                            <div class="card-body" style="background-color:white;">
+                                <p class="card-text">
+                                    <table>
+                                        <tr><td>{{project.title}}</td></tr>
+                                    </table>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div> 
-                
-                <div class="reward-content2" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the 
-                                card's content.
-                            </p>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="reward-content2" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the 
-                                card's content.
-                            </p>
-                        </div>
-                    </div>
-                </div> 
-
-                <div class="reward-content2" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the 
-                                card's content.
-                            </p>
-                        </div>
-                    </div>
-                </div> 
-
-
-                <div class="reward-content2" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the 
-                                card's content.
-                            </p>
-                        </div>
-                    </div>
-                </div> 
-
-
-                <div class="reward-content2" id="content1" style="background-color:white;"> 
-                    <div class="card" style="width: 18rem;" style="background-color:white;">
-                        <img class="card-img" src="../media/image/image1.webp" alt="reward-logo">
-                        <div class="card-body" style="background-color:white;">
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the 
-                                card's content.
-                            </p>
-                        </div>
-                    </div>
-                </div> 
+                </a>
+                {% endif%}
             {% endfor %}
         </div>
         <button class="btn-left2" onclick="changeContent('left2')"><i class="bi bi-arrow-left"></i></button>

@@ -21,56 +21,18 @@ class APIKey(models.Model):
 
 
 
-class City(models.Model):
-    name = models.CharField(max_length=255,unique=True)
-    def __str__(self):
-        return f'City: {self.name}'
 
-class SubArea(models.Model):
-    name = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return f'SubArea: {self.name}'
-
-class PropertyType(models.Model):
-    PROP_CHOICES = [
-        ('Commercial', 'Commercial'),
-        ('Residential', 'Residential'),
-    ]
-    name = models.CharField(max_length=100, choices=PROP_CHOICES, default='Commercial')
-    
-    def __str__(self):
-        return f'PropertyType: {self.name}'
-
-class Category(models.Model):
-    name = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return f'Category: {self.name}'
-
-class SubCategory(models.Model):
-    name = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return f'SubCategory: {self.name}'
-
-class Website(models.Model):
-    name = models.CharField(max_length=255)
-    
-    def __str__(self):
-        return f'Website: {self.name}'
 
 class Location(models.Model):
     country=models.CharField(max_length=50,null=True,blank=True, default="NA")
     state=models.CharField(max_length=50,null=True,blank=True, default="NA")
     dist=models.CharField(max_length=50,null=True,blank=True, default="NA")
-    city = models.ForeignKey(City, related_name="locations", on_delete=models.CASCADE)
+    city = models.CharField(max_length=50)
     other = models.CharField(max_length=255,default="NA",null=True,blank=True)
     longitude = models.CharField(max_length=50,default="NA",null=True,blank=True)
     latitude = models.CharField(max_length=50,default="NA",null=True,blank=True)
-    
     def __str__(self):
-        return f'Location: {self.city.name} in {self.state}'
+        return f'Location: {self.city} in {self.state}'
 
 class Publisher(models.Model):
     is_active = models.BooleanField(default=True)
@@ -101,6 +63,16 @@ class Gallery(models.Model):
         return f'Gallery Image for {self.publisher.name}'
 
 class Project(models.Model):
+    PROP_CHOICES = [
+        ('Commercial', 'Commercial'),
+        ('Residential', 'Residential'),
+    ]
+    PROP_STATUS=[
+        ("Upcoming","Upcoming"),
+        ("Pending","Pending"),
+        ("New Launches","New Launches"),
+        ("Other","Other")
+    ]
     name = models.CharField(max_length=100)
     description = models.TextField(default="NA",null=True)
     picture = models.FileField(upload_to="projects/pictures/", blank=True, null=True)
@@ -109,16 +81,16 @@ class Project(models.Model):
     is_for_rent = models.BooleanField(default=False)
     title = models.TextField(default="NA",null=True)
     location = models.ForeignKey(Location, related_name="location", on_delete=models.CASCADE)
-    sub_area = models.ForeignKey(SubArea, related_name='sub_area', on_delete=models.CASCADE)
-    property_type = models.ForeignKey(PropertyType, related_name='property_type', on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
-    sub_category = models.ForeignKey(SubCategory, related_name='sub_category', on_delete=models.CASCADE)
-    website = models.ForeignKey(Website, related_name='website', on_delete=models.CASCADE)
+    sub_area = models.CharField(max_length=50)
+    property_type = models.CharField(max_length=100, choices=PROP_CHOICES, default='Commercial')
+    category = models.CharField(max_length=50)
+    sub_category = models.CharField(max_length=50)
+    website = models.CharField(max_length=100)
     amenities = models.TextField(default="NA",null=True)
     nearby = models.TextField(default="NA",null=True)
     expiration_date = models.DateTimeField(null=True, blank=True)
-    construction_status = models.TextField(default="NA",null=True)
-    status = models.TextField(default="NA",null=True)
+    construction_status = models.BooleanField(default=False)
+    status = models.CharField(max_length=50,choices=PROP_STATUS,default="Complete")
     furnished = models.TextField(default="NA",null=True)
     security_deposit = models.BigIntegerField(default=0)
     rent_property = models.TextField(default="NA",null=True)

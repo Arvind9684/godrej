@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import (Picture, City, SubArea, PropertyType, Category, SubCategory, Website, Location, Publisher, 
-                     Gallery, Project,APIKey,History)
+from .models import (Picture, Location, Publisher,Gallery, Project,APIKey,History)
 
 @admin.register(APIKey)
 class APIKeyAdmin(admin.ModelAdmin):
@@ -109,44 +108,6 @@ class PictureAdmin(admin.ModelAdmin):
     ]
 admin.site.register(Picture,PictureAdmin)
 
-
-class CityAdmin(admin.ModelAdmin):
-    list_display=[
-        "name"
-    ]
-admin.site.register(City,CityAdmin)
-
-
-class subAreaAdmin(admin.ModelAdmin):
-    list_display=[
-        "name"
-    ]
-admin.site.register(SubArea,subAreaAdmin)
-
-class PropertyTypeAdmin(admin.ModelAdmin):
-    list_display=[
-        "name"
-    ]
-admin.site.register(PropertyType,PropertyTypeAdmin)
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display=[
-        "name"
-    ]
-admin.site.register(Category,CategoryAdmin)
-
-class subCategryAdmin(admin.ModelAdmin):
-    list_display=[
-        "name"
-    ]
-admin.site.register(SubCategory,subCategryAdmin)
-
-class WebsiteAdmin(admin.ModelAdmin):
-    list_display=[
-        "name"
-    ]
-admin.site.register(Website,WebsiteAdmin)
 
 class LocationAdmin(admin.ModelAdmin):
     list_display=[

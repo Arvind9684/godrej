@@ -104,7 +104,7 @@ class sitevisiterAdmin(admin.ModelAdmin):
     list_display =[
         "mobile",
         "name",
-        "csrftoken",
+        "email",
         "created_at",
     ]
 admin.site.register(sitevisiter,sitevisiterAdmin)

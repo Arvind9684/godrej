@@ -122,9 +122,9 @@ class chatboatData(models.Model):
     created_at=models.DateTimeField(auto_now=True)
     
 class sitevisiter(models.Model):
-    mobile=models.CharField(max_length=20,default="Unknown")
-    name=models.CharField(max_length=20,null=True,blank=True,default="Unknown")
-    csrftoken=models.CharField(max_length=100,null=True,blank=True,default="")
+    mobile=models.CharField(max_length=10,null=True,blank=True,unique=True)
+    name=models.CharField(max_length=50,null=True,blank=True)
+    email=models.CharField(max_length=100,blank=True)
     created_at=models.DateTimeField(auto_now=True)
     def __str__(self):
         return f" Mobile {self.mobile} Name {self.name}"

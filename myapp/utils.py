@@ -10,20 +10,10 @@ def get_project_list():
     projects_list = []
     try:
         # Fetch data with related fields
-        project_data = projectTable.objects.select_related(
-            'project__location', 
-            'project__sub_area', 
-            'project__property_type', 
-            'project__category', 
-            'project__sub_category', 
-            'project__website', 
-            'project__publisher'
-        ).all()
+        project_data = projectTable.objects.all()
+        
 
         for project in project_data:
-            # Debug: Print project to see what data is being fetched
-            print(f"Fetching data for project ID: {project.id}")
-
             project_details = {
                 "id": project.project.id if project.project else None,
                 "name": project.project.name if project.project else None,
@@ -39,11 +29,11 @@ def get_project_list():
                 "city": project.project.location.city if project.project and project.project.location else None,
                 "longitude": project.project.location.longitude if project.project and project.project.location else None,
                 "latitude": project.project.location.latitude if project.project and project.project.location else None,
-                "sub_area": project.project.sub_area.name if project.project and project.project.sub_area else None,
-                "property_type": project.project.property_type.name if project.project and project.project.property_type else None,
-                "category": project.project.category.name if project.project and project.project.category else None,
-                "sub_category": project.project.sub_category.name if project.project and project.project.sub_category else None,
-                "website": project.project.website.name if project.project and project.project.website else None,
+                "sub_area": project.project.sub_area if project.project and project.project.sub_area else None,
+                "property_type": project.project.property_type if project.project and project.project.property_type else None,
+                "category": project.project.category if project.project and project.project.category else None,
+                "sub_category": project.project.sub_category if project.project and project.project.sub_category else None,
+                "website": project.project.website if project.project and project.project.website else None,
                 "amenities": project.project.amenities if project.project else None,
                 "nearby": project.project.nearby if project.project else None,
                 "expiration_date": project.project.expiration_date if project.project else None,
@@ -116,6 +106,8 @@ def get_project_list():
         
     except Exception as e:
         print(f"Error fetching project data: {e}")
+        
+    
 
     return projects_list
 

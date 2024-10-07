@@ -34,8 +34,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col text-center">
-                <span class="view-option"><i class="bi bi-list"></i> <span class="list-views"><a href="#" onclick="viewsOption('list')" id="listviews" style="font-weight:bold;text-decoration:underline;">List Views</a></span></span>
-                <span class="view-option"><i class="bi bi-map"></i> <span class="map-views"><a href="#" onclick="viewsOption('map')" id="mapviews" style="">Map Views</a></span></span>
+                <span class="view-option"><i class="bi bi-list"></i> <span class="list-views"><a href="#"  id="listviews" style="font-weight:bold;text-decoration:underline;">List Views</a></span></span>
+                <span class="view-option"><i class="bi bi-map"></i> <span class="map-views"><a href="{% url 'projectMapView' %}"  id="mapviews" style="">Map Views</a></span></span>
             </div>
         </div>
     </div>
@@ -57,13 +57,12 @@
     
         <div class="input-group" id="selectSearch" style="background-color:black;border:1px solid black;">
             <button class="btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="commercialValue" style="border:none;color:gray;">
-                COMMERCIAL
+                TYPE
             </button>
-            <ul class="dropdown-menu" style="border:nune;">
+            <ul class="dropdown-menu" style="border:none;">
                 <li><a class="dropdown-item" href="#"><input type="radio" value="Residential" name="option" onclick="updateCommercialValue(this.value)"> Residential</a></li>
                 <li><a class="dropdown-item" href="#"><input type="radio" value="Commercial" name="option" onclick="updateCommercialValue(this.value)"> Commercial</a></li>
             </ul>
-    
             <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;"><span id="citycount"> </span> CITIES</button>
             <div class="dropdown-menu" >
                 <table class="table">
@@ -82,37 +81,18 @@
                 
             </div>
     
-            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray" disabled>TYPE</button>
-            <div class="dropdown-menu" >
-                <table>
-                    <tr>
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Mumbai" name="option"> Mumbai</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Delhi" name="option"> Delhi</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Noida" name="option"> Noida</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Gurugram" name="option"> Gurugram</a></td>
-                    </tr> 
-                    <tr> 
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Bengaluru" name="option"> Bengaluru</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Pune" name="option"> Pune</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="cities-checkbox" type="checkbox" value="Other" name="option"> Other</a></td>
-                    </tr>
-                </table>
-            </div>
-    
-            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;" disabled>STATUS</button>
+            <button class="btn btn-outline-secondary dropdown-toggle col-lg-2 col-md-12" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:gray;">STATUS</button>
             <div class="dropdown-menu">
                 <table class="table">
                     <tr>
-                        <td><a class="dropdown-item" href="#"><input id="mumbai-checkbox" type="checkbox" value="Mumbai" name="option" class="cities-checkbox" onclick="updateFilter()"> Mumbai</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="delhi-checkbox" type="checkbox" value="Delhi" name="option" class="cities-checkbox" onclick="updateFilter()"> Delhi</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="noida-checkbox" type="checkbox" value="Noida" name="option" class="cities-checkbox" onclick="updateFilter()"> Noida</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="gurugram-checkbox" type="checkbox" value="Gurugram" name="option" class="cities-checkbox" onclick="updateFilter()"> Gurugram</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="status-checkbox" type="checkbox" value="new launches" name="option" class="status-checkbox" onclick="updateFilter()"> New Launch</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="status-checkbox" type="checkbox" value="Upcoming" name="option" class="status-checkbox" onclick="updateFilter()"> Up Comming</a></td>
                     </tr>
                     <tr>
-                        <td><a class="dropdown-item" href="#"><input id="bengaluru-checkbox" type="checkbox" value="Bengaluru" name="option" class="cities-checkbox" onclick="updateFilter()"> Bengaluru</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="pune-checkbox" type="checkbox" value="Pune" name="option" class="cities-checkbox" onclick="updateFilter()"> Pune</a></td>
-                        <td><a class="dropdown-item" href="#"><input id="other-checkbox" type="checkbox" value="Other" name="option" class="cities-checkbox" onclick="updateFilter()"> Other</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="status-checkbox" type="checkbox" value="Pending" name="option" class="status-checkbox" onclick="updateFilter()">Pending</a></td>
+                        <td><a class="dropdown-item" href="#"><input id="status-checkbox" type="checkbox" value="NA" name="option" class="status-checkbox" onclick="updateFilter()"> Other</a></td>
                     </tr>
+                    
                 </table>
             </div>
     
@@ -121,7 +101,7 @@
                 <input type="range" min="0" max="100" value="50" class="slider" id="myRange" oninput="updateValue(this.value)">
                 <span id="rangeValue">50</span>
             </div>
-            <button class="btn-dark col-lg-2 col-md-12" style="margin-right:none;width:265px;background-color:black;border:none;"> <a href="project" style="text-decoration: none;color:gray;">RESET </a> </button>
+            <button class="btn-dark col-lg-2 col-md-12" style="margin-right:none;width:265px;background-color:black;border:none;"> <a href="#" style="text-decoration: none;color:gray;" onclick="resetAll()">RESET </a> </button>
         </div>
         <div class="col-md-12 mb-3 mt-3">
             <label class="form-check-label" for="flexSwitchCheckDefault">New launches only</label>
@@ -140,7 +120,7 @@
                 <span class="line-after"></span>
             </div>
         </div>
-        <div class="row card-container project-div">
+        <div class="row card-container project-div" id="project_div">
             {% for project in project_list %}
                 <div class="card">
                     <div class="card-image">
@@ -205,17 +185,15 @@
                             <div class="card-content">
                                 <p class="col-lg-12 col-md-12 img-location">
                                     <span style="flaot:left;">{{project.location}}</span>
-                                    <span id="bi-plus" style="border:none;">
-                                        <i class="bi bi-plus-circle" style="border:none;"></i>
-                                    </span>
+                                    
                                 </p>
                             </div>
                             
                             <div class="card-content">
-                                <h4>{{project.title}}</h4>
+                                <h6>{{ project.title|slice:":25" }}...</h6>
                                 <p>
                                     <span style="border:1px groove gray;padding:3px;border-radius:2px;">
-                                        <span style="color:blue;"><i class="bi bi-star"></i></span> 
+                                        <span style="color:blue;"><i class="bi bi-star" style="border: none;"></i></span> 
                                         <span class="status">{{project.status}}</span></span> <span class="environmenttype"> {{project.property_type}}</span></p>
                                 <p><strong>INR</strong> {{project.price}}.00 Lakh onwards | <strong>Possession Date </strong>{{project.possession_date}}</p>
                             </div>
@@ -224,34 +202,29 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="textAlign-center d-flex align-items-center mb-3">
-            <div class="pagination" style="margin-left: 34%;margin-top: 3%;font-size: 22px;color: #00ff89;">
-                <center>
+        <div class="textAlign-center d-flex align-items-center mb-3 justify-content-center ">
+            <div class="pagination" style="margin-top: 3%;font-size: 22px;color: #00ff89;">
                 <!-- Pagination links -->
-            <div class="col-lg-12 col-md-12 step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-                
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-                
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </div>
-                </center>
+                <div class="col-lg-12 col-md-12 step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    </span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </div>
             </div>
         </div>  
     </div>
-    <div class="container-map mt-5">
-        <div id="map-container" style="width:100%;height:500px;">
-            <!-- The map will be embedded here -->
-        </div>
-    </div>
+    
+    
     
     <script>
         fetch("{% url 'getmap' %}")
@@ -268,6 +241,222 @@
             .catch(error => {
                 console.error('Error loading map:', error);
             });
+
+        //----------------------------filter javascripts-----------------------------
+        let filter_row_collection = [];
+        let type_arr = [];
+        let type_row_collection = [];
+        let city_arr = [];
+        let city_row_collection = [];
+        let status_arr = [];
+        let status_row_collection = [];
+        let price = 1000;
+
+        const rows = document.querySelectorAll(".card");
+
+        function allFilter() {
+            filter_row_collection = [];
+            if(type_arr.length===0 && city_arr.length === 0 && status_arr.length === 0){
+                rows.forEach(row=>{
+                    filter_row_collection.push(row);
+                })
+            }
+
+            // Combine filters for type, city, and status
+            rows.forEach((row) => {
+                const matchesType = type_row_collection.length === 0 || type_row_collection.includes(row);
+                const matchesCity = city_row_collection.length === 0 || city_row_collection.includes(row);
+                const matchesStatus = status_row_collection.length === 0 || status_row_collection.includes(row);
+
+                if (matchesType && matchesCity && matchesStatus) {
+                    filter_row_collection.push(row);
+                }
+            });
+
+            // Step 2: Apply the filters and check price
+            rows.forEach((row) => {
+                const priceCell = row.querySelector('.price'); // Assuming there's a `.price` element in each row
+
+                if (filter_row_collection.length !== 0) {
+                    if (filter_row_collection.includes(row)) {
+                        row.style.display = (parseInt(priceCell.textContent) <= parseInt(price)) ? "" : "none";
+                    } else {
+                        row.style.display = "none";
+                    }
+                } else {
+                    row.style.display = (parseInt(priceCell.textContent) <= parseInt(price)) ? "" : "none";
+                }
+            });
+        }
+
+        function updateCommercialValue(value) {
+            type_row_collection = [];
+            type_arr.push(value.toLowerCase());
+            document.getElementById('commercialValue').textContent = value;
+
+            const filterValue = value.toLowerCase();
+            rows.forEach((row) => {
+                const cells = row.querySelectorAll('.environmenttype');
+                cells.forEach((cell) => {
+                    if (cell.textContent.toLowerCase().includes(filterValue)) {
+                        type_row_collection.push(row);
+                    }
+                });
+            });
+            allFilter();
+        }
+
+        function updateValue(value) {
+            document.getElementById('rangeValue').textContent = value;
+            price = value;
+            allFilter();
+        }
+
+        function updateCheckboxCount() {
+            city_row_collection = [];
+            city_arr = [];
+
+            const checkboxes = document.querySelectorAll('.cities-checkbox');
+            checkboxes.forEach((city) => {
+                if (city.checked) {
+                    city_arr.push(city.value.toLowerCase());
+                }
+            });
+
+            document.getElementById('citycount').innerText = city_arr.length;
+
+            const checkedValues = city_arr;
+            if (checkedValues.length === 0) {
+                allFilter();
+            } else {
+                rows.forEach((row) => {
+                    const cells = row.querySelectorAll('p');
+                    cells.forEach((cell) => {
+                        checkedValues.forEach((value) => {
+                            if (cell.textContent.toLowerCase().includes(value)) {
+                                city_row_collection.push(row);
+                            }
+                        });
+                    });
+                });
+            }
+            allFilter();
+        }
+
+        function updateFilter() {
+            status_row_collection = [];
+            status_arr = [];
+
+            const checkboxes = document.querySelectorAll('.status-checkbox');
+            checkboxes.forEach((status) => {
+                if (status.checked) {
+                    status_arr.push(status.value.toLowerCase());
+                }
+            });
+
+            if (status_arr.length === 0) {
+                allFilter();
+            } else {
+                rows.forEach((row) => {
+                    const statusCell = row.querySelector('.status');
+                    if (statusCell && status_arr.includes(statusCell.textContent.toLowerCase())) {
+                        status_row_collection.push(row);
+                    }
+                });
+                allFilter();
+            }
+        }
+
+
+        function resetAll() {
+            filter_row_collection = [];
+            type_arr = [];
+            type_row_collection = [];
+            city_arr = [];
+            city_row_collection = [];
+            status_arr = [];
+            status_row_collection = [];
+            price = 1000;
+        
+            document.getElementById('commercialValue').textContent = 'TYPE'; // Reset commercial value display
+            document.getElementById('rangeValue').textContent = price; // Reset price display
+            document.getElementById('citycount').innerText = '0'; // Reset city count display
+        
+            // Uncheck all checkboxes
+            document.querySelectorAll('.cities-checkbox, .status-checkbox').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        
+            allFilter(); // Reapply the filter with reset values
+        }
+        
+        const filterInput = document.getElementById('filterInput');
+        filterInput.addEventListener('keyup', function() {
+            const filterValue = filterInput.value.toLowerCase();
+            rows.forEach(row => {
+                
+                const cells = row.querySelectorAll('h6');
+                let matches = false;
+
+                cells.forEach(cell => {
+                    if (cell.textContent.toLowerCase().includes(filterValue)) {
+                        matches = true;
+                    }
+                });
+
+                if (matches) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        const switchCheck = document.getElementById('flexSwitchCheckDefault');
+        switchCheck.addEventListener('change', function() {
+            if (this.checked) {
+                const filterValue = "Upcoming";
+                if(filter_row_collection.length !== 0){
+                    rows.forEach(row => {
+                        
+                        const cells = row.querySelector('.status');
+                        let matches = false;
+                        if(cells.textContent.includes(filterValue)){
+                            matches=true;
+                        }
+                    });
+                }else{
+                    filter_row_collection.forEach(row => {
+                        
+                        const cells = row.querySelector('.status');
+                        let matches = false;
+                        if(cells.textContent.includes(filterValue)){
+                            matches=true;
+                        }
+                        
+                        if (matches) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+            } 
+            else {
+                const rows = document.querySelectorAll('.card');
+                rows.forEach(row => {
+                    
+                        row.style.display = '';
+                });
+            
+            }
+        });
+
+
+    //------------------------------Google map show-------------------------------------------------------------------------------------------------
+    
+
+        
+        
     </script>
     
     
@@ -276,62 +465,9 @@
 
     </div>
 </div>
-<div>
-    <div class="row textAlign-center d-flex align-items-center bg-light mt-5">
-        <div class="col-lg-12 col-md-12 text-center p-3">
-            <span class="line-before"></span>
-            <span class="text"><b>GET IN TOUCH</b></span>
-            <span class="line-after"></span>
-        </div>
-        <span style="font-size:30px;text-align:center;font-weight:lighter;">
-            <center><p style="width:70%;">If you would like to know more details or something specific, feel free to contact us.
-                Our site representative will give you a call back.<p>
-        </span>
-        <div class="col-lg-12 col-md-12">
-            <div class="promosion col-lg-10 col-md-12 mb-5 align-items-center">
-                <form action="{% url 'callback' last_url_word%}" method="POST" class="promosion-form fs-6">{% csrf_token %}
-                    <span><input type="text" name="name" placeholder="Name"></span>
-                    <span class="countryFlag"><img src="https://www.worldometers.info/img/flags/small/tn_in-flag.gif" alt="Country Flag" id="countryFlag"></span>
-                    <span>
-                    <select id="selectCountry" style="width:20px;" name="country">
-                        <option value='["India", "https://www.worldometers.info/img/flags/small/tn_in-flag.gif", "91"]' selected>India</option>
-                        {% for i in country_flag_df.values %}
-                        <option value='["{{i.1}}", "{{i.4}}", "{{i.5}}"]'>{{i.1}}</option>
-                        {% endfor %}
-                    </select>
-                    </span>
-                    <span class="countryCode">
-                        <input type="text" name="countrycode" id="countryCode" value="+91" style="width:50px;height:15px;border:none;">
-                    </span>
-                    <span>
-                        <input type="number" name="mobile" placeholder="Mobile Number">
-                    </span>
-                    <span>
-                        <input type="email" name="email" placeholder="Email ID">
-                    </span>
-                    <br>
-                    <div class="col-lg-12 col-md-12 d-flex mt-5">
-                        <div class="checkbox-row">
-                            <span>
-                                <input type="checkbox" name="confirm">
-                            </span>
-                            <span style="margin-top:10px;">
-                                Yes, I would like to receive updates & promotions from Godrej Properties Limited.
-                            </span>
-                        </div>
-                        <p style="">
-                            <span style="">
-                                <input type="Submit" value="SEND" style="float:right;background-color:black;color:white;width:100px;height:40px;">
-                            </span>
-                        </p>
-                    </div>
-                       
-                </form>
-            </div>
-        </div>
-        </center>
-    </div>
-</div>
+<section>
+    {% include "promosionForm.html" %}
+</section>
 {% endblock%}
 
 
