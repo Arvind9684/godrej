@@ -11,6 +11,7 @@
         overflow:scroll;
         background-color: rgb(0, 0, 0);
         background-color: rgba(0, 0, 0, 0.4);
+        justify-content: center;
     }
 
     .modal-content {
@@ -247,73 +248,73 @@
 <section>
     <center>
         <div id="enquiry-modal" class="modal">
-            <div class="modal-content col-lg-9 align-items-center">
-                <div class="row bg-light" style="width: 90%;">
-                    <div class="col-lg-12 col-md-12">
-                        <h2>ENQUIRE NOW</h2>
-                    </div>
-                    <form action="project_enquiry" method="POST" class="project-enquiry-form">{% csrf_token %}
-                        <table class="mt-5" style="width:100%;">
-                            <tr>
-                                <td>
-                                    <input type="text" placeholder="First Name" name="firstName" id="firstName" required>
-                                </td>
-                                <td>
-                                    <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="email" placeholder="E-mail" id="email" name="email" required>
-                                </td>
-                                <td>
-                                    <div class="country-select">
-                                        <img id="countryFlagSymbol" alt="Country Flag" style="width:30px;height:25px;">
-                                        <select name="countryName" id="countryName" style="border: none; border-bottom: 1px solid; width:83%;background-color: rgb(245, 252, 249);" onchange="updateFlag()" required>
-                                            <option value="India" data-flag-src="https://www.worldometers.info//img/flags/small/tn_in-flag.gif" data-country-code="91" selected>India</option>
-                                            {% for i in country_flag_df.values %}
-                                            <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
-                                                {{ i.1 }}
-                                            </option>
+                <div class="modal-content col-lg-9 align-items-center">
+                    <div class="row bg-light" style="width: 90%;">
+                        <div class="col-lg-12 col-md-12">
+                            <h2>ENQUIRE NOW</h2>
+                        </div>
+                        <form action="project_enquiry" method="POST" class="project-enquiry-form">{% csrf_token %}
+                            <table class="mt-5" style="width:100%;">
+                                <tr>
+                                    <td>
+                                        <input type="text" placeholder="First Name" name="firstName" id="firstName" required>
+                                    </td>
+                                    <td>
+                                        <input type="text" placeholder="Last Name" id="lastName" name="lastName" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="email" placeholder="E-mail" id="email" name="email" required>
+                                    </td>
+                                    <td>
+                                        <div class="country-select">
+                                            <img id="countryFlagSymbol" alt="Country Flag" style="width:30px;height:25px;">
+                                            <select name="countryName" id="countryName" style="border: none; border-bottom: 1px solid; width:83%;background-color: rgb(245, 252, 249);" onchange="updateFlag()" required>
+                                                <option value="India" data-flag-src="https://www.worldometers.info//img/flags/small/tn_in-flag.gif" data-country-code="91" selected>India</option>
+                                                {% for i in country_flag_df.values %}
+                                                <option value="{{ i.1 }}" data-flag-src="{{ i.5 }}" data-country-code="{{ i.4 }}">
+                                                    {{ i.1 }}
+                                                </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" placeholder="City" id="city" name="city" required>
+                                    </td>
+                                    <td>
+                                        <div class="mobile-input">
+                                            <img src="../media/image/indiaflag.png" id="countryFlagSymbol2" alt="Country Flag" style="width:30px;height:25px;">
+                                            <span id="countryCode2" style="border:1px solid; padding:5px; margin-right: 10px;"></span>
+                                            <input type="text" name="mobile" id="mobile" style="width:72%;" placeholder="Mobile Number" required>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:45%;margin-bottom:40px;background-color: rgb(245, 252, 249);" required>
+                                            <option id="projectName" value=""></option>
+                                            {% for project in project_list %}
+                                                <option value="{{project.name}}">{{project.name}}</option>
                                             {% endfor %}
+                                                
                                         </select>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="text" placeholder="City" id="city" name="city" required>
-                                </td>
-                                <td>
-                                    <div class="mobile-input">
-                                        <img src="../media/image/indiaflag.png" id="countryFlagSymbol2" alt="Country Flag" style="width:30px;height:25px;">
-                                        <span id="countryCode2" style="border:1px solid; padding:5px; margin-right: 10px;"></span>
-                                        <input type="text" name="mobile" id="mobile" style="width:72%;" placeholder="Mobile Number" required>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <select name="project" id="project" style="border: none; border-bottom: 1px solid; width:45%;margin-bottom:40px;background-color: rgb(245, 252, 249);" required>
-                                        <option id="projectName" value=""></option>
-                                        {% for project in project_list %}
-                                            <option value="{{project.name}}">{{project.name}}</option>
-                                        {% endfor %}
-                                            
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input type="checkbox" name="confirmation" style="width:50px;">
-                                    <span style="margin-left:10px;">Yes, I would like to receive updates & promotions from Godrej Properties Limited.</span>
-                                </td>
-                            </tr>
-                        </table>
-                        <center><button type="submit" class="submit-btn">SUBMIT</button></center>
-                    </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input type="checkbox" name="confirmation" style="width:50px;">
+                                        <span style="margin-left:10px;">Yes, I would like to receive updates & promotions from Godrej Properties Limited.</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <center><button type="submit" class="submit-btn">SUBMIT</button></center>
+                        </form>
+                    </div>
                 </div>
-            </div>
         </div>
 
         <div id="callus-modal" class="modal">
