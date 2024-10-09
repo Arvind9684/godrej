@@ -1849,7 +1849,11 @@ def sitevisiter_insert(request):
             visiter.email=email
             visiter.created_at=timezone.now()
             visiter.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+	    data = {'result': True, 'message': 'User allready registered. Data processed successfully!'}
+            base_url = request.META.get('HTTP_REFERER', '/')
+            url = f"{base_url}?{urlencode(data)}"
+            return HttpResponseRedirect(url)
+            #return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         except:
             # Save data to the sitevisiter model
             user_data = sitevisiter(
@@ -1858,7 +1862,7 @@ def sitevisiter_insert(request):
                email = email
             )
             user_data.save()
-	    data = {'result': True, 'message': 'User already registered. Data processed successfully!'}
+	    data = {'result': True, 'message': 'User registered. Data processed successfully!'}
             base_url = request.META.get('HTTP_REFERER', '/')
             url = f"{base_url}?{urlencode(data)}"
             return HttpResponseRedirect(url)
