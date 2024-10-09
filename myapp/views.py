@@ -1858,7 +1858,11 @@ def sitevisiter_insert(request):
                email = email
             )
             user_data.save()
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+	    data = {'result': True, 'message': 'User already registered. Data processed successfully!'}
+            base_url = request.META.get('HTTP_REFERER', '/')
+            url = f"{base_url}?{urlencode(data)}"
+            return HttpResponseRedirect(url)
+	    #return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 def update_record(request, model_name, pk):
     # Dynamically get the model class based on the model name
